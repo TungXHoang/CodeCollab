@@ -1,0 +1,19 @@
+{
+  "name": "codecollab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\" "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "0BSD",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
