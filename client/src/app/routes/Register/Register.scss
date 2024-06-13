@@ -1,0 +1,11 @@
+.form-container{
+	display:flex;
+	flex-direction: column;
+	.switch-form{
+		text-align: right;
+		font-size: 15px;
+		padding-top: 10px;
+		margin-left: 0;
+	}
+}
+
