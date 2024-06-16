@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useOutletContext, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface PrivateRoutesProps {
   children?: React.ReactNode;

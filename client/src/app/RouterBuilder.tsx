@@ -13,12 +13,8 @@ import PrivateRoutes from "../foundation/utils/PrivateRoutes";
 import Dashboard from "./routes/Dashboard";
 
 const RouterBuilder = () => {
-  // const generalRoutes: RouteObject[] = [
-  //   {
-  //     path: "/",
-  //     element: <Root/>
-  //   },
-  // ];
+ 
+	// Declare Routes
 	const authRoutes: RouteObject[] = [
 		{
 			path: "/auth/login",
@@ -36,8 +32,8 @@ const RouterBuilder = () => {
 		}
 			
 	]
-  // add auth route and its layer
 
+	// All routes
 	const routes: RouteObject[] = [
 		{
 			path: "/",
