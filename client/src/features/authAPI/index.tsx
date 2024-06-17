@@ -1,20 +1,20 @@
 import Axios from "axios";
 
 interface LoginCredential {
-	username: string;
 	password: string;
 	email: string;
 }
 
-interface RegisterFormData {
-	username: string;
-	password: string;
-	email: string;
-	image: File | null;
-}
+// interface RegisterFormData {
+// 	firstName: string;
+// 	lastName: string;
+// 	password: string;
+// 	email: string;
+// }
 
-async function RegisterAPI(formData: FormData | RegisterFormData) {
+async function RegisterAPI(formData: FormData ) {
 	const response = await Axios.post("/api/users/register", formData);
+	console.log(response)
 	if (response.data.auth) {
 			return {
 					auth: true,
@@ -34,62 +34,63 @@ async function RegisterAPI(formData: FormData | RegisterFormData) {
 }
 
 async function LogoutAPI() {
-	const response = await Axios.post("/api/users/logout");
-	if (response.data.auth) {
-			return response;
-	}
-	console.log(response);
-	return response;
+    const response = await Axios.post("/api/users/logout");
+    if (response.data.auth) {
+        return response;
+    }
+    console.log(response);
+    return response;
 }
 
 async function LoginAPI(credential: LoginCredential) {
-	const { username, password, email } = credential;
-	try {
-			const response = await Axios.post("/api/users/login", {
-					username: username,
-					password: password,
-					email: email,
-			});
-
-			if (response.data.auth) {
-					return {
-							auth: true,
-							username: response.data.username,
-							id: response.data.id,
-					};
-			}
-			return { auth: false, msg: response.data.msg };
-	} catch (e) {
-			console.log("Error");
-			console.log(e);
-			return { auth: false, msg: e };
-	}
+		const { email, password } = credential;
+	
+    try {
+        const response = await Axios.post("/api/users/login", {
+						email: email,
+            password: password, 
+        });
+				console.log(response);
+        if (response.data.auth) {
+            return {
+                auth: response.data.auth,
+                email: response.data.email,
+                id: response.data.id,
+						};
+					console.log("log in success");
+        }
+        return { auth: false, msg: response.data.msg };
+    } catch (e) {
+        console.log("Error");
+        console.log(e);
+        return { auth: false, msg: e };
+    }
 }
 
 async function isLoggedIn() {
-	const response = await Axios.post("/api/users/auth");
-	if (response.data.auth) {
-			return {
-					auth: response.data.auth,
-					username: response.data.user,
-					id: response.data.id,
-			};
-	}
-	return { auth: response.data.auth, username: "", id: "" };
+    const response = await Axios.post("/api/users/auth");
+    if (response.data.auth) {
+        return {
+            auth: response.data.auth,
+            username: response.data.user,
+            id: response.data.id,
+        };
+    }
+    return { auth: response.data.auth, username: "", id: "" };
 }
 
 async function fetchUserData(id: string, thumbnailDim: number) {
-	const response = await Axios.get(`/api/users/${id}/${thumbnailDim}`);
-	if (response) {
-			const { username, _id, avatar, thumbnail } = response.data.user;
-			// console.log(response.data.user);
-			return {
-					auth: true,
-					username: username,
-					id: _id,
-					avatar: avatar,
-					thumbnail: thumbnail,
-			};
-	}
+    const response = await Axios.get(`/api/users/${id}/${thumbnailDim}`);
+    if (response) {
+        const { username, _id, avatar, thumbnail } = response.data.user;
+        // console.log(response.data.user);
+        return {
+            auth: true,
+            username: username,
+            id: _id,
+            avatar: avatar,
+            thumbnail: thumbnail,
+        };
+    }
 }
 export { LogoutAPI, LoginAPI, isLoggedIn, fetchUserData, RegisterAPI };

@@ -3,9 +3,12 @@
 	flex-direction: column;
 	.switch-form{
 		text-align: right;
-		font-size: 15px;
-		padding-top: 10px;
-		margin-left: 0;
+		.switch-button{
+			font-size: 15px;
+			padding-top: 10px;
+			margin-left: 0;
+		}
 	}
+
 }
 
