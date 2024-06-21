@@ -1,24 +1,27 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect, ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../features/authAPI";
 
-interface PrivateRoutesProps {
-  children?: React.ReactNode;
+interface ProtectedRoutesProps {
+    children: ReactNode;
 }
 
-const PrivateRoutes: React.FC<PrivateRoutesProps> = ({children}) : React.JSX.Element =>{
-	const flag = true;
-	if (!flag) {
-		return <Navigate to="/auth/login" replace />;
-	}
-	return <>{children}</>;
+const PrivateRoutes: React.FC<ProtectedRoutesProps> = ({
+    children,
+}): React.JSX.Element => {
+    const navigate = useNavigate();
 
-	// const context = useOutletContext();
-	// console.log(context)
-	// if (!context.user || !context.user?.role.includes(role)) {
-	// 	return <Navigate to="/" replace />;
-	// }
+    useEffect(() => {
+        async function checkAuthentication() {
+            const res = await isLoggedIn();
+            if (!res.auth) {
+                return navigate("/auth/login", { replace: true });
+            }
+        }
+        checkAuthentication();
+    }, [navigate]);
 
-	// return <Outlet context={context}/>;
+    return <React.Fragment>{children}</React.Fragment>;
 };
 
-export default PrivateRoutes
+export default PrivateRoutes;

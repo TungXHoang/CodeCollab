@@ -7,6 +7,7 @@ import { LoginAPI } from '../../../features/authAPI';
 
 
 export default function Login() { 
+	const navigate = useNavigate();
 	const [credential, setCredential] = useState({
 		password: "",
 		email: "",
@@ -30,17 +31,15 @@ export default function Login() {
 		if (response.auth) {
 			// change(true, response.username, response.id);
 			// return navigate(`/${response.username}`, { replace: true });
-			// return navigate(`/content`, { replace: true });
 			console.log(response)
+			return navigate("/app", { replace: true });
 		}
 		else {
-			
 			console.log("fail");
 		}
 
-		// return navigate("/login");
+		return navigate("/login");
 };
-	const navigate = useNavigate()
 
 	return ( 
 			<form className = "form-container" onSubmit={handleLogin}>
