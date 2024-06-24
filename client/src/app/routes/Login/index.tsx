@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'; 
 import "./Login.scss"
-import { LoginAPI } from '../../../features/authAPI';
+import { LoginAPI } from '../../../foundation/auth';
 
 
 export default function Login() { 

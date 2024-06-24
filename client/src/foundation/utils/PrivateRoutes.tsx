@@ -1,6 +1,6 @@
-import React, { useEffect, ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../../features/authAPI";
+import React, { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth  } from "../../hooks";
 
 interface ProtectedRoutesProps {
     children: ReactNode;
@@ -8,20 +8,16 @@ interface ProtectedRoutesProps {
 
 const PrivateRoutes: React.FC<ProtectedRoutesProps> = ({
     children,
-}): React.JSX.Element => {
-    const navigate = useNavigate();
+}): React.JSX.Element | undefined => {
+	const auth = useAuth();
 
-    useEffect(() => {
-        async function checkAuthentication() {
-            const res = await isLoggedIn();
-            if (!res.auth) {
-                return navigate("/auth/login", { replace: true });
-            }
-        }
-        checkAuthentication();
-    }, [navigate]);
+  if (auth === undefined) {
+    return; // or loading indicator/spinner/etc
+  }
 
-    return <React.Fragment>{children}</React.Fragment>;
+  return auth
+    ? <React.Fragment>{children}</React.Fragment>
+    : <Navigate to="/auth/login" replace />;
 };
 
 export default PrivateRoutes;

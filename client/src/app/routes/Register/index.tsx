@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import "./Register.scss"
 import { useState } from 'react';
-import { RegisterAPI } from '../../../features/authAPI';
+import { RegisterAPI } from '../../../foundation/auth';
 
 export default function Register() {
 	const navigate = useNavigate();
