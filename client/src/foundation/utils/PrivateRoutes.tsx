@@ -8,11 +8,11 @@ interface ProtectedRoutesProps {
 
 const PrivateRoutes: React.FC<ProtectedRoutesProps> = ({
     children,
-}): React.JSX.Element | undefined => {
+}): React.JSX.Element => {
 	const auth = useAuth();
 
   if (auth === undefined) {
-    return; // or loading indicator/spinner/etc
+    return <></>; // or loading indicator/spinner/etc
   }
 
   return auth
