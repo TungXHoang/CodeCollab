@@ -31,7 +31,6 @@ export default function Login() {
 		if (response.auth) {
 			// change(true, response.username, response.id);
 			// return navigate(`/${response.username}`, { replace: true });
-			console.log(response)
 			return navigate("/app", { replace: true });
 		}
 		else {

@@ -70,11 +70,7 @@ async function LoginAPI(credential: LoginCredential) {
 async function isLoggedIn() {
 	const response = await Axios.post("/api/users/auth");
 	if (response.data.auth) {
-		return {
-				auth: response.data.auth,
-				username: response.data.user,
-				id: response.data.id,
-		};
+		return response.data
 	}
 	return { auth: response.data.auth, username: "", id: "" };
 }

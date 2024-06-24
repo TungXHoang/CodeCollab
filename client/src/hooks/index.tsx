@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { isLoggedIn } from "../foundation/auth";
 
+interface AuthResponse {
+	auth: boolean;
+	_id: string;
+	lastName: string;
+	firstName: string;
+}
+
 function useAuth() {
-	const [auth, setAuth] = useState<boolean | undefined>(undefined);
+	const [auth, setAuth] = useState<AuthResponse | undefined>(undefined);
 
 	useEffect(() => {
 		async function checkAuth() {
-			const res = await isLoggedIn();
-			setAuth(res.auth ? true : false);
-		}
-		
+			const res: AuthResponse = await isLoggedIn();
+			setAuth(res);
+		};
 		checkAuth();
 	}, []);
 

@@ -41,9 +41,8 @@ export default function Register() {
 					password: "",
 					email: "",
 				});
-				console.log(response);
 				if (response.auth) {
-					console.log("register successfully");
+					return navigate("/app");
 				}
 			} catch (e) {
 					console.log(e);
