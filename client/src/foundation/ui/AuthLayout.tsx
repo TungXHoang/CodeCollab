@@ -1,7 +1,7 @@
 import "../../assets/AuthLayout.scss";
 import { useAuth } from "../../hooks";
 import { Navigate } from "react-router-dom";
-import React, {useContext} from 'react';
+import React from 'react';
 
 
 interface AuthLayoutProps {
