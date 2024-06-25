@@ -1,4 +1,4 @@
-import "../../assets/AuthLayout.scss";
+import "../../assets/AuthLayout.css";
 import { useAuth } from "../../hooks";
 import { Navigate } from "react-router-dom";
 import React from 'react';

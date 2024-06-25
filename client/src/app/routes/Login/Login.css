@@ -1,6 +1,9 @@
 .form-container{
 	display:flex;
 	flex-direction: column;
+	h3 {
+		@apply font-extrabold text-2xl my-5
+	}
 	.custom-control-label{
 		margin-left:5px;
 	}

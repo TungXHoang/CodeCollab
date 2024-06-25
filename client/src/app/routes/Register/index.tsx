@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'; 
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import "./Register.scss"
+import "./Register.css"
 import { useState } from 'react';
 import { RegisterAPI } from '../../../foundation/auth';
 
