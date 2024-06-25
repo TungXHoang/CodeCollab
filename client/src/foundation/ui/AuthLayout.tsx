@@ -15,9 +15,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }): React.JSX.Element=
 	}
 	return !user.auth ?
 		<div className="auth-wrapper">
-			<div className="auth-inner">
-				{children}
-			</div>
+			{children}
 		</div>
 		:
 		<Navigate to="/app" replace />;

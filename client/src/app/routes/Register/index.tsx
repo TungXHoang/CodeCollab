@@ -4,9 +4,20 @@ import Button from 'react-bootstrap/Button';
 import "./Register.css"
 import { useState } from 'react';
 import { RegisterAPI } from '../../../foundation/auth';
+import { AlertMessage } from "../../../foundation/utils/AlertMessage"
+
+
+interface IAlert {
+	message: string,
+	show: boolean
+} 
 
 export default function Register() {
 	const navigate = useNavigate();
+	const [alert, setAlert] = useState<IAlert>({
+		message: "",
+		show: false,
+	});
 	const [credential, setCredential] = useState({
 		firstName: "",
 		lastName:"",
@@ -16,12 +27,11 @@ export default function Register() {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setCredential((currData) => {
 			return {
-					...currData,
-					[e.target.name]: e.target.value,
+				...currData,
+				[e.target.name]: e.target.value,
 			};
 		});
 	};
-
 	const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
 		const form = e.currentTarget;
 		if (form.checkValidity() === false) {
@@ -41,6 +51,10 @@ export default function Register() {
 					password: "",
 					email: "",
 				});
+				setAlert({
+					message: response.msg,
+					show: true,
+				})
 				if (response.auth) {
 					return navigate("/app");
 				}
@@ -49,9 +63,25 @@ export default function Register() {
 			}
 		}
 	};
+	const closeAlert = () => {
+		setAlert({
+			message: "",
+			show: false,
+		});
+	};
 
 	return ( 
-		<form className="form-container" onSubmit={handleRegistration}>
+		<>
+			{alert && (
+				<AlertMessage
+					type="danger"
+					message={alert.message}
+					show={alert.show}
+					handleClose={closeAlert} 
+				/>
+			)}
+			<div className = "auth-inner">
+			<form className="form-container" onSubmit={handleRegistration}>
 			<h3>Sign Up</h3>
 			<div className="mb-3">
 				<label>First name</label>
@@ -107,6 +137,8 @@ export default function Register() {
 					Log In
 					</Button>
 			</div>
-		</form >
+			</form >
+			</div>
+		</>
 	); 
 }

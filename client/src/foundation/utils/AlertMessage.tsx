@@ -1,5 +1,6 @@
 import Alert from "react-bootstrap/Alert";
 import React from "react";
+import "../../assets/AlertMessage.css";
 
 interface AlertMessageProps {
     type: string;
@@ -22,13 +23,14 @@ export const AlertMessage: React.FC<AlertMessageProps> = ({
 
     return (
         <Alert
-            variant={type}
-            onClose={handleAlertClose}
-            show={show}
-            transition={false}
-            dismissible
+					variant={type}
+					onClose={handleAlertClose}
+					show={show}
+					transition={false}
+					dismissible
+					className = "alert-message"
         >
-            <div>{message}</div>
+          <div className="alert-text">{message}</div>
         </Alert>
     );
 };

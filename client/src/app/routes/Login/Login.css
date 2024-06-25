@@ -1,20 +1,18 @@
-.form-container{
-	display:flex;
+.form-container {
+	display: flex;
 	flex-direction: column;
 	h3 {
-		@apply font-extrabold text-2xl my-5
+		@apply font-extrabold text-2xl my-5;
 	}
-	.custom-control-label{
-		margin-left:5px;
+	.custom-control-label {
+		margin-left: 5px;
 	}
-	.switch-form{
+	.switch-form {
 		text-align: right;
-		.switch-button{
+		.switch-button {
 			font-size: 15px;
 			padding-top: 10px;
 			margin-left: 0;
 		}
 	}
-	
 }
-
