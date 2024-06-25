@@ -4,14 +4,30 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'; 
 import "./Login.css"
 import { LoginAPI } from '../../../foundation/auth';
+import {AlertMessage} from "../../../foundation/utils/AlertMessage"
 
+interface ICredential {
+	password: "",
+	email: "",
+}
+
+interface IAlert {
+	type: string ,
+	message: string,
+	show: boolean
+} 
 
 export default function Login() { 
 	const navigate = useNavigate();
-	const [credential, setCredential] = useState({
+	const [credential, setCredential] = useState<ICredential>({
 		password: "",
 		email: "",
 	});
+	const [alert, setAlert] = useState<IAlert>({
+		type: "",
+		message: "",
+		show: false,
+	} );
 
 	const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setCredential((currData) => {
@@ -20,7 +36,7 @@ export default function Login() {
 					[evt.target.name]: evt.target.value,
 			};
 		});
-};
+	};
 	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const response = await LoginAPI(credential);
@@ -28,19 +44,39 @@ export default function Login() {
 				password: "",
 				email: "",
 		});
+		setAlert({
+			type: "danger",
+			message: response.msg,
+			show: true,
+	});
 		if (response.auth) {
-			// change(true, response.username, response.id);
-			// return navigate(`/${response.username}`, { replace: true });
 			return navigate("/app", { replace: true });
 		}
 		else {
 			console.log("fail");
 		}
 		return;
-};
+	};
+
+	const closeAlert = () => {
+		setAlert({
+				type: "",
+				message: "",
+				show: false,
+		});
+	};
 
 	return ( 
-		<form className = "form-container" onSubmit={handleLogin}>
+		<>
+			{alert && (
+				<AlertMessage
+					type={alert.type}
+					message={alert.message}
+					show={alert.show}
+					handleClose={closeAlert} // Add an onClose handler to clear the alert
+				/>
+			)}
+			<form className="form-container" onSubmit={handleLogin}>
 			<h3>Log In</h3>
 			<div className="mb-3">
 				<label>Email address</label>
@@ -74,6 +110,7 @@ export default function Login() {
 					Register
 				</Button>
 			</div>
-		</form>
+			</form>
+		</>
 	); 
 }
