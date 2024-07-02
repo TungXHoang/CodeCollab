@@ -18,13 +18,19 @@ export default function Landing(): JSX.Element  {
   const [code, setCode] = useState(javascriptDefault);
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
-	// const [language, setLanguage] = useState(languageOptions[0]);
-  const [language, setLanguage] = useState("javascript");
+	const [language, setLanguage] = useState(languageOptions[0]);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
 
-  const onSelectChange = (sl: any) => {
+	interface iLanguage {
+		id: number,
+		name: string,
+		label: string,
+		value: string
+	}
+
+  const onSelectChange = (sl: iLanguage) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
   };
@@ -105,7 +111,7 @@ export default function Landing(): JSX.Element  {
 					<CodeEditorWindow
             code={code}
             onEdit={onChange}
-            language={language}
+            language={language.value}
           />
         </div>
 
