@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import {LogoutAPI} from "../../../foundation/auth";
+import {LogoutAPI} from "../../foundation/auth";
 import { useContext } from 'react';
-import { UserContext } from '../../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 
 export default function Dashboard() {
 	const navigate = useNavigate();

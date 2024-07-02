@@ -1,16 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css"; //use .min for production
 import "bootstrap/dist/js/bootstrap.bundle";
-import '../assets/index.css';
+import '../assets/HomePage.css';
 import { RouteObject,Outlet } from 'react-router-dom';
 
 // Route Import 
-import Root from './routes/Root';
-import Login from './routes/Login';
-import Register from './routes/Register';
+import Root from './Root';
+import Login from './Login';
+import Register from './Register';
 import Navbar from '../foundation/ui/Navbar';
 import AuthLayout from "../foundation/ui/AuthLayout";
 import PrivateRoutes from "../foundation/utils/PrivateRoutes";
-import Dashboard from "./routes/Dashboard";
+import Landing from "./Landing";
+import Dashboard from "./Dashboard";
 
 const RouterBuilder = () => {
  
@@ -29,8 +30,7 @@ const RouterBuilder = () => {
 		{
 			path: "/app",
 			element: <Dashboard />
-		}
-			
+		},
 	]
 
 	// All routes
@@ -38,6 +38,10 @@ const RouterBuilder = () => {
 		{
 			path: "/",
 			element: <Root/>
+		},
+		{
+			path: "/landing",
+			element: <Landing/>
 		},
 	  {
       element: <AuthLayout> <Outlet/> </AuthLayout>,

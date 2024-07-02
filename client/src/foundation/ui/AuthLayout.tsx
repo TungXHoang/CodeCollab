@@ -1,5 +1,5 @@
 import "../../assets/AuthLayout.css";
-import { useAuth } from "../../hooks";
+import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import React from 'react';
 

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import "./Register.css"
 import { useState } from 'react';
-import { RegisterAPI } from '../../../foundation/auth';
-import { AlertMessage } from "../../../foundation/utils/AlertMessage"
+import { RegisterAPI } from '../../foundation/auth';
+import { AlertMessage } from "../../foundation/utils/AlertMessage"
 
 
 interface IAlert {
