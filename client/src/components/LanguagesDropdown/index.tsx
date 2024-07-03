@@ -1,9 +1,9 @@
 import Select from "react-select";
-import { customStyles } from "../../constants/customStyles";
-import { languageOptions } from "../../constants/languageOptions";
-import { iLanguagesDropdown } from "./ILanguagesDropdown";
+import { customStyles } from "../../foundation/constants/customStyles";
+import { languageOptions } from "../../foundation/constants/languageOptions";
+import { ILanguagesDropdown } from "./ILanguagesDropdown";
 
-export default function LanguagesDropdown ({ onSelectChange }: iLanguagesDropdown)  {
+export default function LanguagesDropdown ({ onSelectChange }: ILanguagesDropdown)  {
   return (
     <Select
       placeholder={`Filter By Category`}

@@ -1,12 +1,8 @@
 import { useState } from "react";
 
 import Editor from "@monaco-editor/react";
+import { ICodeEditorWindow } from "./ICodeEditorWindow";
 
-interface ICodeEditorWindow { 
-	onEdit: (data:string)=>void
-	language: string,
-	code: string
-} 
 
 const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
   const [value, setValue] = useState(code || "");

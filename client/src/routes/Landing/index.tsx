@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { classnames } from "../../utils/general";
-import { languageOptions } from "../../constants/languageOptions";
+import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
+import { languageOptions } from "../../foundation/constants/languageOptions.tsx";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import useKeyPress from "../../hooks/useKeyPress";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
+
 import OutputWindow from "../../components/OutputWindow";
 import OutputDetails from "../../components/OutputDetails";
+
 import LanguagesDropdown from "../../components/LanguagesDropdown";
+import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
 
 const javascriptDefault = `// some comment`;
 
@@ -23,14 +26,8 @@ export default function Landing(): JSX.Element  {
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
 
-	interface iLanguage {
-		id: number,
-		name: string,
-		label: string,
-		value: string
-	}
 
-  const onSelectChange = (sl: iLanguage) => {
+  const onSelectChange = (sl: ILanguage) => {
     console.log("selected Option...", sl);
     setLanguage(sl);
   };
@@ -120,7 +117,7 @@ export default function Landing(): JSX.Element  {
             <button
               onClick={handleCompile}
               disabled={!code}
-              className={classnames(
+              className={ClassNames(
                 "mt-4 border-2 border-black z-10 font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                 !code ? "opacity-50" : ""
               )}

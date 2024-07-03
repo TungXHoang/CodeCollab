@@ -1,7 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.css'; 
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button'; 
+import Button from "react-bootstrap/Button"
 import "./Login.css"
 import { LoginAPI } from '../../foundation/auth';
 import {AlertMessage} from "../../foundation/utils/AlertMessage"
