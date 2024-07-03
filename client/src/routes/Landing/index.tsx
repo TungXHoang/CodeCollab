@@ -20,12 +20,11 @@ const javascriptDefault = `// some comment`;
 export default function Landing(): JSX.Element  {
   const [code, setCode] = useState(javascriptDefault);
   const [outputDetails, setOutputDetails] = useState(null);
-  const [processing, setProcessing] = useState(null);
+  const [processing, setProcessing] = useState(false);
 	const [language, setLanguage] = useState(languageOptions[0]);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
-
 
   const onSelectChange = (sl: ILanguage) => {
     console.log("selected Option...", sl);
@@ -43,22 +42,75 @@ export default function Landing(): JSX.Element  {
 		setCode(data);
 		return;
   };
-  const handleCompile = () => {
-    // We will come to the implementation later in the code
+	const handleCompile = () => {
+		setProcessing(true);
+		const formData = {
+			language_id: language.id,
+			// encode source code in base64
+			source_code: btoa(code),
+			// stdin: btoa(""),
+		};
+		const options = {
+			method: "POST",
+			url: import.meta.env.VITE_RAPID_API_URL,
+			params: { base64_encoded: "true", fields: "*" },
+			headers: {
+				"content-type": "application/json",
+				"Content-Type": "application/json",
+				"X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+				"X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+			},
+			data: formData,
+		};
+	
+		axios
+			.request(options)
+			.then(function (response) {
+				console.log("res.data", response.data);
+				const token = response.data.token;
+				checkStatus(token);
+			})
+			.catch((err) => {
+				let error = err.response ? err.response.data : err;
+				setProcessing(false);
+				console.log(error);
+			});
   };
 
   const checkStatus = async (token: any) => {
-    // We will come to the implementation later in the code
+    const options = {
+      method: "GET",
+      url: import.meta.env.VITE_RAPID_API_URL + "/" + token,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+        "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+      },
+    };
+    try {
+      let response = await axios.request(options);
+      let statusId = response.data.status?.id;
+      // Processed - we have a result
+      if (statusId === 1 || statusId === 2) {
+        // still processing
+        setTimeout(() => {
+          checkStatus(token)
+        }, 2000)
+        return
+      } else {
+        setProcessing(false)
+        setOutputDetails(response.data)
+        showSuccessToast(`Compiled Successfully!`)
+        console.log('response.data', response.data)
+        return
+      }
+    } catch (err) {
+      console.log("err", err);
+      setProcessing(false);
+      showErrorToast(err);
+    }
   };
 
-  function handleThemeChange(th: any) {
-    // We will come to the implementation later in the code
-  }
-  // useEffect(() => {
-  //   defineTheme("cobalt").then(() =>
-  //     setTheme({ value: "cobalt", label: "Cobalt" })
-  //   );
-  // }, []);
 
   const showSuccessToast = (msg: any) => {
     toast.success(msg || `Compiled Successfully!`, {
@@ -114,7 +166,7 @@ export default function Landing(): JSX.Element  {
 
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <OutputWindow outputDetails={outputDetails} />
-            <button
+          <button
               onClick={handleCompile}
               disabled={!code}
               className={ClassNames(
@@ -123,9 +175,10 @@ export default function Landing(): JSX.Element  {
               )}
             >
               {processing ? "Processing..." : "Compile and Execute"}
-            </button>
-          </div>
-          {outputDetails && <OutputDetails outputDetails={outputDetails} />}
+					</button>
+					{outputDetails && <OutputDetails outputDetails={outputDetails} />}	
+        </div>
+         
         </div>
     </>
   );
