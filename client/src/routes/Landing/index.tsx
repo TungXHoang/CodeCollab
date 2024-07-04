@@ -15,13 +15,16 @@ import OutputDetails from "../../components/OutputDetails";
 import LanguagesDropdown from "../../components/LanguagesDropdown";
 import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
 
-const javascriptDefault = `// some comment`;
+import { codeSnippets } from "../../foundation/constants/codeSnippets.tsx"
+
+import {SubmissionAPI} from "../../foundation/compile"
 
 export default function Landing(): JSX.Element  {
-  const [code, setCode] = useState(javascriptDefault);
+	const [language, setLanguage] = useState(languageOptions[0]);
+  const [code, setCode] = useState(codeSnippets[language.value as keyof typeof codeSnippets]);
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(false);
-	const [language, setLanguage] = useState(languageOptions[0]);
+
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -37,7 +40,8 @@ export default function Landing(): JSX.Element  {
       console.log("ctrlPress", ctrlPress);
       handleCompile();
     }
-  }, [ctrlPress, enterPress]);
+	}, [ctrlPress, enterPress]);
+	
   const onChange = ( data: string) => {
 		setCode(data);
 		return;
@@ -48,7 +52,6 @@ export default function Landing(): JSX.Element  {
 			language_id: language.id,
 			// encode source code in base64
 			source_code: btoa(code),
-			// stdin: btoa(""),
 		};
 		const options = {
 			method: "POST",
@@ -109,7 +112,12 @@ export default function Landing(): JSX.Element  {
       setProcessing(false);
       showErrorToast(err);
     }
-  };
+	};
+	
+	const handleSubmission = async () => {
+		const response = await SubmissionAPI(language, code);
+		console.log(response)
+	}
 
 
   const showSuccessToast = (msg: any) => {
@@ -167,7 +175,8 @@ export default function Landing(): JSX.Element  {
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <OutputWindow outputDetails={outputDetails} />
           <button
-              onClick={handleCompile}
+						// onClick={handleCompile}
+							onClick = {handleSubmission}
               disabled={!code}
               className={ClassNames(
                 "mt-4 border-2 border-black z-10 font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
