@@ -17,7 +17,7 @@ import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown
 
 import { codeSnippets } from "../../foundation/constants/codeSnippets.tsx"
 
-import {SubmissionAPI} from "../../foundation/compile"
+import {SubmissionAPI, CheckStatusAPI} from "../../foundation/compile"
 
 export default function Landing(): JSX.Element  {
 	const [language, setLanguage] = useState(languageOptions[0]);
@@ -115,8 +115,10 @@ export default function Landing(): JSX.Element  {
 	};
 	
 	const handleSubmission = async () => {
+		setProcessing(true);
 		const response = await SubmissionAPI(language, code);
-		console.log(response)
+		// console.log(response)
+		const temp = await CheckStatusAPI(response.data.token);
 	}
 
 
