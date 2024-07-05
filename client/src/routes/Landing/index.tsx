@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { languageOptions } from "../../foundation/constants/languageOptions.tsx";
 
@@ -38,7 +37,7 @@ export default function Landing(): JSX.Element  {
     if (enterPress && ctrlPress) {
       console.log("enterPress", enterPress);
       console.log("ctrlPress", ctrlPress);
-      handleCompile();
+      handleSubmission();
     }
 	}, [ctrlPress, enterPress]);
 	
@@ -46,83 +45,97 @@ export default function Landing(): JSX.Element  {
 		setCode(data);
 		return;
   };
-	const handleCompile = () => {
-		setProcessing(true);
-		const formData = {
-			language_id: language.id,
-			// encode source code in base64
-			source_code: btoa(code),
-		};
-		const options = {
-			method: "POST",
-			url: import.meta.env.VITE_RAPID_API_URL,
-			params: { base64_encoded: "true", fields: "*" },
-			headers: {
-				"content-type": "application/json",
-				"Content-Type": "application/json",
-				"X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
-				"X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
-			},
-			data: formData,
-		};
+	// const handleCompile = () => {
+	// 	setProcessing(true);
+	// 	const formData = {
+	// 		language_id: language.id,
+	// 		// encode source code in base64
+	// 		source_code: btoa(code),
+	// 	};
+	// 	const options = {
+	// 		method: "POST",
+	// 		url: import.meta.env.VITE_RAPID_API_URL,
+	// 		params: { base64_encoded: "true", fields: "*" },
+	// 		headers: {
+	// 			"content-type": "application/json",
+	// 			"Content-Type": "application/json",
+	// 			"X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+	// 			"X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+	// 		},
+	// 		data: formData,
+	// 	};
 	
-		axios
-			.request(options)
-			.then(function (response) {
-				console.log("res.data", response.data);
-				const token = response.data.token;
-				checkStatus(token);
-			})
-			.catch((err) => {
-				let error = err.response ? err.response.data : err;
-				setProcessing(false);
-				console.log(error);
-			});
-  };
+	// 	axios
+	// 		.request(options)
+	// 		.then(function (response) {
+	// 			console.log("res.data", response.data);
+	// 			const token = response.data.token;
+	// 			checkStatus(token);
+	// 		})
+	// 		.catch((err) => {
+	// 			let error = err.response ? err.response.data : err;
+	// 			setProcessing(false);
+	// 			console.log(error);
+	// 		});
+  // };
 
-  const checkStatus = async (token: any) => {
-    const options = {
-      method: "GET",
-      url: import.meta.env.VITE_RAPID_API_URL + "/" + token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
-        "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
-      },
-    };
-    try {
-      let response = await axios.request(options);
-      let statusId = response.data.status?.id;
-      // Processed - we have a result
-      if (statusId === 1 || statusId === 2) {
-        // still processing
-        setTimeout(() => {
-          checkStatus(token)
-        }, 2000)
-        return
-      } else {
-        setProcessing(false)
-        setOutputDetails(response.data)
-        showSuccessToast(`Compiled Successfully!`)
-        console.log('response.data', response.data)
-        return
-      }
-    } catch (err) {
-      console.log("err", err);
-      setProcessing(false);
-      showErrorToast(err);
-    }
-	};
+  // const checkStatus = async (token: any) => {
+  //   const options = {
+  //     method: "GET",
+  //     url: import.meta.env.VITE_RAPID_API_URL + "/" + token,
+  //     params: { base64_encoded: "true", fields: "*" },
+  //     headers: {
+  //       "X-RapidAPI-Host": import.meta.env.VITE_RAPID_API_HOST,
+  //       "X-RapidAPI-Key": import.meta.env.VITE_RAPID_API_KEY,
+  //     },
+  //   };
+  //   try {
+  //     let response = await axios.request(options);
+  //     let statusId = response.data.status?.id;
+  //     // Processed - we have a result
+  //     if (statusId === 1 || statusId === 2) {
+  //       // still processing
+  //       setTimeout(() => {
+  //         checkStatus(token)
+  //       }, 2000)
+  //       return
+  //     } else {
+  //       setProcessing(false)
+  //       setOutputDetails(response.data)
+  //       showSuccessToast(`Compiled Successfully!`)
+  //       return
+  //     }
+  //   } catch (err) {
+  //     console.log("err", err);
+  //     setProcessing(false);
+  //     showErrorToast(err);
+  //   }
+	// };
 	
 	const handleSubmission = async () => {
 		setProcessing(true);
-		const response = await SubmissionAPI(language, code);
-		// console.log(response)
-		const temp = await CheckStatusAPI(response.data.token);
+		try {
+			const token: string = await SubmissionAPI(language, code);
+			const response = await CheckStatusAPI(token);
+			setProcessing(false)
+			setOutputDetails(response)
+			if (response.status_id == 3) {
+				showSuccessToast(`Compiled Successfully!`)
+			}
+			else {
+				showErrorToast(response.status.description);
+			}
+			return;
+		}
+		catch(err) {
+			console.log("err", err);
+      setProcessing(false);
+			showErrorToast(err as string);
+		}
 	}
 
 
-  const showSuccessToast = (msg: any) => {
+  const showSuccessToast = (msg: string) => {
     toast.success(msg || `Compiled Successfully!`, {
       position: "top-right",
       autoClose: 1000,
@@ -133,7 +146,7 @@ export default function Landing(): JSX.Element  {
       progress: undefined,
     });
   };
-  const showErrorToast = (msg: any) => {
+  const showErrorToast = (msg: string) => {
     toast.error(msg || `Something went wrong! Please try again.`, {
       position: "top-right",
       autoClose: 1000,
@@ -179,7 +192,7 @@ export default function Landing(): JSX.Element  {
           <button
 						// onClick={handleCompile}
 							onClick = {handleSubmission}
-              disabled={!code}
+              disabled={!processing}
               className={ClassNames(
                 "mt-4 border-2 border-black z-10 font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
                 !code ? "opacity-50" : ""
