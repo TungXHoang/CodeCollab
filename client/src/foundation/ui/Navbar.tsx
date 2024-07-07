@@ -1,10 +1,11 @@
-import { useNavigate, Outlet } from 'react-router-dom';
-import React from 'react';
+import { useNavigate, Outlet, } from 'react-router-dom';
+import React, {useState} from 'react';
 import { LogoutAPI } from "../auth";
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-// import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import SelectionModal from "../../components/SelectionModal"
 
 const Navbar = () => {
+	const [showModal, setShowModal] = useState(false)
 	const navigate = useNavigate();
 	const handleLogout = async () => {
 		await LogoutAPI();
@@ -43,12 +44,13 @@ const Navbar = () => {
 									
 									<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 											<div className="flex space-x-4">
-												<a className={classNames(
+												<button className={classNames(
 														'text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer',
 														'rounded-md px-3 py-2 text-sm font-medium',
-													)}>
+											)}
+											onClick = {()=>setShowModal(true)}>
 													+ New Project
-												</a>
+												</button>
 											
 										</div>
 										{/* Profile dropdown */}
@@ -97,6 +99,9 @@ const Navbar = () => {
 						</>
 				)}
 				</Disclosure>
+				{showModal &&
+					<SelectionModal onSelect={setShowModal}/>
+				}
 				<Outlet/>
 			</>
 		)
