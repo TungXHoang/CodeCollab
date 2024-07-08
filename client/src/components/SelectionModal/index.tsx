@@ -1,14 +1,22 @@
 import { languageOptions } from "../../foundation/constants/languageOptions"
+import { createProject } from "../../foundation/projects"
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 const SelectionModal = ({ onSelect }: any) => {
-	console.log(languageOptions)
+	const handleCreate = async (data: any) => {
+		const response = await createProject(data);
+		console.log(response);
+		return;
+	}
+	const user = useContext(UserContext)
 	return (
 		<>
 			<div
 				className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
 				onClick={() => onSelect(false)}
 			>
-				<div className="relative w-auto my-6 mx-auto max-w-3xl text-slate-100"  onClick={(e) => e.stopPropagation()}>
+				<div className="relative w-auto my-6 mx-auto w-3/4 text-slate-100"  onClick={(e) => e.stopPropagation()}>
 					{/*content*/}
 					<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-600 outline-none focus:outline-none">
 						{/*header*/}
@@ -21,16 +29,22 @@ const SelectionModal = ({ onSelect }: any) => {
 								onClick={() => onSelect(false)}
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  viewBox = "0 0 16 16" className="fill-gray-400 hover:fill-slate-50">
-									<path fill-rule="evenodd" d="m8 8.707 3.646 3.647.708-.707L8.707 8l3.647-3.646-.707-.708L8 7.293 4.354 3.646l-.707.708L7.293 8l-3.646 3.646.707.708z" clip-rule="evenodd"></path>
+									<path fillRule="evenodd" d="m8 8.707 3.646 3.647.708-.707L8.707 8l3.647-3.646-.707-.708L8 7.293 4.354 3.646l-.707.708L7.293 8l-3.646 3.646.707.708z" clipRule="evenodd"></path>
 								</svg>
 							</button>
 						</div>
 						{/*body*/}
 						<div className="grid grid-cols-4 gap-4 mx-5 my-10">
-							{languageOptions.map((e) => {
+							{languageOptions.map((elt,i) => {
 								return (
-									<button>
-									 {e.name}
+									<button
+										className="hover:bg-gray-500 rounded-md py-3 px-2z"
+										key={i}
+										onClick={() => {
+											handleCreate({ language: elt.value, owner: user._id, title: elt.label })
+											onSelect(false);
+										}}>
+									 {elt.name}
 									</button>
 								)
 							})}
