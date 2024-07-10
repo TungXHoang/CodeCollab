@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import Axios from "axios"
+import {IProject } from "../components/ProjectsList/IProject"
 
 const useGetProjects = () => {
 	const [loading, setLoading] = useState(false);
-	const [projects, setProjects] = useState([]);
+	const [projects, setProjects] = useState<IProject[]>([]);
 
 	useEffect(() => {
 		const getProjects = async () => {
 			setLoading(true);
 			try {
 				const res = await Axios.get("/api/projects");
-				// console.log(res.data);
 				setProjects(res.data);
 			} catch (error) {
 				console.log(error)
@@ -18,7 +18,6 @@ const useGetProjects = () => {
 				setLoading(false);
 			}
 		};
-
 		getProjects();
 	}, []);
 

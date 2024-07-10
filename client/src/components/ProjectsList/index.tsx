@@ -1,20 +1,20 @@
-import useGetProjects from "../../hooks/useGetProjects";
 import Project from "./Project";
 
-const ProjectsList = () => {
-	const { loading, projects } = useGetProjects();
+const ProjectsList = ({projectsList, onDelete}: any) => {
+	const handleDeleteProject = (projectId: string) => {
+		onDelete(projectsList.filter((project: { _id: string; }) => project._id !== projectId));
+	}
 	return (
 		<div className='py-2 flex flex-col overflow-auto'>
-			{!loading ? (
-				projects.map((project:any) => (
+			{ projectsList.map((project:any) => (
 					<Project
 						key={project._id}
 						name={project.title}
+						id={project._id}
+						onDelete = {handleDeleteProject}
 					/>
 				))
-			) : (
-				<span className='loading loading-spinner mx-auto'></span>
-			)}
+			}
 		</div>
 	);
 };

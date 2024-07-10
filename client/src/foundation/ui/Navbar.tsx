@@ -2,7 +2,8 @@ import { useNavigate, Outlet, } from 'react-router-dom';
 import React, {useState} from 'react';
 import { LogoutAPI } from "../auth";
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import SelectionModal from "../../components/SelectionModal"
+
+
 
 const Navbar = () => {
 	const [showModal, setShowModal] = useState(false)
@@ -16,7 +17,7 @@ const Navbar = () => {
 	}
 		return (
 			<>
-				<Disclosure as="nav" className="bg-gray-800">
+				<Disclosure as="nav" className="bg-[hsl(220,10%,20%)]">
 					{() => (
 						<>
 							<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -33,13 +34,6 @@ const Navbar = () => {
 			
 									</div>
 									</div>
-									<form className="relative flex w-64 h-8 mx-4 font-normal">
-										<span className ="._container_cy0zl_1">
-											<svg xmlns="http://www.w3.org/2000/svg" fill="None" viewBox="0 0 24 24"> </svg>
-											<input type="search" className ="_input_cy0zl_24" />
-										</span>
-
-									</form>
 
 									
 									<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -99,10 +93,10 @@ const Navbar = () => {
 						</>
 				)}
 				</Disclosure>
-				{showModal &&
+				{/* {showModal &&
 					<SelectionModal onSelect={setShowModal}/>
-				}
-				<Outlet/>
+				} */}
+				<Outlet context={[showModal, setShowModal]} />
 			</>
 		)
 }

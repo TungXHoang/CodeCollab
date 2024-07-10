@@ -3,10 +3,10 @@ import { createProject } from "../../foundation/projects"
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 
-const SelectionModal = ({ onSelect }: any) => {
+const SelectionModal = ({ onSelect, onCreate }: any) => {
 	const handleCreate = async (data: any) => {
-		const response = await createProject(data);
-		console.log(response);
+		const res = await createProject(data);
+		onCreate(res.data);
 		return;
 	}
 	const user = useContext(UserContext)
