@@ -1,5 +1,5 @@
 import { languageOptions } from "../../foundation/constants/languageOptions"
-import { createProject } from "../../foundation/projects"
+import { createProject } from "../../foundation/projectsAPI"
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 

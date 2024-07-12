@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { languageOptions } from "../../foundation/constants/languageOptions.tsx";
-
 import { ToastContainer } from "react-toastify";
 import {showErrorToast, showSuccessToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
-
-import useKeyPress from "../../hooks/useKeyPress";
-import CodeEditorWindow from "../../components/CodeEditorWindow";
-
-import OutputWindow from "../../components/OutputWindow";
-import OutputDetails from "../../components/OutputDetails";
-
-import LanguagesDropdown from "../../components/LanguagesDropdown";
+import {ProjectContext} from "../../context/ProjectContext.tsx"
+import useKeyPress from "../../hooks/useKeyPress.tsx";
+import CodeEditorWindow from "../../components/CodeEditorWindow/index.tsx";
+import OutputWindow from "../../components/OutputWindow/index.tsx";
+import OutputDetails from "../../components/OutputDetails/index.tsx";
+import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
 import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
-
 import { codeSnippets } from "../../foundation/constants/codeSnippets.tsx"
+import {SubmissionAPI, CheckStatusAPI} from "../../foundation/compileAPI/index.tsx"
 
-import {SubmissionAPI, CheckStatusAPI} from "../../foundation/compile"
 
-export default function Landing(): JSX.Element  {
+
+export default function Editing(): JSX.Element  {
 	const [language, setLanguage] = useState(languageOptions[0]);
   const [code, setCode] = useState(codeSnippets[language.value as keyof typeof codeSnippets]);
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(false);
 
+	const project = useContext(ProjectContext)
+	console.log(project);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");

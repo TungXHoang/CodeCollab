@@ -1,6 +1,6 @@
 import { useNavigate, Outlet, } from 'react-router-dom';
 import React, {useState} from 'react';
-import { LogoutAPI } from "../auth";
+import { LogoutAPI } from "../authAPI";
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 
@@ -93,9 +93,6 @@ const Navbar = () => {
 						</>
 				)}
 				</Disclosure>
-				{/* {showModal &&
-					<SelectionModal onSelect={setShowModal}/>
-				} */}
 				<Outlet context={[showModal, setShowModal]} />
 			</>
 		)

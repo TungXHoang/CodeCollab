@@ -31,7 +31,7 @@ export default function Dashboard() {
 				<div className="text-white w-full">
 					<div> Hello {user.firstName} {user.lastName} </div> 
 					<div> This is Dashboard </div>
-					<section className="flex flex-col my-10">
+					<section className="flex flex-col my-10 max-w-max">
 						<header>
 							<h2 className="text-xl font-medium">All Projects</h2>
 						</header>
