@@ -1,7 +1,8 @@
 export interface IProject {
   _id: string;
   title: string;
-  language: string;
+	language: string;
+	languageId: number,
   owner: string;
   createdAt: string;
   updatedAt: string;

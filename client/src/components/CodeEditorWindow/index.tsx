@@ -11,13 +11,12 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
     setValue(value!);
     onEdit(value!);
   };
-
-  return (
+	return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor
         height="85vh"
         width={`100%`}
-        language={language || "javascript"}
+        language={language}
         value={value}
         theme="vs-dark"
         defaultValue="// some comment"

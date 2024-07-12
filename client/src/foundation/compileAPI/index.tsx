@@ -1,9 +1,8 @@
-import Axios from "axios";
-import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
+import Axios from "axios"; 
 
-async function SubmissionAPI(language: ILanguage, code: string) {
+async function SubmissionAPI(languageId: number, code: string) {
 	// get the token of the submission from server
-	const response = await Axios.post("/api/compiler/submit", {language,code});
+	const response = await Axios.post("/api/compiler/submit", {languageId,code});
 	return response.data.token;
 }
 async function CheckStatusAPI(token: string) {

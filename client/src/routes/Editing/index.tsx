@@ -9,28 +9,29 @@ import useKeyPress from "../../hooks/useKeyPress.tsx";
 import CodeEditorWindow from "../../components/CodeEditorWindow/index.tsx";
 import OutputWindow from "../../components/OutputWindow/index.tsx";
 import OutputDetails from "../../components/OutputDetails/index.tsx";
-import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
-import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
+// import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
+// import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
 import { codeSnippets } from "../../foundation/constants/codeSnippets.tsx"
 import {SubmissionAPI, CheckStatusAPI} from "../../foundation/compileAPI/index.tsx"
 
 
 
 export default function Editing(): JSX.Element  {
-	const [language, setLanguage] = useState(languageOptions[0]);
-  const [code, setCode] = useState(codeSnippets[language.value as keyof typeof codeSnippets]);
+	const project = useContext(ProjectContext)
+	// const [language, setLanguage] = useState(languageOptions[0]);
+  const [code, setCode] = useState(codeSnippets[project.language as keyof typeof codeSnippets]);
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(false);
 
-	const project = useContext(ProjectContext)
+
 	console.log(project);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
 
-  const onSelectChange = (sl: ILanguage) => {
-    setLanguage(sl);
-  };
+  // const onSelectChange = (sl: ILanguage) => {
+  //   setLanguage(sl);
+  // };
 
   useEffect(() => {
     if (enterPress && ctrlPress) {
@@ -49,7 +50,7 @@ export default function Editing(): JSX.Element  {
 	const handleSubmission = async () => {
 		setProcessing(true);
 		try {
-			const token: string = await SubmissionAPI(language, code);
+			const token: string = await SubmissionAPI(project.languageId, code);
 			const response = await CheckStatusAPI(token);
 			setProcessing(false)
 			setOutputDetails(response)
@@ -83,11 +84,11 @@ export default function Editing(): JSX.Element  {
         draggable
         pauseOnHover
       />
-      <div className="flex flex-row">
+      {/* <div className="flex flex-row">
         <div className="px-4 py-2">
           <LanguagesDropdown onSelectChange={onSelectChange} />
         </div>
-			</div>
+			</div> */}
 			
 			{/* Code window and output */}
       <div className="flex flex-row space-x-4 items-start px-4 py-4">
@@ -95,7 +96,7 @@ export default function Editing(): JSX.Element  {
 					<CodeEditorWindow
             code={code}
             onEdit={onChange}
-            language={language.value}
+            language={project.language}
           />
         </div>
 

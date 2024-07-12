@@ -41,7 +41,7 @@ const SelectionModal = ({ onSelect, onCreate }: any) => {
 										className="hover:bg-gray-500 rounded-md py-3 px-2z"
 										key={i}
 										onClick={() => {
-											handleCreate({ language: elt.value, owner: user._id, title: elt.label })
+											handleCreate({ language: elt.value, languageId:elt.id, owner: user._id, title: elt.label })
 											onSelect(false);
 										}}>
 									 {elt.name}

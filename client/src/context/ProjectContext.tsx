@@ -1,23 +1,13 @@
 import { createContext } from 'react';
-
+import {IProject} from "../components/ProjectsList/IProject"
 // Define the interface for the context
-interface IProjectContext {
-  _id: string;
-  title: string;
-  language: string;
-  owner: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-	messages: string[];// Adjust the type if you have a specific type for messages
-	collaborators: string[];
-}
 
 // Create the context with the appropriate default value and type
-export const ProjectContext = createContext<IProjectContext>({
+export const ProjectContext = createContext<IProject>({
 	_id: "",
   title: "",
-  language: "",
+	language: "",
+	languageId: 63,
   owner: "",
   createdAt: "",
   updatedAt: "",
