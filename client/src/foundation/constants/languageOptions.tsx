@@ -6,18 +6,6 @@ export const languageOptions = [
     value: "javascript",
   },
   {
-    id: 45,
-    name: "Assembly (NASM 2.14.02)",
-    label: "Assembly (NASM 2.14.02)",
-    value: "assembly",
-  },
-  {
-    id: 46,
-    name: "Bash (5.0.0)",
-    label: "Bash (5.0.0)",
-    value: "bash",
-  },
-  {
     id: 76,
     name: "C++ (Clang 7.0.1)",
     label: "C++ (Clang 7.0.1)",
@@ -40,12 +28,6 @@ export const languageOptions = [
     name: "Elixir (1.9.4)",
     label: "Elixir (1.9.4)",
     value: "elixir",
-  },
-  {
-    id: 58,
-    name: "Erlang (OTP 22.2)",
-    label: "Erlang (OTP 22.2)",
-    value: "erlang",
   },
   {
     id: 87,

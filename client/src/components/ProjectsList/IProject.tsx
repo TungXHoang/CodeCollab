@@ -7,7 +7,7 @@ export interface IProject {
   createdAt: string;
   updatedAt: string;
   __v: number;
-	messages: string[];// Adjust the type if you have a specific type for messages
+	code: string;// Adjust the type if you have a specific type for messages
 	collaborators: string[];
 }
 

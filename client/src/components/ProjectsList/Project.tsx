@@ -16,7 +16,6 @@ const Project = ({ name, id, onDelete }: IProjectProps) => {
 	}
 	const navigate = useNavigate();
 	const handleNavigate = (projectId: string) => {
-		console.log(projectId);
 		navigate(`/edit/${projectId}`);
 	}
 	return (

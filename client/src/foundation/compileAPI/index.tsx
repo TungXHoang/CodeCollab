@@ -11,4 +11,9 @@ async function CheckStatusAPI(token: string) {
 	return response.data;
 }
 
-export {SubmissionAPI, CheckStatusAPI}
+async function SaveDocsAPI(projectId: string, doc: string) {
+	const response = await Axios.post("/api/docs/save", { doc, projectId });
+	return response.data;
+	
+}
+export {SubmissionAPI, CheckStatusAPI, SaveDocsAPI}

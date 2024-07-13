@@ -12,6 +12,6 @@ export const ProjectContext = createContext<IProject>({
   createdAt: "",
   updatedAt: "",
   __v: 0,
-	messages: [], // Adjust the type if you have a specific type for messages
+	code: "", // Adjust the type if you have a specific type for messages
 	collaborators: [],
 });
