@@ -5,10 +5,11 @@ import {showErrorToast, showSuccessToast } from "../../foundation/utils/ToastMes
 import "react-toastify/dist/ReactToastify.css";
 import {ProjectContext} from "../../context/ProjectContext.tsx"
 import useKeyPress from "../../hooks/useKeyPress.tsx";
+import useDebounce from "../../hooks/useDebounce.tsx";
 import CodeEditorWindow from "../../components/CodeEditorWindow/index.tsx";
 import OutputWindow from "../../components/OutputWindow/index.tsx";
 import OutputDetails from "../../components/OutputDetails/index.tsx";
-// import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
+import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
 // import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
@@ -32,11 +33,18 @@ export default function Editing(): JSX.Element  {
 	}, [ctrlPress, enterPress]);
 
 	
+	const debouncedRequest = useDebounce(async () => {
+    // send request to the backend
+		// access to latest state here
+		await SaveDocsAPI(project._id, code);
+    console.log(code);
+	});
+	
   const onChange = ( data: string) => {
 		setCode(data);
+		debouncedRequest();
 		return;
   };
-
 	
 	const handleSubmission = async () => {
 		setProcessing(true);
@@ -76,11 +84,11 @@ export default function Editing(): JSX.Element  {
         draggable
         pauseOnHover
       />
-      {/* <div className="flex flex-row">
+      <div className="flex flex-row">
         <div className="px-4 py-2">
-          <LanguagesDropdown onSelectChange={onSelectChange} />
+          <LanguagesDropdown language={project.title}  />
         </div>
-			</div> */}
+			</div>
 			
 			{/* Code window and output */}
       <div className="flex flex-row space-x-4 items-start px-4 py-4">
