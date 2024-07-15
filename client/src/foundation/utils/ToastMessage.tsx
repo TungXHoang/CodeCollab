@@ -23,3 +23,14 @@ export const showErrorToast = (msg: string) => {
 		progress: undefined,
 	});
 };
+
+export const showSaveToast = (cb: any) => {
+	toast.promise(
+    cb,
+    {
+      pending: 'Saving...',
+      success: 'Saving successfully',
+			error: 'Saving unsuccessfully',
+		}
+	)
+}

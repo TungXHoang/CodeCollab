@@ -13,7 +13,7 @@ const useDebounce = (cb: ()=>void) => {
 		const func = () => {
 			ref.current?.();
 		}
-		return _.debounce(func,2000,{ 'maxWait': 5000 })
+		return _.debounce(func,2000,{ 'maxWait': 7000 })
 	}, [])
 	
 	return debounceCallback

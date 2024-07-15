@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { ToastContainer } from "react-toastify";
-import {showErrorToast, showSuccessToast } from "../../foundation/utils/ToastMessage.tsx"
+import {showErrorToast, showSuccessToast, showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 import {ProjectContext} from "../../context/ProjectContext.tsx"
 import useKeyPress from "../../hooks/useKeyPress.tsx";
@@ -36,7 +36,7 @@ export default function Editing(): JSX.Element  {
 	const debouncedRequest = useDebounce(async () => {
     // send request to the backend
 		// access to latest state here
-		await SaveDocsAPI(project._id, code);
+		showSaveToast(SaveDocsAPI(project._id, code));
     console.log(code);
 	});
 	
@@ -75,14 +75,14 @@ export default function Editing(): JSX.Element  {
     <>
       <ToastContainer
         position="top-right"
-        autoClose={2000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        // pauseOnFocusLoss
         draggable
-        pauseOnHover
+        // pauseOnHover
       />
       <div className="flex flex-row">
         <div className="px-4 py-2">
