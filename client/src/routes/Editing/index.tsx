@@ -1,25 +1,35 @@
-import { useEffect, useState, useContext } from "react";
-import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
+// Toast Noti
 import { ToastContainer } from "react-toastify";
 import {showErrorToast, showSuccessToast, showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
-import {ProjectContext} from "../../context/ProjectContext.tsx"
+
+// Custom Hooks 
 import useKeyPress from "../../hooks/useKeyPress.tsx";
 import useDebounce from "../../hooks/useDebounce.tsx";
-import CodeEditorWindow from "../../components/CodeEditorWindow/index.tsx";
-import OutputWindow from "../../components/OutputWindow/index.tsx";
-import OutputDetails from "../../components/OutputDetails/index.tsx";
-import LanguagesDropdown from "../../components/LanguagesDropdown/index.tsx";
-// import { ILanguage } from "../../components/LanguagesDropdown/ILanguagesDropdown.tsx"; 
+
+// Components
+import CodeEditorWindow from "../../components/CodeEditorWindow";
+import OutputWindow from "../../components/OutputWindow";
+import OutputDetails from "../../components/OutputDetails";
+import InfoBox from "../../components/InfoBox";
+import ShareModal from "../../components/ShareModal"
+
+// Utils & Apis
+import { useEffect, useState, useContext } from "react";
+import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
+import { ProjectContext } from "../../context/ProjectContext.tsx"
+
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
 
 
 export default function Editing(): JSX.Element  {
-	const project = useContext(ProjectContext)
+	const project = useContext(ProjectContext);
+
 	const [code, setCode] = useState(project.code);
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -71,6 +81,15 @@ export default function Editing(): JSX.Element  {
 		}
 	}
 
+	const handleShowModal = (status: boolean) => {
+		if (status) {
+			setShowModal(true)
+			document.body.style.overflow = 'hidden';
+			return;
+		}
+		setShowModal(false)
+		document.body.style.overflow = 'unset';
+	}
   return (
     <>
       <ToastContainer
@@ -83,15 +102,20 @@ export default function Editing(): JSX.Element  {
         // pauseOnFocusLoss
         draggable
         // pauseOnHover
-      />
+			/>
+			
+			{/* Info Box */}
       <div className="flex flex-row">
         <div className="px-4 py-2">
-          <LanguagesDropdown language={project.title}  />
-        </div>
+          <InfoBox content={project.title}  />
+				</div>
+				<button className="px-4 py-2" onClick={()=>handleShowModal(true)}>
+					<InfoBox content={"Share"}  />
+        </button>
 			</div>
 			
 			{/* Code window and output */}
-      <div className="flex flex-row space-x-4 items-start px-4 py-4">
+      <div className="flex flex-row space-x-4 items-start px-4 py-3">
 				<div className="flex flex-col w-full h-full justify-start items-end">
 					<CodeEditorWindow
             code={code}
@@ -106,7 +130,7 @@ export default function Editing(): JSX.Element  {
 							onClick = {handleSubmission}
 							disabled={processing}
 							className={ClassNames(
-								"mt-4 border-2 border-black z-10 text-black font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+								"mt-4 border-2 border-black text-black font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
 								!code ? "opacity-50" : ""
 							)}
 						>
@@ -114,7 +138,9 @@ export default function Editing(): JSX.Element  {
 					</button>
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}	
 				</div>
-      </div>
+			</div>
+			
+			{showModal && <ShareModal onSelect={(status)=>handleShowModal(status)} />}
     </>
   );
 };

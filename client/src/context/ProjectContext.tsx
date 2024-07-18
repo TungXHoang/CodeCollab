@@ -8,10 +8,15 @@ export const ProjectContext = createContext<IProject>({
   title: "",
 	language: "",
 	languageId: 63,
-  owner: "",
+ 	owner: {
+		email: "",
+		firstName: "",
+		lastName: "",
+		__v: 0,
+		_id: "",
+	},
   createdAt: "",
   updatedAt: "",
   __v: 0,
 	code: "", // Adjust the type if you have a specific type for messages
-	collaborators: [],
 });

@@ -2,8 +2,14 @@ import { languageOptions } from "../../foundation/constants/languageOptions"
 import { createProject } from "../../foundation/projectsAPI"
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { IProject } from "../../components/ProjectsList/IProject"
 
-const SelectionModal = ({ onSelect, onCreate }: any) => {
+interface ISelectionModalProps {
+	onSelect: (param: boolean) => void,
+	onCreate: (project: IProject) => void
+}
+
+const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 	const handleCreate = async (data: any) => {
 		const res = await createProject(data);
 		onCreate(res.data);

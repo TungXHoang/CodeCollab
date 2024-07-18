@@ -76,7 +76,8 @@ export default function Login() {
 				<h3>Log In</h3>
 				<div className="mb-3">
 					<label>Email address</label>
-					<input
+						<input
+						required
 						type="email"
 						name = "email"
 						className="form-control"

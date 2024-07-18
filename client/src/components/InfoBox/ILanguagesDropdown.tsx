@@ -5,7 +5,3 @@ export interface ILanguage {
 	label: string,
 	value: string
 };
-
-export interface ILanguagesDropdown {
-	onSelectChange: (sl: ILanguage) => void
-}

@@ -1,4 +1,10 @@
-import Axios from "axios"
+import Axios, { AxiosError } from "axios"
+
+interface IShareProject {
+	projectId: string,
+	ownerId: string,
+	guestEmail: string
+}
 
 async function createProject(formData: FormData) {
 	const res = await Axios.post("/api/projects", formData);
@@ -14,4 +20,17 @@ async function deleteProject(formData: any) {
 	});
 	return res;
 }
-export {createProject, deleteProject}
+
+
+async function shareProject(formData: IShareProject) {
+	try {
+		const res = await Axios.post("/api/projects/share", formData);
+		return res.status;
+	}
+	catch (err) {
+		console.log(err);
+		return (err as AxiosError).response;
+	}
+	
+}
+export {createProject, deleteProject, shareProject}

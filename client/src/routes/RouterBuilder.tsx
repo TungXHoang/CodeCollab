@@ -48,7 +48,7 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <EditRoute> <Outlet /> </EditRoute>,
+			element: <EditRoute> <Navbar /> </EditRoute>,
 			children: EditingRoute,
 			loader: async ({ params }) => {
 				const res = await Axios.get(`/api/projects/${params.projectId}`)
