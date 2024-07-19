@@ -4,3 +4,10 @@ export interface IAuthUser {
 	lastName: string;
 	firstName: string;
 }
+
+export interface IRegisterCrendential{
+	firstName: string;
+	lastName: string;
+	password: string;
+	email: string;
+}

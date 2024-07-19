@@ -5,7 +5,7 @@ import "./Register.css"
 import { useState } from 'react'
 import { RegisterAPI } from '../../foundation/authAPI';
 import { AlertMessage } from "../../foundation/utils/AlertMessage"
-
+import { IRegisterCrendential } from "../../types/auth";
 
 interface IAlert {
 	message: string,
@@ -18,7 +18,7 @@ export default function Register() {
 		message: "",
 		show: false,
 	});
-	const [credential, setCredential] = useState({
+	const [credential, setCredential] = useState<IRegisterCrendential>({
 		firstName: "",
 		lastName:"",
 		password: "",
@@ -40,11 +40,11 @@ export default function Register() {
 		} else {
 			e.preventDefault();
 			try {
-				const formData = new FormData();
-				for (const [key, value] of Object.entries(credential)) {
-					formData.append(`${key}`, value);
-				}
-				const response = await RegisterAPI(formData);
+				// const formData = new FormData();
+				// for (const [key, value] of Object.entries(credential)) {
+				// 	formData.append(`${key}`, value);
+				// }
+				const response = await RegisterAPI(credential);
 				setCredential({
 					firstName: "",
 					lastName: "",

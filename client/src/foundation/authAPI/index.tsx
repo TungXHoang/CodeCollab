@@ -1,20 +1,13 @@
 import Axios from "axios";
-
+import {IRegisterCrendential} from "../../types/auth"
 interface LoginCredential {
 	password: string;
 	email: string;
 }
 
-// interface RegisterFormData {
-// 	firstName: string;
-// 	lastName: string;
-// 	password: string;
-// 	email: string;
-// }
 
-async function RegisterAPI(formData: FormData ) {
-	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/register`, formData);
-	console.log(response)
+async function RegisterAPI(registerCredential: IRegisterCrendential ) {
+	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/register`, registerCredential);
 	if (response.data.auth) {
 			return {
 				auth: true,
