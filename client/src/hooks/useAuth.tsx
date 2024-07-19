@@ -9,16 +9,27 @@ interface AuthResponse {
 }
 
 function useAuth() {
-	const [user, setUser] = useState<AuthResponse | undefined>(undefined);
+	const [authUser, setAuthUser] = useState<AuthResponse | undefined>(undefined);
+	const [loadingAuthUser, setLoadingAuthUser] = useState(false);
 	useEffect(() => {
 		async function checkAuth() {
-			const res: AuthResponse = await isLoggedIn();
-			setUser(res);
+			setLoadingAuthUser(true)
+			try {
+				const res: AuthResponse = await isLoggedIn();
+				setAuthUser(res);
+			}
+			catch (err) {
+				console.log(err);
+			}
+			finally {
+				setLoadingAuthUser(false)
+			}
+			
 		};
 		checkAuth();
 	}, []);
-
-	return user;
+	
+	return {loadingAuthUser, authUser};
 }
 
 export {useAuth} ;

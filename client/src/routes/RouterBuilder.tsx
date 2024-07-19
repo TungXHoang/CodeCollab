@@ -49,7 +49,7 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <EditRoute> <Navbar /> </EditRoute>,
+			element: <PrivateRoutes><EditRoute> <Navbar /> </EditRoute></PrivateRoutes>,
 			children: EditingRoute,
 			loader: async ({ params }) => {
 				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${params.projectId}`)

@@ -69,7 +69,7 @@ async function LoginAPI(credential: LoginCredential) {
 async function isLoggedIn() {
 	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/auth`);
 	if (response.data.auth) {
-		return response.data
+		return response.data;
 	}
 	return { auth: response.data.auth, username: "", id: "" };
 }
