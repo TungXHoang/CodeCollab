@@ -4,7 +4,7 @@ import { UserContext } from "../../context/UserContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 
 import { ToastContainer } from "react-toastify";
-import {showShareToast, showErrorToast,showSuccessToast} from "../../foundation/utils/ToastMessage.tsx"
+import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 

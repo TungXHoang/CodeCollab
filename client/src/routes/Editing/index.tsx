@@ -18,13 +18,14 @@ import ShareModal from "../../components/ShareModal"
 import { useEffect, useState, useContext } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { ProjectContext } from "../../context/ProjectContext.tsx"
-
+import { UserContext } from "../../context/UserContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
 
 
 export default function Editing(): JSX.Element  {
 	const project = useContext(ProjectContext);
+	const user = useContext(UserContext);
 
 	const [code, setCode] = useState(project.code);
   const [outputDetails, setOutputDetails] = useState(null);
@@ -109,9 +110,11 @@ export default function Editing(): JSX.Element  {
         <div className="px-4 py-2">
           <InfoBox content={project.title}  />
 				</div>
-				<button className="px-4 py-2" onClick={()=>handleShowModal(true)}>
-					<InfoBox content={"Share"}  />
-        </button>
+				{project.owner._id === user._id &&
+					<button className="px-4 py-2" onClick={() => handleShowModal(true)}>
+						<InfoBox content={"Share"}  />
+					</button>
+				}
 			</div>
 			
 			{/* Code window and output */}
