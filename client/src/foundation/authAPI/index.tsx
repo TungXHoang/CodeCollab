@@ -17,16 +17,15 @@ async function RegisterAPI(formData: FormData ) {
 	console.log(response)
 	if (response.data.auth) {
 			return {
-					auth: true,
-					msg: "Register Successfully",
-					id: response.data.id,
+				auth: true,
+				msg: "Register Successfully",
+				id: response.data.id,
 			};
 	} else {
 			return {
-					//revise to change to dynamic
 					auth: false,
 					msg:
-						response.data.err.code === 11000
+						response.data.err.name === "UserExistsError"
 							? "A user with the given email is already registered"
 							: response.data.err.message,
 			};
@@ -34,28 +33,26 @@ async function RegisterAPI(formData: FormData ) {
 }
 
 async function LogoutAPI() {
-	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/logout`);
-	if (response.data.auth) {
-			return response;
+	try {
+		const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/logout`);
+		return response;
 	}
-	console.log(response);
-	return response;
+	catch (err) {
+		console.log(err);
+		return;
+	}
 }
 
 async function LoginAPI(credential: LoginCredential) {
 	const { email, password } = credential;
-
 	try {
 		const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/login`, {
 				email: email,
 				password: password, 
 		});
-		console.log(response);
 		if (response.data.auth) {
 			return {
 				auth: response.data.auth,
-				email: response.data.email,
-				id: response.data.id,
 			};
 		}
 		return { auth: false, msg: response.data.msg };
@@ -74,17 +71,17 @@ async function isLoggedIn() {
 	return { auth: response.data.auth, username: "", id: "" };
 }
 
-async function fetchUserData(id: string, thumbnailDim: number) {
-	const response = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/${id}/${thumbnailDim}`);
-	if (response) {
-		const { username, _id, avatar, thumbnail } = response.data.user;
-		return {
-				auth: true,
-				username: username,
-				id: _id,
-				avatar: avatar,
-				thumbnail: thumbnail,
-		};
-	}
-}
-export { LogoutAPI, LoginAPI, isLoggedIn, fetchUserData, RegisterAPI };
+// async function fetchUserData(id: string, thumbnailDim: number) {
+// 	const response = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/${id}/${thumbnailDim}`);
+// 	if (response) {
+// 		const { username, _id, avatar, thumbnail } = response.data.user;
+// 		return {
+// 				auth: true,
+// 				username: username,
+// 				id: _id,
+// 				avatar: avatar,
+// 				thumbnail: thumbnail,
+// 		};
+// 	}
+// }
+export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI };

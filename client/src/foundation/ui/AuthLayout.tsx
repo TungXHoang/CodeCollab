@@ -2,22 +2,15 @@ import "../../assets/AuthLayout.css";
 import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import React, {useState,useEffect} from 'react';
-
+import { IAuthUser } from "../../types/auth";
 
 interface AuthLayoutProps {
   children?: React.ReactNode;
 }
 
-interface IUser {
-	auth: boolean;
-	_id: string;
-	lastName: string;
-	firstName: string;
-}
-
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }): React.JSX.Element=> {
-	const [user, setUser] = useState<IUser | undefined>(undefined)
+	const [user, setUser] = useState<IAuthUser | undefined>(undefined)
 	const { loadingAuthUser, authUser } = useAuth()
 	useEffect(() => {
 		if (!loadingAuthUser) {

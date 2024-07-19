@@ -29,8 +29,8 @@ export default function Login() {
 	const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
 		setCredential((currData) => {
 			return {
-					...currData,
-					[evt.target.name]: evt.target.value,
+				...currData,
+				[evt.target.name]: evt.target.value,
 			};
 		});
 	};

@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState, useContext } from "react";
 import { useLoaderData } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth.tsx";
 import {useGetGuests} from "../../hooks/useGetGuests.tsx"
 import { ProjectContext } from "../../context/ProjectContext.tsx";
 import { UserContext } from "../../context/UserContext.tsx";

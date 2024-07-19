@@ -2,23 +2,17 @@ import React, { ReactNode, useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth  } from "../../hooks/useAuth";
 import { UserContext } from "../../context/UserContext";
+import { IAuthUser } from "../../types/auth";
 
 interface ProtectedRoutesProps {
     children: ReactNode;
 }
 
-interface IUser {
-	auth: boolean;
-	_id: string;
-	lastName: string;
-	firstName: string;
-}
-
 const PrivateRoutes: React.FC<ProtectedRoutesProps> = ({
     children,
 }): React.JSX.Element => {
-	
-	const [user, setUser] = useState<IUser | undefined>(undefined)
+
+	const [user, setUser] = useState<IAuthUser | undefined>(undefined)
 	const { loadingAuthUser, authUser } = useAuth()
 
 	useEffect(() => {
