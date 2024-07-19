@@ -7,12 +7,12 @@ interface IShareProject {
 }
 
 async function createProject(formData: FormData) {
-	const res = await Axios.post("/api/projects", formData);
+	const res = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects`, formData);
 	return res;
 }
 
 async function deleteProject(formData: any) {
-	const res = await Axios.delete("/api/projects", {
+	const res = await Axios.delete(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects`, {
 		headers: {
 			Authorization: formData.userId
 		},
@@ -24,7 +24,7 @@ async function deleteProject(formData: any) {
 
 async function shareProject(formData: IShareProject) {
 	try {
-		const res = await Axios.post("/api/projects/share", formData);
+		const res = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/share`, formData);
 		return res.status;
 	}
 	catch (err) {

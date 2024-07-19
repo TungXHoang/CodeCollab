@@ -7,26 +7,29 @@ import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
 
 export default function Dashboard() {
+	//context use
+	const user = useContext(UserContext)
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-	const { loading, projects } = useGetProjects();
-	const [projectsList, setProjectsList] = useState<IProject[]>([])
+	const { loading, projects } = useGetProjects(user._id);
+	const [ownerProjectsList, setOwnerProjectsList] = useState<IProject[]>([])
+	const [guestProjectsList, setguestProjectsList] = useState<IProject[]>([])
 	const [showModal, setShowModal]:ModalContextType = useOutletContext();
 
 	useEffect(() => {
     if (!loading) {
-      setProjectsList(projects);
+			setOwnerProjectsList(projects.owner);
+			setguestProjectsList(projects.guest);
     }
 	}, [loading, projects]);
 
 	const handleCreate = (newProject: IProject) => {
-		setProjectsList(projectsList=>[...projectsList, newProject])
+		setOwnerProjectsList(ownerProjectsList=>[...ownerProjectsList, newProject])
 	}
 
-	//context use
-	const user = useContext(UserContext)
+	
 	return (
 		<>
-		<div className="h-full bg-[hsl(220,10%,14%)]">
+		<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">
 			<main className="flex flex-col p-8">
 				<div className="text-white w-full">
 					<div> Hello {user.firstName} {user.lastName} </div> 
@@ -35,7 +38,9 @@ export default function Dashboard() {
 						<header>
 							<h2 className="text-xl font-medium">All Projects</h2>
 						</header>
-						{!loading && <ProjectsList projectsList={projectsList} onDelete={setProjectsList} />}
+							{!loading && <ProjectsList projectsList={ownerProjectsList} onDelete={setOwnerProjectsList} />}
+						<div> Guest Project</div>
+							{!loading && <ProjectsList projectsList={guestProjectsList} onDelete={setOwnerProjectsList} />}
 					</section>
 					
 				</div>

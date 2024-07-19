@@ -10,7 +10,7 @@ const useGetSnippets = (projectId: string) => {
 		const getProjects = async () => {
 			setLoading(true);
 			try {
-				const res = await Axios.post("/api/docs", { projectId });
+				const res = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/docs`, { projectId });
 				console.log(res.data);
 				setSnippet(res.data);
 			} catch (error) {

@@ -13,7 +13,7 @@ interface LoginCredential {
 // }
 
 async function RegisterAPI(formData: FormData ) {
-	const response = await Axios.post("/api/users/register", formData);
+	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/register`, formData);
 	console.log(response)
 	if (response.data.auth) {
 			return {
@@ -26,15 +26,15 @@ async function RegisterAPI(formData: FormData ) {
 					//revise to change to dynamic
 					auth: false,
 					msg:
-							response.data.err.code === 11000
-									? "A user with the given email is already registered"
-									: response.data.err.message,
+						response.data.err.code === 11000
+							? "A user with the given email is already registered"
+							: response.data.err.message,
 			};
 	}
 }
 
 async function LogoutAPI() {
-	const response = await Axios.post("/api/users/logout");
+	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/logout`);
 	if (response.data.auth) {
 			return response;
 	}
@@ -46,18 +46,17 @@ async function LoginAPI(credential: LoginCredential) {
 	const { email, password } = credential;
 
 	try {
-		const response = await Axios.post("/api/users/login", {
+		const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/login`, {
 				email: email,
 				password: password, 
 		});
 		console.log(response);
 		if (response.data.auth) {
-				return {
-						auth: response.data.auth,
-						email: response.data.email,
-						id: response.data.id,
-				};
-			console.log("log in success");
+			return {
+				auth: response.data.auth,
+				email: response.data.email,
+				id: response.data.id,
+			};
 		}
 		return { auth: false, msg: response.data.msg };
 	} catch (e) {
@@ -68,7 +67,7 @@ async function LoginAPI(credential: LoginCredential) {
 }
 
 async function isLoggedIn() {
-	const response = await Axios.post("/api/users/auth");
+	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/auth`);
 	if (response.data.auth) {
 		return response.data
 	}
@@ -76,10 +75,9 @@ async function isLoggedIn() {
 }
 
 async function fetchUserData(id: string, thumbnailDim: number) {
-	const response = await Axios.get(`/api/users/${id}/${thumbnailDim}`);
+	const response = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/${id}/${thumbnailDim}`);
 	if (response) {
 		const { username, _id, avatar, thumbnail } = response.data.user;
-		// console.log(response.data.user);
 		return {
 				auth: true,
 				username: username,
