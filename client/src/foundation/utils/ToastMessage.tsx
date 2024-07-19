@@ -15,7 +15,7 @@ export const showSuccessToast = (msg: string) => {
 export const showErrorToast = (msg: string) => {
 	toast.error(msg || `Something went wrong! Please try again.`, {
 		position: "top-right",
-		autoClose: 1000,
+		autoClose: 1500,
 		hideProgressBar: false,
 		closeOnClick: true,
 		pauseOnHover: true,
@@ -33,4 +33,14 @@ export const showSaveToast = (cb: any) => {
 			error: 'Saving unsuccessfully',
 		}
 	)
+}
+
+export const showShareToast = (statusCode: number, msg: string) => {
+	if (statusCode === 500) {
+		return showErrorToast(msg)
+	} 
+	else if (statusCode >= 400 && statusCode < 500) {
+		return showErrorToast(msg)
+	}
+	return showSuccessToast(msg)
 }

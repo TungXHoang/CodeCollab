@@ -1,4 +1,4 @@
-import Axios, { AxiosError } from "axios"
+import Axios, { AxiosError,AxiosResponse } from "axios"
 
 interface IShareProject {
 	projectId: string,
@@ -24,8 +24,8 @@ async function deleteProject(formData: any) {
 
 async function shareProject(formData: IShareProject) {
 	try {
-		const res = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/share`, formData);
-		return res.status;
+		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/share`, formData);
+		return res;
 	}
 	catch (err) {
 		console.log(err);
