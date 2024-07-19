@@ -4,7 +4,7 @@ import { deleteProject } from "../../foundation/projectsAPI"
 import { IProjectProps} from "./IProject"
 import { useNavigate } from "react-router-dom";
 
-const Project = ({ name, id, onDelete }: IProjectProps) => {
+const Project = ({ name, id, onDelete, ownerId }: IProjectProps) => {
 	const user = useContext(UserContext);
 	const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
@@ -21,10 +21,10 @@ const Project = ({ name, id, onDelete }: IProjectProps) => {
 	return (
 		<>
 			<div className="flex flex-row my-2 items-center justify-between hover:bg-[#646464b3]"
-					onClick = {()=>handleNavigate(id)}
-				>
+				onClick = {()=>handleNavigate(id)}
+			>
 				<div className="hover:cursor-pointer p-2">{name} project</div>
-				<button className="mx-10 mr-0 bg-gray-800 p-2" onClick={handleDelete}>Delete</button>
+				{ ownerId === user._id && <button className="mx-10 mr-0 bg-gray-800 p-2" onClick={handleDelete}>Delete</button>}
 			</div>		
 		</>
 

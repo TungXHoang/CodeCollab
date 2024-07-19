@@ -38,9 +38,9 @@ export default function Dashboard() {
 						<header>
 							<h2 className="text-xl font-medium">All Projects</h2>
 						</header>
-							{!loading && <ProjectsList projectsList={ownerProjectsList} onDelete={setOwnerProjectsList} />}
+							{!loading && <ProjectsList projectsList={ownerProjectsList} onDelete={setOwnerProjectsList}  />}
 						<div> Guest Project</div>
-							{!loading && <ProjectsList projectsList={guestProjectsList} onDelete={setOwnerProjectsList} />}
+							{!loading && <ProjectsList projectsList={guestProjectsList} onDelete={setOwnerProjectsList}  />}
 					</section>
 					
 				</div>

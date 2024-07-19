@@ -1,15 +1,18 @@
+
+interface IOwner {
+	email: string;
+	firstName: string;
+	lastName: string;
+	__v: number;
+	_id: string;
+}
+
 export interface IProject {
   _id: string;
   title: string;
 	language: string;
-	languageId: number,
-	owner: {
-		email: string,
-		firstName: string,
-		lastName: string,
-		__v: number,
-		_id: string,
-	};
+	languageId: number;
+	owner: string | IOwner;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -18,6 +21,12 @@ export interface IProject {
 
 export interface IProjectProps {
   name: string;
-  id: string;
+	id: string;
+	ownerId: string;
   onDelete: (id: string) => void;
+}
+
+export interface IProjectsListProps { 
+	projectsList: IProject[];
+	onDelete: (projects: IProject[]) => void;
 }
