@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { ProjectContext } from "../../context/ProjectContext.tsx"
-import { UserContext } from "../../context/UserContext.tsx"
+import { AuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 
-import { ToastContainer } from "react-toastify";
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
+import {IOwner} from "../ProjectsList/IProject.tsx"
 
 interface IShareModalProps {
 	onSelect: (param: boolean) => void,
@@ -15,7 +15,8 @@ interface IShareModalProps {
 
 const ShareModal = ({ onSelect }: IShareModalProps) => {
 	const project = useContext(ProjectContext);
-	const user = useContext(UserContext);
+	const owner = project.owner as IOwner
+	const user = useContext(AuthContext);
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
 
@@ -40,17 +41,6 @@ const ShareModal = ({ onSelect }: IShareModalProps) => {
 	// component 
 	return (
 		<>
-			<ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        // pauseOnFocusLoss
-        draggable
-        // pauseOnHover
-			/>
 			<div
 				className=" overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
 				onClick={() => onSelect(false)}
@@ -104,7 +94,7 @@ const ShareModal = ({ onSelect }: IShareModalProps) => {
 								<ul className="p-[20px] pt-0">
 									{/* move this to seperate component */}
 									<li className="flex text-[hsl(0,0,80%)]">
-										<div>{project.owner.firstName}{project.owner.lastName}</div>
+										<div>{owner.firstName}{owner.lastName}</div>
 										<div className="ml-[10px]">Owner</div>
 									</li>
 								</ul>

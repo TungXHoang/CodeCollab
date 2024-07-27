@@ -1,5 +1,5 @@
 
-interface IOwner {
+export interface IOwner {
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -12,7 +12,7 @@ export interface IProject {
   title: string;
 	language: string;
 	languageId: number;
-	owner: string | IOwner;
+	owner: IOwner | string;
   createdAt: string;
   updatedAt: string;
   __v: number;

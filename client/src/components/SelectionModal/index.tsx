@@ -1,7 +1,7 @@
 import { languageOptions } from "../../foundation/constants/languageOptions"
 import { createProject } from "../../foundation/projectsAPI"
 import { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
+import { AuthContext } from '../../context/AuthContext';
 import { IProject } from "../../components/ProjectsList/IProject"
 
 interface ISelectionModalProps {
@@ -15,7 +15,7 @@ const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 		onCreate(res.data);
 		return;
 	}
-	const user = useContext(UserContext)
+	const user = useContext(AuthContext)
 	return (
 		<>
 			<div
