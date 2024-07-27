@@ -3,7 +3,7 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import '../assets/HomePage.css';
 import { RouteObject,Outlet } from 'react-router-dom';
 import Axios from "axios";
-
+import {ProjectContextProvider} from "../context/ProjectContext"
 
 // Route Import 
 import Root from './Root';
@@ -49,7 +49,7 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <PrivateRoutes><EditRoute> <Navbar /> </EditRoute></PrivateRoutes>,
+			element: <PrivateRoutes><ProjectContextProvider> <Navbar /> </ProjectContextProvider></PrivateRoutes>,
 			children: EditingRoute,
 			loader: async ({ params }) => {
 				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${params.projectId}`)

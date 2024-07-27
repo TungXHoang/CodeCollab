@@ -8,12 +8,14 @@ interface IGuestList {
 }
 
 function useGetGuests(projectId: string) {
-	const [loading, setLoading] = useState(false);
-	const [guestsList, setGuestsList] = useState<IGuestList[]>([]);
+	const [loadingGuests, setLoadingGuests] = useState(false);
+	const [guestsList, setGuestsList] = useState<IGuestList[] | undefined>(undefined);
+
 	useEffect(() => {
+
 		const getGuests = async () => {
-			setLoading(true)
 			try {
+				setLoadingGuests(true);
 				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/guests/${projectId}`);
 				setGuestsList(res.data as IGuestList[]);
 			}
@@ -21,14 +23,14 @@ function useGetGuests(projectId: string) {
 				console.log(err)
 			}
 			finally {
-				setLoading(false);
+				setLoadingGuests(false);
 			}
 			
 		};
 		getGuests();
-	}, []);
+	}, [projectId]);
 
-	return { loading, guestsList };
+	return { loadingGuests, guestsList };
 }
 
 export {useGetGuests} ;

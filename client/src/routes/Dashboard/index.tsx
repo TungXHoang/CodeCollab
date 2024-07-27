@@ -16,7 +16,7 @@ export default function Dashboard() {
 	const [showModal, setShowModal]:ModalContextType = useOutletContext();
 
 	useEffect(() => {
-    if (!loading) {
+		if (!loading) {
 			setOwnerProjectsList(projects.owner);
 			setguestProjectsList(projects.guest);
     }

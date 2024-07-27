@@ -6,7 +6,6 @@ import { shareProject } from "../../foundation/projectsAPI";
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
-import {IOwner} from "../ProjectsList/IProject.tsx"
 
 interface IShareModalProps {
 	onSelect: (param: boolean) => void,
@@ -15,7 +14,6 @@ interface IShareModalProps {
 
 const ShareModal = ({ onSelect }: IShareModalProps) => {
 	const project = useContext(ProjectContext);
-	const owner = project.owner as IOwner
 	const user = useContext(AuthContext);
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
@@ -94,7 +92,7 @@ const ShareModal = ({ onSelect }: IShareModalProps) => {
 								<ul className="p-[20px] pt-0">
 									{/* move this to seperate component */}
 									<li className="flex text-[hsl(0,0,80%)]">
-										<div>{owner.firstName}{owner.lastName}</div>
+										<div>{project.owner.firstName}{project.owner.lastName}</div>
 										<div className="ml-[10px]">Owner</div>
 									</li>
 								</ul>

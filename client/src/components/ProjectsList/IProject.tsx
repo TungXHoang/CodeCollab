@@ -12,7 +12,7 @@ export interface IProject {
   title: string;
 	language: string;
 	languageId: number;
-	owner: IOwner | string;
+	owner: IOwner
   createdAt: string;
   updatedAt: string;
   __v: number;

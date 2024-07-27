@@ -13,7 +13,7 @@ const ProjectsList = ({ projectsList, onDelete }: IProjectsListProps) => {
 					name={project.title}
 					id={project._id}
 					onDelete={handleDeleteProject}
-					ownerId={project.owner}
+					ownerId={project.owner._id}
 					/>
 				))
 			}

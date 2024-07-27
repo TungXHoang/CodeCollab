@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect, useState, useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import {useGetGuests} from "../../hooks/useGetGuests.tsx"
-import { ProjectContext } from "../../context/ProjectContext.tsx";
+import { ProjectContext, ProjectContextProvider } from "../../context/ProjectContext.tsx";
 import { AuthContext, AuthContextProvider } from "../../context/AuthContext.tsx";
-import { IProject,IOwner } from "../../components/ProjectsList/IProject.tsx"
+import { IProject } from "../../components/ProjectsList/IProject.tsx"
 interface ProtectedRoutesProps {
     children: ReactNode;
 }
@@ -12,34 +12,34 @@ interface ProtectedRoutesProps {
 const EditRoute: React.FC<ProtectedRoutesProps> = ({
 	children,
 }): React.JSX.Element => {
-	const user = useContext(AuthContext)
-	const [guests, setGuests] = useState<string[]>([])
-	// loader data
-	const project = useLoaderData() as IProject;
-	const owner = project.owner as IOwner
+	// const user = useContext(AuthContext)
+	// const [guests, setGuests] = useState<string[]>([])
+	// // loader data
+	// const project = useLoaderData() as IProject;
 
-	//custom hook
-	const { loading, guestsList } = useGetGuests(project._id)
-	useEffect(() => {
-		if (!loading) {
-			const guestIds = guestsList.map(guest => guest.guestId);
-			setGuests(guestIds);
-		}
-	}, [loading, guestsList]);
+
+	// //custom hook
+	// const { loading, guestsList } = useGetGuests(project._id)
+	// useEffect(() => {
+	// 	if (!loading) {
+	// 		const guestIds = guestsList.map(guest => guest.guestId);
+	// 		setGuests(guestIds);
+	// 	}
+	// }, [loading, guestsList]);
 	
-
-	if (user.auth && ((user._id === owner._id) || (guests.includes(user._id)))) {
+	
+	// if (user.auth && ((user._id === project.owner._id) || (guests.includes(user._id)))) {
 		return <AuthContextProvider>
-							<ProjectContext.Provider value={project}>
+							<ProjectContextProvider>
 								<React.Fragment>{children}</React.Fragment>
-							</ProjectContext.Provider>
+							</ProjectContextProvider>
 						</AuthContextProvider>
 		
-	}
-	else { 
-		// show error log cannot access project
-		return <></>
-	}
+	// }
+	// else { 
+	// 	// show error log cannot access project
+	// 	return <></>
+	// }
 };
 
 export default EditRoute;
