@@ -4,30 +4,19 @@ import { useAuth  } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
 // Define the interface for the context
-interface IAuthContext {
-	auth: boolean;
-	_id: string;
-	lastName: string;
-	firstName: string;
-}
-
-interface AuthContextProps {
-	children: ReactNode;
-}
 
 
-export const AuthContext = createContext<IAuthContext>({
-	auth: false,
-	_id: "",
-	lastName: "",
-	firstName: "",
-});
+export const AuthContext = createContext<IAuthUser | undefined>(undefined);
 
 export const useAuthContext = () => {
-	return useContext(AuthContext);
+	const context = useContext(AuthContext);
+	if (context === undefined) {
+		throw new Error("Auth Context must not be undefined")
+	}
+	return context
 };
 
-export const AuthContextProvider: React.FC<AuthContextProps>  = ({ children })  => {
+export const AuthContextProvider = ({ children }: { children: ReactNode})  => {
 	const [user, setUser] = useState<IAuthUser | undefined>(undefined)
 	const { loadingAuthUser, authUser } = useAuth()
 

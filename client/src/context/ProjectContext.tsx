@@ -4,48 +4,30 @@ import { IProject } from "../components/ProjectsList/IProject"
 import {useGetGuests} from "../hooks/useGetGuests.tsx"
 import Axios from "axios";
 import { useAuthContext } from "./AuthContext";
-interface ProjectContextProps {
-	children: ReactNode;
-}
 
 // Create the context with the appropriate default value and type
-export const ProjectContext = createContext<IProject>({
-	_id: "",
-  title: "",
-	language: "",
-	languageId: 63,
- 	owner: {
-		email: "",
-		firstName: "",
-		lastName: "",
-		__v: 0,
-		_id: "",
-	},
-  createdAt: "",
-  updatedAt: "",
-  __v: 0,
-	code: "", // Adjust the type if you have a specific type for messages
-});
+export const ProjectContext = createContext<IProject | undefined >(undefined);
 
 export const useProjectContext = () => {
-	return useContext(ProjectContext);
+	const context = useContext(ProjectContext);
+	if (context === undefined) {
+    throw new Error("useProjectContext must not be undefined");
+  }
+  return context;
 };
 
-export const ProjectContextProvider: React.FC<ProjectContextProps> = ({ children }) => {
-
-	const { projectId } = useParams<{ projectId: string }>();
-	const [guestsId, setGuestsId] = useState<string[] | undefined >(undefined)
+export const ProjectContextProvider = ({ children }: { children: ReactNode}) => {
 	const user = useAuthContext();
-	const [loadingProject, setLoadingProject] = useState(true)
-	
-	const [project, setProject] = useState<IProject>();
+	const { projectId } = useParams<{ projectId: string }>();
 
+	const [guestsId, setGuestsId] = useState<string[] | undefined >(undefined)
+	const [project, setProject] = useState<IProject | undefined >(undefined);
+	const [loadingProject, setLoadingProject] = useState(false);
 
-	// get project info
+	// get project info; migrate this to hooks
 	useEffect(() => {
 		async function getProject() {
 			try {
-				
 				setLoadingProject(true)
 				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${projectId}`);
 				setProject(res.data);

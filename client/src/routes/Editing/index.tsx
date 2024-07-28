@@ -19,11 +19,17 @@ import { useEffect, useState } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { useProjectContext } from "../../context/ProjectContext.tsx"
 import { useAuthContext } from "../../context/AuthContext.tsx";
+import { useSocketContext } from "../../context/SocketContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
 
 
+
+
 export default function Editing(): JSX.Element  {
+	const { socket, onlineUsers } = useSocketContext();
+	console.log(socket);
+	console.log(onlineUsers);
 	const project = useProjectContext();
 	const user = useAuthContext();
 
