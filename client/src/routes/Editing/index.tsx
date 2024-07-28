@@ -15,17 +15,17 @@ import InfoBox from "../../components/InfoBox";
 import ShareModal from "../../components/ShareModal"
 
 // Utils & Apis
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
-import { ProjectContext } from "../../context/ProjectContext.tsx"
-import { AuthContext } from "../../context/AuthContext.tsx";
+import { useProjectContext } from "../../context/ProjectContext.tsx"
+import { useAuthContext } from "../../context/AuthContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
 
 
 export default function Editing(): JSX.Element  {
-	const project = useContext(ProjectContext);
-	const user = useContext(AuthContext);
+	const project = useProjectContext();
+	const user = useAuthContext();
 
 	const [code, setCode] = useState(project.code);
   const [outputDetails, setOutputDetails] = useState(null);

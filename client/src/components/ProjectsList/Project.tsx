@@ -1,11 +1,11 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+
+import { useAuthContext } from '../../context/AuthContext';
 import { deleteProject } from "../../foundation/projectsAPI"
 import { IProjectProps} from "./IProject"
 import { useNavigate } from "react-router-dom";
 
 const Project = ({ name, id, onDelete, ownerId }: IProjectProps) => {
-	const user = useContext(AuthContext);
+	const user = useAuthContext();
 	const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
 		const res = await deleteProject({projectId: id, userId: user._id})

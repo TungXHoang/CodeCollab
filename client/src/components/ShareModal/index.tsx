@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
-import { ProjectContext } from "../../context/ProjectContext.tsx"
-import { AuthContext } from "../../context/AuthContext.tsx"
+import { useState } from "react";
+import { useProjectContext } from "../../context/ProjectContext.tsx"
+import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
@@ -13,8 +13,8 @@ interface IShareModalProps {
 
 
 const ShareModal = ({ onSelect }: IShareModalProps) => {
-	const project = useContext(ProjectContext);
-	const user = useContext(AuthContext);
+	const project = useProjectContext();
+	const user = useAuthContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
 

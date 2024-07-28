@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
-import { useContext, useState,useEffect } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import {  useState,useEffect } from 'react';
+import { useAuthContext } from '../../context/AuthContext';
 import ProjectsList from "../../components/ProjectsList";
 import { IProject } from "../../components/ProjectsList/IProject"
 import useGetProjects from "../../hooks/useGetProjects";
@@ -8,7 +8,7 @@ import SelectionModal from "../../components/SelectionModal"
 
 export default function Dashboard() {
 	//context use
-	const user = useContext(AuthContext)
+	const user = useAuthContext()
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 	const { loading, projects } = useGetProjects(user._id);
 	const [ownerProjectsList, setOwnerProjectsList] = useState<IProject[]>([])
