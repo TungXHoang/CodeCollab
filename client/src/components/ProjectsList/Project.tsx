@@ -25,6 +25,7 @@ const Project = ({ name, id, onDelete, ownerId }: IProjectProps) => {
 			>
 				<div className="hover:cursor-pointer p-2">{name} project</div>
 				{ ownerId === user._id && <button className="mx-10 mr-0 bg-gray-800 p-2" onClick={handleDelete}>Delete</button>}
+				{/* <button className="mx-10 mr-0 bg-gray-800 p-2" onClick={handleDelete}>Delete</button> */}
 			</div>		
 		</>
 

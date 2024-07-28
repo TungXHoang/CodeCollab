@@ -12,6 +12,7 @@ interface ISelectionModalProps {
 const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 	const handleCreate = async (data: any) => {
 		const res = await createProject(data);
+		console.log(data);
 		onCreate(res.data);
 		return;
 	}

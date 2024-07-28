@@ -2,8 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css"; //use .min for production
 import "bootstrap/dist/js/bootstrap.bundle";
 import '../assets/HomePage.css';
 import { RouteObject,Outlet } from 'react-router-dom';
-import Axios from "axios";
-import {ProjectContextProvider} from "../context/ProjectContext"
 
 // Route Import 
 import Root from './Root';
@@ -11,10 +9,12 @@ import Login from './Login';
 import Register from './Register';
 import Navbar from '../foundation/ui/Navbar';
 import AuthLayout from "../foundation/ui/AuthLayout";
-import PrivateRoutes from "../foundation/routeWrapper/PrivateRoutes";
-import EditRoute from "../foundation/routeWrapper/EditRoute";
 import Editing from "./Editing";
 import Dashboard from "./Dashboard";
+
+// Route wrapper
+import PrivateRoutes from "../foundation/routeWrapper/PrivateRoutes";
+import ProjectRoutes from "../foundation/routeWrapper/ProjectRoutes";
 
 const RouterBuilder = () => {
  
@@ -49,12 +49,8 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <PrivateRoutes><ProjectContextProvider> <Navbar /> </ProjectContextProvider></PrivateRoutes>,
+			element: <PrivateRoutes><ProjectRoutes> <Navbar /> </ProjectRoutes></PrivateRoutes>,
 			children: EditingRoute,
-			loader: async ({ params }) => {
-				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${params.projectId}`)
-				return res.data;
-			},
 		},
 	  {
       element: <AuthLayout> <Outlet/> </AuthLayout>,

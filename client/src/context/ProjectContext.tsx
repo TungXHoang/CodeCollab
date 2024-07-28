@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useParams, Navigate, useLoaderData } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { IProject } from "../components/ProjectsList/IProject"
 import {useGetGuests} from "../hooks/useGetGuests.tsx"
 import Axios from "axios";
@@ -34,37 +34,38 @@ export const useProjectContext = () => {
 export const ProjectContextProvider: React.FC<ProjectContextProps> = ({ children }) => {
 
 	const { projectId } = useParams<{ projectId: string }>();
-	const project = useLoaderData() as IProject;
 	const [guestsId, setGuestsId] = useState<string[] | undefined >(undefined)
 	const user = useAuthContext();
-	// const [loadingProject, setLoadingProject] = useState(true)
+	const [loadingProject, setLoadingProject] = useState(true)
 	
-	// const [project, setProject] = useState<IProject>();
+	const [project, setProject] = useState<IProject>();
 
-	// useEffect(() => {
-	// 	async function getProject() {
-	// 		try {
+
+	// get project info
+	useEffect(() => {
+		async function getProject() {
+			try {
 				
-	// 			setLoadingProject(true)
-	// 			const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${projectId}`);
-	// 			setProject(res.data);
-	// 		} catch (error) {
-	// 			console.error('Error fetching project:', error);
-	// 		}
-	// 		finally {
-	// 			setLoadingProject(false)
-	// 		}
-	// 	}
+				setLoadingProject(true)
+				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${projectId}`);
+				setProject(res.data);
+			} catch (error) {
+				console.error('Error fetching project:', error);
+			}
+			finally {
+				setLoadingProject(false)
+			}
+		}
 
-	// 	if (projectId) {
-	// 		getProject();
-	// 	}
-	// }, []);
+		if (projectId) {
+			getProject();
+		}
+	}, []);
 	
 
 
 
-	//custom hook
+	//custom hook to load guests list
 	const { loadingGuests, guestsList } = useGetGuests(projectId!)
 
 	useEffect(() => {
@@ -76,7 +77,7 @@ export const ProjectContextProvider: React.FC<ProjectContextProps> = ({ children
 
 
 
-	if (loadingGuests || guestsId === undefined) {
+	if (guestsId === undefined || loadingProject) {
 		return <></>;
 	}
 	else {
