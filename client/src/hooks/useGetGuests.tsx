@@ -16,7 +16,7 @@ function useGetGuests(projectId: string) {
 		const getGuests = async () => {
 			try {
 				setLoadingGuests(true);
-				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/guests/${projectId}`);
+				const res = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/guests/${projectId}`);
 				setGuestsList(res.data as IGuestList[]);
 			}
 			catch (err) {

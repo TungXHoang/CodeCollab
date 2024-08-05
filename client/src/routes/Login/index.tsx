@@ -37,6 +37,7 @@ export default function Login() {
 	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const response = await LoginAPI(credential);
+		console.log(response);
 		setCredential({
 				password: "",
 				email: "",

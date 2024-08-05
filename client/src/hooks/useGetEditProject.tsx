@@ -11,7 +11,7 @@ const useGetEditProject = (projectId: string) => {
 		async function getEditProject() {
 			try {
 				setLoadingEditProject(true)
-				const res = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/projects/single/${projectId}`);
+				const res = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/single/${projectId}`);
 				setEditProject(res.data);
 			} catch (error) {
 				console.error('Error fetching project:', error);

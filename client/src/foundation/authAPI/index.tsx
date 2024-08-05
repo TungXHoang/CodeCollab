@@ -7,7 +7,7 @@ interface LoginCredential {
 
 
 async function RegisterAPI(registerCredential: IRegisterCrendential ) {
-	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/register`, registerCredential);
+	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/register`, registerCredential);
 	if (response.data.auth) {
 			return {
 				auth: true,
@@ -27,7 +27,7 @@ async function RegisterAPI(registerCredential: IRegisterCrendential ) {
 
 async function LogoutAPI() {
 	try {
-		const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/logout`);
+		const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/logout`);
 		return response;
 	}
 	catch (err) {
@@ -39,7 +39,7 @@ async function LogoutAPI() {
 async function LoginAPI(credential: LoginCredential) {
 	const { email, password } = credential;
 	try {
-		const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/login`, {
+		const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/login`, {
 				email: email,
 				password: password, 
 		});
@@ -57,7 +57,7 @@ async function LoginAPI(credential: LoginCredential) {
 }
 
 async function isLoggedIn() {
-	const response = await Axios.post(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/auth`);
+	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/auth`);
 	if (response.data.auth) {
 		return response.data;
 	}
@@ -65,7 +65,7 @@ async function isLoggedIn() {
 }
 
 // async function fetchUserData(id: string, thumbnailDim: number) {
-// 	const response = await Axios.get(`${import.meta.env.VITE_BACKEND_BASEURL}/api/users/${id}/${thumbnailDim}`);
+// 	const response = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/${id}/${thumbnailDim}`);
 // 	if (response) {
 // 		const { username, _id, avatar, thumbnail } = response.data.user;
 // 		return {

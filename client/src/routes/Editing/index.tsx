@@ -22,14 +22,8 @@ import { useAuthContext } from "../../context/AuthContext.tsx";
 import { useSocketContext } from "../../context/SocketContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
-
-
-
-
 export default function Editing(): JSX.Element  {
-	const { socket, onlineUsers } = useSocketContext();
-	console.log(socket);
-	console.log(onlineUsers);
+	const socket = useSocketContext();
 	const project = useProjectContext();
 	const user = useAuthContext();
 
@@ -54,11 +48,11 @@ export default function Editing(): JSX.Element  {
     // send request to the backend
 		// access to latest state here
 		showSaveToast(SaveDocsAPI(project._id, code));
-    console.log(code);
 	});
 	
-  const onChange = ( data: string) => {
+	const onChange = (data: string) => {
 		setCode(data);
+		socket!.emit("newEdit", user._id, data);
 		debouncedRequest();
 		return;
   };

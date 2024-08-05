@@ -22,7 +22,11 @@
     "react-dom": "^18.2.0",
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.18.0",
+    "y-monaco": "^0.1.6",
+    "y-websocket": "^2.0.4",
+    "yjs": "^13.6.18"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
@@ -33,6 +37,7 @@
     "@types/react-dom": "^18.2.22",
     "@types/react-router-dom": "^5.3.3",
     "@types/socket.io-client": "^3.0.0",
+    "@types/ws": "^8.5.12",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
