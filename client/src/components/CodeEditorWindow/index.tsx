@@ -13,66 +13,57 @@ const serverWsUrl = "ws://localhost:3000";
 const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
 	const project = useProjectContext();
 	const user = useAuthContext();
-	const [value, setValue] = useState(code || "");
-	// const editorRef = useRef<editor.IStandaloneCodeEditor>();
-	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor>();
-
-	useEffect(() => {
-		if (editorRef) {
-			const doc = new Y.Doc();
-			const type = doc.getText('monaco')
-			const provider = new WebsocketProvider(
-				serverWsUrl, // use the public ws server
-				project._id,
-				doc
-  );
-
-
-			const awareness = provider.awareness
-			// You can observe when a user updates their awareness information
-			awareness.on('change', (changes: any) => {
-				// Whenever somebody updates their awareness information,
-				// we log all awareness information from all users.
-				console.log('sth');
-				console.log(Array.from(awareness.getStates().values()))
-			})
-
-			awareness.setLocalStateField('user', {
-				name: user.firstName + user.lastName,
-				id: user._id,
-				color: '#ffb61e' // should be a hex color
-			})
-			
-			const monacoBinding = new MonacoBinding(type, editorRef.getModel()!, new Set([editorRef]), awareness)
-			console.log(monacoBinding, provider);
-			return () => {
-				if (provider) {
-					awareness.destroy();
-          provider.disconnect(); //We destroy doc we created and disconnect 
-          doc.destroy();  //the provider to stop propagting changes if user leaves editor
-        }
-      };
-		}
-	}, [editorRef]);
+	// const [value, setValue] = useState(code || "");
+	const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
 	const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor) => {
-		setEditorRef(editor);
+		editorRef.current = editor;
+		const doc = new Y.Doc();
+		const type = doc.getText('monaco')
+		const provider = new WebsocketProvider(
+			serverWsUrl, // use the public ws server
+			project._id,
+			doc
+		);
+		const awareness = provider.awareness
+	// You can observe when a user updates their awareness information
+		awareness.on('change', (changes: any) => {
+			// Whenever somebody updates their awareness information,
+			// we log all awareness information from all users.
+			// console.log(editor.getValue());
+			onEdit(editor.getValue());
+			// console.log(Array.from(awareness.getStates().values()))
+		})
+
+		awareness.setLocalStateField('user', {
+			name: user.firstName + user.lastName,
+			id: user._id,
+			color: '#ffb61e' // should be a hex color
+		})
+		
+		const monacoBinding = new MonacoBinding(type, editorRef.current.getModel()!, new Set([editorRef.current]), awareness)
+		console.log(monacoBinding, provider);
+		// return () => {
+		// 	if (provider) {
+		// 		awareness.destroy();
+		// 		provider.disconnect(); //We destroy doc we created and disconnect 
+		// 		doc.destroy();  //the provider to stop propagting changes if user leaves editor
+		// 	}
+		// };
 	}
 
-  const handleEditorChange = (value: string | undefined) => {
-    setValue(value!);
-    onEdit(value!);
-  };
+	// const handleEditorChange = (value: string | undefined) => {
+  //   onEdit(value!);
+  // };
 	return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor
         height="85vh"
         width={`100%`}
         language={language}
-        // value={value}
         theme="vs-dark"
         defaultValue="// some comment"
-				onChange={handleEditorChange}
+				// onChange={handleEditorChange}
 				onMount = {handleEditorDidMount}
       />
     </div>

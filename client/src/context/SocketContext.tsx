@@ -13,9 +13,9 @@ export const useSocketContext = () => useContext(SocketContext)
 
 export function SocketContextProvider({ children } : { children: React.ReactNode }) {
     return (
-        <SocketContext.Provider value={socket}>
-            {children}
-        </SocketContext.Provider>
+			<SocketContext.Provider value={socket}>
+				{children}
+			</SocketContext.Provider>
     );
 }
 
