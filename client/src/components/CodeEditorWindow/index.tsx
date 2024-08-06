@@ -26,14 +26,18 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
 			doc
 		);
 		const awareness = provider.awareness
-	// You can observe when a user updates their awareness information
+		// You can observe when a user updates their awareness information
+		
+		// flag to prevent initial update when mount
+		let isInitialMount = true;
+		// You can observe when a user updates their awareness information
 		awareness.on('change', (changes: any) => {
-			// Whenever somebody updates their awareness information,
-			// we log all awareness information from all users.
-			// console.log(editor.getValue());
-			onEdit(editor.getValue());
-			// console.log(Array.from(awareness.getStates().values()))
-		})
+			if (!isInitialMount) {	
+				onEdit(editor.getValue());
+			} else {
+				isInitialMount = false;
+			}
+	});
 
 		awareness.setLocalStateField('user', {
 			name: user.firstName + user.lastName,
@@ -43,18 +47,15 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
 		
 		const monacoBinding = new MonacoBinding(type, editorRef.current.getModel()!, new Set([editorRef.current]), awareness)
 		console.log(monacoBinding, provider);
-		// return () => {
-		// 	if (provider) {
-		// 		awareness.destroy();
-		// 		provider.disconnect(); //We destroy doc we created and disconnect 
-		// 		doc.destroy();  //the provider to stop propagting changes if user leaves editor
-		// 	}
-		// };
+		return () => {
+			if (provider) {
+				awareness.destroy();
+				provider.disconnect(); //We destroy doc we created and disconnect 
+				doc.destroy();  //the provider to stop propagting changes if user leaves editor
+			}
+		};
 	}
 
-	// const handleEditorChange = (value: string | undefined) => {
-  //   onEdit(value!);
-  // };
 	return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
       <Editor

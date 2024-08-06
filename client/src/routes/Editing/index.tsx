@@ -45,13 +45,13 @@ export default function Editing(): JSX.Element  {
 
 	
 	const debouncedRequest = useDebounce(async () => {
-    // send request to the backend and access to latest state here
+		// send request to the backend and access to latest state here
+		
 		showSaveToast(SaveDocsAPI(project._id, code));
 	});
 	
 	const onChange = (data: string) => {
 		setCode(data);
-		socket!.emit("newEdit", user._id, data);
 		debouncedRequest();
 		return;
   };
