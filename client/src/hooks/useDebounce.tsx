@@ -17,7 +17,7 @@ const useDebounce = (cb: () => void) => {
 			ref.current?.();
 		}
 			// debounce the func that was created once, but has access to the latest callback
-		return _.debounce(func, 2000,{ 'maxWait': 7000 })
+		return _.debounce(func, 3000,{ 'maxWait': 7000 })
 	}, [])
 	
 	return debounceCallback

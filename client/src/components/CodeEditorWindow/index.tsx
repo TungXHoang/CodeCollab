@@ -31,13 +31,13 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
 		// flag to prevent initial update when mount
 		let isInitialMount = true;
 		// You can observe when a user updates their awareness information
-		awareness.on('change', (changes: any) => {
-			if (!isInitialMount) {	
-				onEdit(editor.getValue());
-			} else {
-				isInitialMount = false;
-			}
-	});
+	// 	awareness.on('change', (changes: any) => {
+	// 		if (!isInitialMount) {	
+	// 			onEdit(editor.getValue());
+	// 		} else {
+	// 			isInitialMount = false;
+	// 		}
+	// });
 
 		awareness.setLocalStateField('user', {
 			name: user.firstName + user.lastName,
@@ -55,6 +55,12 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
 			}
 		};
 	}
+	
+	const handleEditorChange = () => {
+		if (editorRef){
+			onEdit(editorRef!.current!.getValue());
+		}
+	}
 
 	return (
     <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
@@ -64,7 +70,7 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
         language={language}
         theme="vs-dark"
         defaultValue="// some comment"
-				// onChange={handleEditorChange}
+				onChange={handleEditorChange}
 				onMount = {handleEditorDidMount}
       />
     </div>
