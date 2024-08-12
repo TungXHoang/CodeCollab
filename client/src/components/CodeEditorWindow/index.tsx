@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import * as Y from "yjs";
 import { WebsocketProvider } from 'y-websocket'
 import { MonacoBinding } from 'y-monaco'
@@ -7,51 +7,48 @@ import { editor } from "monaco-editor";
 import { ICodeEditorWindow } from "./ICodeEditorWindow";
 import { useProjectContext } from "../../context/ProjectContext"
 import { useAuthContext } from "../../context/AuthContext";
+import { CursorStyling } from "../../foundation/utils/CursorStyling";
 
 const serverWsUrl = "ws://localhost:3000";
 
-const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
+const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
 	const project = useProjectContext();
 	const user = useAuthContext();
-	// const [value, setValue] = useState(code || "");
 	const editorRef = useRef<editor.IStandaloneCodeEditor>();
 
 	const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor) => {
 		editorRef.current = editor;
-		const doc = new Y.Doc();
-		const type = doc.getText('monaco')
+		const ydoc = new Y.Doc();
+		const type = ydoc.getText('monaco')
 		const provider = new WebsocketProvider(
 			serverWsUrl, // use the public ws server
 			project._id,
-			doc
+			ydoc
 		);
 		const awareness = provider.awareness
-		// You can observe when a user updates their awareness information
-		
-		// flag to prevent initial update when mount
-		let isInitialMount = true;
-		// You can observe when a user updates their awareness information
-	// 	awareness.on('change', (changes: any) => {
-	// 		if (!isInitialMount) {	
-	// 			onEdit(editor.getValue());
-	// 		} else {
-	// 			isInitialMount = false;
-	// 		}
-	// });
-
 		awareness.setLocalStateField('user', {
 			name: user.firstName + user.lastName,
 			id: user._id,
-			color: '#ffb61e' // should be a hex color
+			color: ("#"+Math.floor(Math.random()*16777215).toString(16)).toString()
 		})
-		
+		// You can observe when a user updates their awareness information
+		awareness.on('change', () => {
+			const statesArray = Array.from(awareness.getStates());
+			console.log(statesArray);
+			statesArray.forEach(([clientId, state])  => {
+        if (state.user) {
+					CursorStyling(clientId,state.user.color,state.user.name)
+        }
+      });
+		})
+	
 		const monacoBinding = new MonacoBinding(type, editorRef.current.getModel()!, new Set([editorRef.current]), awareness)
-		console.log(monacoBinding, provider);
 		return () => {
 			if (provider) {
+				console.log('huh')
 				awareness.destroy();
 				provider.disconnect(); //We destroy doc we created and disconnect 
-				doc.destroy();  //the provider to stop propagting changes if user leaves editor
+				ydoc.destroy();  //the provider to stop propagting changes if user leaves editor
 			}
 		};
 	}
@@ -69,7 +66,6 @@ const CodeEditorWindow = ({ onEdit, language, code }:ICodeEditorWindow) => {
         width={`100%`}
         language={language}
         theme="vs-dark"
-        defaultValue="// some comment"
 				onChange={handleEditorChange}
 				onMount = {handleEditorDidMount}
       />

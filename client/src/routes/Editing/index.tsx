@@ -19,11 +19,9 @@ import { useEffect, useState } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { useProjectContext } from "../../context/ProjectContext.tsx"
 import { useAuthContext } from "../../context/AuthContext.tsx";
-import { useSocketContext } from "../../context/SocketContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
 export default function Editing(): JSX.Element  {
-	const socket = useSocketContext();
 	const project = useProjectContext();
 	const user = useAuthContext();
 
@@ -46,14 +44,12 @@ export default function Editing(): JSX.Element  {
 	
 	const debouncedRequest = useDebounce(async () => {
 		// send request to the backend and access to latest state here
-		
 		showSaveToast(SaveDocsAPI(project._id, code));
 	});
 	
 	const onChange = (data: string) => {
 		setCode(data);
 		debouncedRequest();
-		return;
   };
 	
 	const handleSubmission = async () => {
@@ -120,7 +116,6 @@ export default function Editing(): JSX.Element  {
       <div className="flex flex-row space-x-4 items-start px-4 py-3">
 				<div className="flex flex-col w-full h-full justify-start items-end">
 					<CodeEditorWindow
-            code={code}
             onEdit={onChange}
             language={project.language}
           />
