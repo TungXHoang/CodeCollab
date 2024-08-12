@@ -55,7 +55,6 @@ const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 								)
 							})}
 						</div>
-				
 					</div>
 				</div>
 			</div>
