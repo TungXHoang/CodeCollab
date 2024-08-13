@@ -23,7 +23,7 @@ export const useYjs = (
       awareness.setLocalStateField('user', {
         name: `${user.firstName} ${user.lastName}`,
         id: user._id,
-        color: randomColor(),
+        color: randomColor({luminosity:"dark"}),
       });
 
       awareness.on('change', () => {
