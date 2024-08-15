@@ -48,7 +48,7 @@ export default function Dashboard() {
 							<div className="mb-[24px]">
 								<ActionButtonGroup onSelect={setIsOwner} />
 							</div>
-								<ProjectsList projectsList = {isOwner ? projectsList.owner : projectsList.guest } onDelete={handleDelete} isOwner={isOwner}  />
+								<ProjectsList projectsList={isOwner ? projectsList.owner : projectsList.guest } onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner}  />
 					</section>
 					
 				</div>
