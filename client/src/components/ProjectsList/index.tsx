@@ -1,10 +1,14 @@
 import Project from "./Project";
-import {IProjectsListProps} from "./IProject" 
+import { IProjectsListProps } from "./IProject" 
+
+
 
 const ProjectsList = ({ projectsList, onDelete }: IProjectsListProps) => {
-	const handleDeleteProject = (projectId: string) => {
-		onDelete(projectsList.filter((project: { _id: string; }) => project._id !== projectId));
-	}
+
+	// const handleDeleteProject = (projectId: string) => {
+	// 	onDelete(projectId);
+	// }
+
 	return (
 		<div className='py-2 flex flex-col overflow-auto'>
 			{projectsList.map((project: any) => (
@@ -12,7 +16,7 @@ const ProjectsList = ({ projectsList, onDelete }: IProjectsListProps) => {
 					key={project._id}
 					name={project.title}
 					id={project._id}
-					onDelete={handleDeleteProject}
+					onDelete={onDelete}
 					ownerId={project.owner._id}
 					/>
 				))

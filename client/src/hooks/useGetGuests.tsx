@@ -12,7 +12,6 @@ function useGetGuests(projectId: string) {
 	const [guestsList, setGuestsList] = useState<IGuestList[] | undefined>(undefined);
 
 	useEffect(() => {
-
 		const getGuests = async () => {
 			try {
 				setLoadingGuests(true);

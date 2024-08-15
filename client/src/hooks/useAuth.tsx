@@ -23,8 +23,7 @@ function useAuth() {
 			}
 			finally {
 				setLoadingAuthUser(false)
-			}
-			
+			}	
 		};
 		checkAuth();
 	}, []);

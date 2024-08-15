@@ -27,6 +27,7 @@ export interface IProjectProps {
 }
 
 export interface IProjectsListProps { 
-	projectsList: IProject[];
-	onDelete: (projects: IProject[]) => void;
+	onDelete: (id:string) => void;
+	projectsList : IProject[]
+	isOwner: boolean
 }

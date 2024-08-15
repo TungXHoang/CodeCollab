@@ -1,46 +1,54 @@
 import { useOutletContext } from "react-router-dom";
-import {  useState,useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import ProjectsList from "../../components/ProjectsList";
 import { IProject } from "../../components/ProjectsList/IProject"
 import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
+import ActionButtonGroup from "../../components/ActionButtonGroup";
 
 export default function Dashboard() {
-	//context use
 	const user = useAuthContext()
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+	const [showModal, setShowModal]: ModalContextType = useOutletContext();
+	const [isOwner, setIsOwner] = useState(true)
 	const { loading, projects } = useGetProjects(user._id);
-	const [ownerProjectsList, setOwnerProjectsList] = useState<IProject[]>([])
-	const [guestProjectsList, setguestProjectsList] = useState<IProject[]>([])
-	const [showModal, setShowModal]:ModalContextType = useOutletContext();
+	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
 
 	useEffect(() => {
 		if (!loading) {
-			setOwnerProjectsList(projects.owner);
-			setguestProjectsList(projects.guest);
+			setProjectsList(projects);
     }
 	}, [loading, projects]);
 
 	const handleCreate = (newProject: IProject) => {
-		setOwnerProjectsList(ownerProjectsList=>[...ownerProjectsList, newProject])
+		setProjectsList((prevProjectsList) => ({
+			...prevProjectsList,
+			owner: [...prevProjectsList.owner, newProject],
+	}));
 	}
+	const handleDelete = (projectId: string) => {
+    setProjectsList((prevProjectsList) => ({
+        ...prevProjectsList,
+        owner: prevProjectsList.owner.filter(project => project._id !== projectId),
+    }));
+};
 
-	
 	return (
 		<>
-		<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">
-			<main className="flex flex-col p-8">
-				<div className="text-white w-full">
-					<div> Hello {user.firstName} {user.lastName} </div> 
-					<div> This is Dashboard </div>
-					<section className="flex flex-col my-10 max-w-max">
-						<header>
-							<h2 className="text-xl font-medium">All Projects</h2>
-						</header>
-							{!loading && <ProjectsList projectsList={ownerProjectsList} onDelete={setOwnerProjectsList}  />}
-						<div> Guest Project</div>
-							{!loading && <ProjectsList projectsList={guestProjectsList} onDelete={setOwnerProjectsList}  />}
+			<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">
+				<main className="flex flex-col p-8">
+					<div className="text-white w-full">
+						<div> Hello {user.firstName} {user.lastName} </div> 
+						<div> This is Dashboard </div>
+						<section className="flex flex-col my-10 max-w-max">
+							<header className="mb-[24px]">	
+								<h2 className="text-xl font-medium">My Projects</h2>
+							</header>
+							<div className="mb-[24px]">
+								<ActionButtonGroup onSelect={setIsOwner} />
+							</div>
+								<ProjectsList projectsList = {isOwner ? projectsList.owner : projectsList.guest } onDelete={handleDelete} isOwner={isOwner}  />
 					</section>
 					
 				</div>

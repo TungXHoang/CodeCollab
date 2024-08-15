@@ -9,9 +9,7 @@ interface ProjectRoutesProps {
 const ProjectRoutes: React.FC<ProjectRoutesProps> = ({
     children,
 }): React.JSX.Element => {
-
 	return <ProjectContextProvider><SocketContextProvider><React.Fragment>{children}</React.Fragment></SocketContextProvider></ProjectContextProvider>
-
 };
 
 export default ProjectRoutes;

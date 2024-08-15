@@ -8,7 +8,8 @@ export default {
 		},
 	},
 	variants: {
-		fill: ["hover", "focus"], // this line does the trick
+		fill: ["hover", "focus"],
+		border: ["first", "last"],
 	},
 	plugins: [],
 };
