@@ -6,7 +6,6 @@ import SelectionModal from "../../components/SelectionModal"
 
 const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
-	console.log(projectsList);
 	return (
 		<>
 			{projectsList.length > 0 ?
@@ -20,6 +19,10 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 								<th className="headerCell">
 									<span className="headerCellWrapper">Description</span>
 								</th>
+								{!isOwner &&
+									<th className="headerCell">
+										<span className="headerCellWrapper">Owner</span>
+									</th> }
 								<th className="headerCell">
 									<span className="headerCellWrapper">Guests</span>
 								</th>
@@ -38,6 +41,7 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 									id={project._id}
 									onDelete={onDelete}
 									ownerId={project.owner._id}
+									ownerEmail={project.owner.email}
 									updateAt = {project.updatedAt}
 								/>
 							))}

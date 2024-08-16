@@ -6,7 +6,7 @@ import {useState, useRef, useEffect} from "react"
 import Popover from "../Popover"
 import { useGetGuests } from "../../hooks/useGetGuests"
 
-const Project = ({ name, id, onDelete, ownerId, updateAt}: IProjectProps) => {
+const Project = ({ name, id, onDelete, ownerId, updateAt, ownerEmail}: IProjectProps) => {
 	const { loadingGuests, guestsList } = useGetGuests(id);
 	const [guestNumber, setGuestNumber] = useState<number | undefined>(undefined);
 
@@ -43,6 +43,12 @@ const Project = ({ name, id, onDelete, ownerId, updateAt}: IProjectProps) => {
 						{name} program run on CodeCollab
 					</span>
 				</td>
+				{ownerId !== user._id &&
+					<td className="cell">
+						<span className="projectRowCell">
+							<span>{ownerEmail}</span>
+						</span>
+					</td>}
 				<td className="cell">
 					<span className="projectRowCell">
 						<svg className="mt-[1.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" width="20px" height="20px" >
@@ -58,19 +64,17 @@ const Project = ({ name, id, onDelete, ownerId, updateAt}: IProjectProps) => {
 				</td>
 				{ownerId === user._id &&
 				<td className="cell w-[38px] text-right">
-						<div className="flex relative min-h-full items-center">
-							<button ref={toggleButtonRef} onClick ={handleToggle} className="w-[38px] h-[38px] align-middle inline-flex items-center justify-center hover:text-[hsl(0,0%,94%)]">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor">
-									<path fillRule = "evenodd" d="M7.444 13.832a1 1 0 1 0 1.111-1.663 1 1 0 0 0-1.11 1.662zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2m0-5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" clipRule="evenodd">
-									</path>
-								</svg>
-							</button>
-						<Popover toggleRef={toggleButtonRef}  onDelete={onDelete} open={open} onClose={()=>setOpen(false)} deleteInfo={{userId: user._id, projectId: id}} />
-						</div>
+					<div className="flex relative min-h-full items-center">
+						<button ref={toggleButtonRef} onClick ={handleToggle} className="w-[38px] h-[38px] align-middle inline-flex items-center justify-center hover:text-[hsl(0,0%,94%)]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor">
+								<path fillRule = "evenodd" d="M7.444 13.832a1 1 0 1 0 1.111-1.663 1 1 0 0 0-1.11 1.662zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2m0-5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" clipRule="evenodd">
+								</path>
+							</svg>
+						</button>
+					<Popover toggleRef={toggleButtonRef}  onDelete={onDelete} open={open} onClose={()=>setOpen(false)} deleteInfo={{userId: user._id, projectId: id}} />
+					</div>
 				</td>
 				}
-			
-				{/* { ownerId === user._id && <button className="mx-10 mr-0 bg-gray-800 p-2" onClick={handleDelete}>Delete</button>} */}
 			</tr>		
 		</>
 

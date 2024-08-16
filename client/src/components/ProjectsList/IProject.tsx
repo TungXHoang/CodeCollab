@@ -24,6 +24,7 @@ export interface IProjectProps {
 	id: string;
 	ownerId: string;
 	updateAt: string;
+	ownerEmail: string;
   onDelete: (id: string) => void;
 }
 
