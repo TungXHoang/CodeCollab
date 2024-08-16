@@ -11,8 +11,8 @@ async function CheckStatusAPI(token: string) {
 	return response.data;
 }
 
-async function SaveDocsAPI(projectId: string, doc: string) {
-	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/docs/save`, { doc, projectId });
+async function SaveDocsAPI(projectId: string) {
+	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/docs/save`, { projectId });
 	return response.data;
 	
 }

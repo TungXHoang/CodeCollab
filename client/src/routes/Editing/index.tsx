@@ -21,41 +21,41 @@ import { useProjectContext } from "../../context/ProjectContext.tsx"
 import { useAuthContext } from "../../context/AuthContext.tsx";
 import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 
-export default function Editing(): JSX.Element  {
+export default function Editing(): JSX.Element {
 	const project = useProjectContext();
 	const user = useAuthContext();
 
-	const [code, setCode] = useState(project.code);
-  const [outputDetails, setOutputDetails] = useState(null);
-  const [processing, setProcessing] = useState(false);
+	const [code, setCode] = useState<string>("");
+	const [outputDetails, setOutputDetails] = useState(null);
+	const [processing, setProcessing] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
-  const enterPress = useKeyPress("Enter");
-  const ctrlPress = useKeyPress("Control");
+	const enterPress = useKeyPress("Enter");
+	const ctrlPress = useKeyPress("Control");
 
-  useEffect(() => {
-    if (enterPress && ctrlPress) {
-      console.log("enterPress", enterPress);
-      console.log("ctrlPress", ctrlPress);
-      handleSubmission();
-    }
+	useEffect(() => {
+		if (enterPress && ctrlPress) {
+			console.log("enterPress", enterPress);
+			console.log("ctrlPress", ctrlPress);
+			handleSubmission();
+		}
 	}, [ctrlPress, enterPress]);
 
 	
 	const debouncedRequest = useDebounce(async () => {
 		// send request to the backend and access to latest state here
-		showSaveToast(SaveDocsAPI(project._id, code));
+		showSaveToast(SaveDocsAPI(project._id));
 	});
 	
 	const onChange = (data: string) => {
 		setCode(data);
 		debouncedRequest();
-  };
+	};
 	
 	const handleSubmission = async () => {
 		setProcessing(true);
 		try {
-			await SaveDocsAPI(project._id, code);
+			await SaveDocsAPI(project._id);
 			const token: string = await SubmissionAPI(project.languageId, code);
 			const response = await CheckStatusAPI(token);
 			setProcessing(false)
@@ -68,7 +68,7 @@ export default function Editing(): JSX.Element  {
 			}
 			return;
 		}
-		catch(err) {
+		catch (err) {
 			console.log("err", err);
 			showErrorToast(err as string);
 		}
@@ -86,58 +86,58 @@ export default function Editing(): JSX.Element  {
 		setShowModal(false)
 		document.body.style.overflow = 'unset';
 	}
-  return (
-    <>
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        // pauseOnFocusLoss
-        draggable
-        // pauseOnHover
+	return (
+		<>
+			<ToastContainer
+				position="top-right"
+				autoClose={1000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				// pauseOnFocusLoss
+				draggable
+			// pauseOnHover
 			/>
 			
 			{/* Info Box */}
-      <div className="flex flex-row">
-        <div className="px-4 py-2">
-          <InfoBox content={project.title}  />
+			<div className="flex flex-row">
+				<div className="px-4 py-2">
+					<InfoBox content={project.title} />
 				</div>
 				{project.owner._id === user._id &&
 					<button className="px-4 py-2" onClick={() => handleShowModal(true)}>
-						<InfoBox content={"Share"}  />
+						<InfoBox content={"Share"} />
 					</button>
 				}
 			</div>
 			
 			{/* Code window and output */}
-      <div className="flex flex-row space-x-4 items-start px-4 py-3">
+			<div className="flex flex-row space-x-4 items-start px-4 py-3">
 				<div className="flex flex-col w-full h-full justify-start items-end">
 					<CodeEditorWindow
-            onEdit={onChange}
-            language={project.language}
-          />
-        </div>
+						onEdit={onChange}
+						language={project.language}
+					/>
+				</div>
 
 				<div className="right-container flex flex-shrink-0 w-[30%] flex-col">
 					<OutputWindow outputDetails={outputDetails} />
 					<button
-							onClick = {handleSubmission}
-							disabled={processing}
-							className={ClassNames(
-								"mt-4 border-2 border-black text-black font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-								!code ? "opacity-50" : ""
-							)}
-						>
-							{processing ? "Processing..." : "Compile and Execute"}
+						onClick={handleSubmission}
+						disabled={processing}
+						className={ClassNames(
+							"mt-4 border-2 border-black text-black font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
+							!code ? "opacity-50" : ""
+						)}
+					>
+						{processing ? "Processing..." : "Compile and Execute"}
 					</button>
-					{outputDetails && <OutputDetails outputDetails={outputDetails} />}	
+					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
 			</div>
 			
-			{showModal && <ShareModal onSelect={(status)=>handleShowModal(status)} />}
-    </>
-  );
+			{showModal && <ShareModal onSelect={(status) => handleShowModal(status)} />}
+		</>
+	);
 };

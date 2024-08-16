@@ -16,7 +16,6 @@ export interface IProject {
   createdAt: string;
   updatedAt: string;
   __v: number;
-	code: string;// Adjust the type if you have a specific type for messages
 }
 
 export interface IProjectProps {

@@ -7,7 +7,6 @@ import { useAuthContext } from "../../context/AuthContext";
 import {useYjs} from "../../hooks/useYjs"
 
 
-
 const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
 	const project = useProjectContext();
 	const user = useAuthContext();
