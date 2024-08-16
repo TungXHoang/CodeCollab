@@ -25,14 +25,14 @@ export default function Dashboard() {
 
 	const handleCreate = (newProject: IProject) => {
 		setProjectsList((prevProjectsList) => ({
-			...prevProjectsList,
-			owner: [...prevProjectsList.owner, newProject],
+		...prevProjectsList,
+		owner: [...prevProjectsList.owner, newProject],
 	}));
 	}
 	const handleDelete = (projectId: string) => {
     setProjectsList((prevProjectsList) => ({
-        ...prevProjectsList,
-        owner: prevProjectsList.owner.filter(project => project._id !== projectId),
+			...prevProjectsList,
+			owner: prevProjectsList.owner.filter(project => project._id !== projectId),
     }));
 	};
 
