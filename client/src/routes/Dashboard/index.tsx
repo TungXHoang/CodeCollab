@@ -7,10 +7,12 @@ import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
 import ActionButtonGroup from "../../components/ActionButtonGroup";
 
+
 export default function Dashboard() {
 	const user = useAuthContext()
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 	const [showModal, setShowModal]: ModalContextType = useOutletContext();
+
 	const [isOwner, setIsOwner] = useState(true)
 	const { loading, projects } = useGetProjects(user._id);
 	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
@@ -32,7 +34,8 @@ export default function Dashboard() {
         ...prevProjectsList,
         owner: prevProjectsList.owner.filter(project => project._id !== projectId),
     }));
-};
+	};
+
 
 	return (
 		<>
@@ -58,6 +61,7 @@ export default function Dashboard() {
 				<SelectionModal onSelect={setShowModal}
 					onCreate={(newProject:IProject) => handleCreate(newProject)} />
 			}
+			
 		</>
 	)
 }

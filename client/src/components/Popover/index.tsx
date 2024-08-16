@@ -1,17 +1,21 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef} from 'react'
 import { deleteProject } from "../../foundation/projectsAPI"
 
 interface IPopoverProps {
 	open: boolean
 	onClose: () => void
 	onDelete: (id: string) => void;
-	deleteInfo: { projectId: string, userId: string}
+	deleteInfo: { projectId: string, userId: string }
+	toggleRef: React.MutableRefObject<HTMLButtonElement | null>
 }
 
-const Popover = ({ open, onClose, onDelete, deleteInfo }: IPopoverProps) => {
+const Popover = ({ toggleRef, open, onClose, onDelete, deleteInfo }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
+
 	const handleClickOutside = (event: MouseEvent) => {
-    if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+    if (popoverRef.current && 
+			!popoverRef.current.contains(event.target as Node) &&
+			!(toggleRef.current && toggleRef.current.contains(event.target as Node))) {
       onClose();
 		}
 	};
@@ -35,18 +39,22 @@ const Popover = ({ open, onClose, onDelete, deleteInfo }: IPopoverProps) => {
 		return res;
 	}
 
+
 	return (
 		open && 
 		<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[hsl(222,10%,20%)]">
 			<ul className="relative m-0 py-[8px] block m-0">
-				<li className="block ">
-					<button className ="popoverButton"> 
+				{/* <li className="block ">
+						<button className="popoverButton" onClick={(e: any) => {
+							e.stopPropagation()
+							setShowModal(true)
+						}}> 
 						<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]">
 							<path d="M14 7v1H8v6H7V8H1V7h6V1h1v6z"></path>
 						</svg>
 						Share project
 					</button>
-				</li>
+				</li> */}
 				<li className="block">
 					<button className ="popoverButton text-[hsl(355,80%,65%)]" onClick={handleDelete}>
 						<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]"> 

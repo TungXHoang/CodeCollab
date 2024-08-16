@@ -6,13 +6,14 @@ import SelectionModal from "../../components/SelectionModal"
 
 const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
+
 	return (
 		<>
 			{projectsList.length > 0 ?
 				<div className="m-[-30px] mt-0 p-[30px] pt-0">
 					<table className="w-full border-collapse">
 						<thead>
-							<tr className="flex">
+							<tr className="z-10 sticky top-0">
 								<th className="headerCell">
 									<span className="headerCellWrapper">Title</span>
 								</th>
@@ -20,7 +21,12 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 									<span className="headerCellWrapper">Description</span>
 								</th>
 								<th className="headerCell">
+									<span className="headerCellWrapper">Guests</span>
+								</th>
+								<th className="headerCell">
 									<span className="headerCellWrapper">Updated</span>
+								</th>
+								<th className="headerCell">
 								</th>
 							</tr>
 						</thead>

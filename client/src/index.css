@@ -6,7 +6,7 @@
 
 @layer components {
 	.headerCell {
-		@apply h-[34px] bg-[hsl(220,10%,14%)] text-[hsl(0,0%,62%)] text-[12px] align-middle font-[500];
+		@apply border-b-[2px] border-[hsl(220,60%,95%)]/[0.06] h-[34px] bg-[hsl(220,10%,14%)]/[0.9] text-[hsl(0,0%,62%)] text-[12px] align-middle font-[500];
 	}
 	.projectRowCell {
 		@apply flex items-start w-full my-[5px] py-[4px] px-[8px] gap-[4px] leading-[1.4];
