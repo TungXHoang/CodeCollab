@@ -1,12 +1,12 @@
 import Project from "./Project";
-import { IProjectsListProps } from "./IProject";
+import { IProject, IProjectsListProps } from "./IProject";
 import { useState } from "react";
 import SelectionModal from "../../components/SelectionModal"
 
 
 const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
-
+	console.log(projectsList);
 	return (
 		<>
 			{projectsList.length > 0 ?
@@ -31,13 +31,14 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 							</tr>
 						</thead>
 						<tbody>
-							{projectsList.map((project: any) => (
+							{projectsList.map((project: IProject) => (
 								<Project
 									key={project._id}
 									name={project.title}
 									id={project._id}
 									onDelete={onDelete}
 									ownerId={project.owner._id}
+									updateAt = {project.updatedAt}
 								/>
 							))}
 						</tbody>

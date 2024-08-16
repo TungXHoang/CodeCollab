@@ -6,7 +6,7 @@ import {useState, useRef, useEffect} from "react"
 import Popover from "../Popover"
 import { useGetGuests } from "../../hooks/useGetGuests"
 
-const Project = ({ name, id, onDelete, ownerId }: IProjectProps) => {
+const Project = ({ name, id, onDelete, ownerId, updateAt}: IProjectProps) => {
 	const { loadingGuests, guestsList } = useGetGuests(id);
 	const [guestNumber, setGuestNumber] = useState<number | undefined>(undefined);
 
@@ -53,7 +53,7 @@ const Project = ({ name, id, onDelete, ownerId }: IProjectProps) => {
 				</td>
 				<td className="cell">
 					<span className="projectRowCell">
-						Updated 7 minutes ago
+						{updateAt}
 					</span>
 				</td>
 				{ownerId === user._id &&
