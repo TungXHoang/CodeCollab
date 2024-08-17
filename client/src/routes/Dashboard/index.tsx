@@ -6,17 +6,17 @@ import { IProject } from "../../components/ProjectsList/IProject"
 import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
 import ActionButtonGroup from "../../components/ActionButtonGroup";
-
+import HeaderAction from "../../components/HeaderAction"
 
 export default function Dashboard() {
 	const user = useAuthContext()
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 	const [showModal, setShowModal]: ModalContextType = useOutletContext();
-
 	const [isOwner, setIsOwner] = useState(true)
 	const { loading, projects } = useGetProjects(user._id);
 	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
-
+	const [searchField, setSearchField] = useState("");
+	
 	useEffect(() => {
 		if (!loading) {
 			setProjectsList(projects);
@@ -36,6 +36,16 @@ export default function Dashboard() {
     }));
 	};
 
+	const filteredProject = isOwner ? 
+		{
+			...projectsList,		
+			owner: projectsList.owner.filter(project => project.title.toLowerCase().includes(searchField.toLowerCase()))
+		} :
+		{
+			...projectsList,		
+			guest: projectsList.guest.filter(project => project.title.toLowerCase().includes(searchField.toLowerCase()))
+		}
+
 
 	return (
 		<>
@@ -44,14 +54,15 @@ export default function Dashboard() {
 					<div className="text-white w-full">
 						<div> Hello {user.firstName} {user.lastName} </div> 
 						<div> This is Dashboard </div>
-						<section className="flex flex-col my-10 flex-1">
-							<header className="mb-[24px]">	
-								<h2 className="text-xl font-medium">My Projects</h2>
+						<section className="flex flex-col my-10 flex-1 p-[32px] pl-[10px]">
+							<header className="mb-[24px] flex items-center">	
+								<h2 className="font-[600] text-[18px] text-[hsl(0,0%,94%)]">My Projects</h2>
+								<HeaderAction searchField={searchField} setSearchField={setSearchField} onCreate={handleCreate}/>
 							</header>
 							<div className="mb-[24px]">
 								<ActionButtonGroup onSelect={setIsOwner} />
 							</div>
-								<ProjectsList projectsList={isOwner ? projectsList.owner : projectsList.guest } onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner}  />
+								<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest } onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner}  />
 					</section>
 					
 				</div>
