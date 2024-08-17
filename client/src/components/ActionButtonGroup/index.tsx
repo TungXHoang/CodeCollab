@@ -1,6 +1,6 @@
 import ActionButton from "./ActionButton"
 import { useState } from "react";
-const ActionButtonGroup = ({onSelect}:any) => {
+const ActionButtonGroup = ({onSelect}:{onSelect:React.Dispatch<React.SetStateAction<boolean>>}) => {
 	const [ownership, setOwnership] = useState("owned");
 
 	const handleClick = (e: React.MouseEvent<HTMLElement>) => {

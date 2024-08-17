@@ -42,7 +42,7 @@ export const useYjs = (
         awareness
       );
 
-      const handleBeforeUnload = (event: any) => {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
         monacoBinding.destroy();
         provider.disconnect();

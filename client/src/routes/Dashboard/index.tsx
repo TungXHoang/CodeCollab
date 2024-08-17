@@ -56,7 +56,7 @@ export default function Dashboard() {
 						<div> This is Dashboard </div>
 						<section className="flex flex-col my-10 flex-1 p-[32px] pl-[10px]">
 							<header className="mb-[24px] flex items-center">	
-								<h2 className="font-[600] text-[18px] text-[hsl(0,0%,94%)]">My Projects</h2>
+								<h2 className="font-[600] text-[20px] text-[hsl(0,0%,94%)]">My Projects</h2>
 								<HeaderAction searchField={searchField} setSearchField={setSearchField} onCreate={handleCreate}/>
 							</header>
 							<div className="mb-[24px]">

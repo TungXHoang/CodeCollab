@@ -50,11 +50,11 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 				</div>
 			: (
 				<> {isOwner ?
-					<div>
+					<div className="px-[6.25em] py-[8em] text-[hsl(0,0%,62%)] font-[600] text-[18px] text-center">
 						<button onClick={() => setShowModal(true)} className="text-[hsl(186,52%,48%)] hover:text-[hsl(191,91%,69%)]">Create</button>
 						{' '}your first project
-					</div>
-					: <div>You have no shared projects yet</div>} </>
+					</div >
+					: <div className="px-[6.25em] py-[8em] text-[hsl(0,0%,62%)] font-[600] text-[18px] text-center">You have no shared projects yet</div>} </>
 			)
 			}
 				{showModal &&
