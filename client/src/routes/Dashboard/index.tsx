@@ -7,6 +7,7 @@ import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
 import ActionButtonGroup from "../../components/ActionButtonGroup";
 import HeaderAction from "../../components/HeaderAction"
+import Loading from "../../foundation/utils/Loading";
 
 export default function Dashboard() {
 	const user = useAuthContext()
@@ -62,17 +63,18 @@ export default function Dashboard() {
 							<div className="mb-[24px]">
 								<ActionButtonGroup onSelect={setIsOwner} />
 							</div>
-								<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest } onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner}  />
+							{loading ? <Loading /> : <ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner} />}
 					</section>
 					
 				</div>
-			</main>
-		</div>
+				</main>
+			</div>
+			
+		
 			{showModal &&
 				<SelectionModal onSelect={setShowModal}
 					onCreate={(newProject:IProject) => handleCreate(newProject)} />
 			}
-			
 		</>
 	)
 }
