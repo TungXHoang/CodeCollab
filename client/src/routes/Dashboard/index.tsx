@@ -26,7 +26,7 @@ export default function Dashboard() {
 	const handleCreate = (newProject: IProject) => {
 		setProjectsList((prevProjectsList) => ({
 		...prevProjectsList,
-		owner: [...prevProjectsList.owner, newProject],
+		owner: [newProject, ...prevProjectsList.owner],
 	}));
 	}
 	const handleDelete = (projectId: string) => {

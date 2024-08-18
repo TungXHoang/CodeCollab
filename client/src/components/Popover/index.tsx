@@ -1,37 +1,27 @@
 import { useEffect, useRef, useState} from 'react'
 import { deleteProject } from "../../foundation/projectsAPI"
 import ShareModal from "../../components/ShareModal"
-import {IProject} from "../ProjectsList/IProject"
+import { IProject } from "../ProjectsList/IProject"
+
 interface IPopoverProps {
-	open: boolean
-	onClose: () => void
 	onDelete: (id: string) => void;
-	deleteInfo: { projectId: string, userId: string }
-	toggleRef: React.MutableRefObject<HTMLButtonElement | null>
-	project: IProject
+	userId: string;
+	project: IProject;
 }
 
-const Popover = ({ toggleRef, open, onClose, onDelete, deleteInfo, project }: IPopoverProps) => {
+const Popover = ({ onDelete, userId, project }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
+	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);
+	const [open, setOpen] = useState(false); 
 
 	const handleClickOutside = (event: MouseEvent) => {
     if (popoverRef.current && 
 			!popoverRef.current.contains(event.target as Node) &&
-			!(toggleRef.current && toggleRef.current.contains(event.target as Node))) {
-      onClose();
+			!(toggleButtonRef.current && toggleButtonRef.current.contains(event.target as Node))) {
+      setOpen(false)
 		}
 	};
-	const handleShowModal = (status: boolean) => {
-		if (status) {
-			setShowModal(true)
-			document.body.style.overflow = 'hidden';
-			return;
-		}
-		setShowModal(false)
-		document.body.style.overflow = 'unset';
-	}
-
 	useEffect(() => {
 		if (open) {
 			document.addEventListener('mousedown', handleClickOutside);
@@ -43,43 +33,74 @@ const Popover = ({ toggleRef, open, onClose, onDelete, deleteInfo, project }: IP
 		};
 	}, [open]);
 
+
+	const handleToggleModal = (status: boolean) => {
+		if (status) {
+			setOpen(false);
+			setShowModal(status)
+			document.body.style.overflow = 'hidden';
+		}
+		else {
+			setShowModal(status)
+			document.body.style.overflow = 'unset';
+		}
+	}
+
+	const handleTogglePopover = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		setOpen(!open);
+	}
+
 	const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
-		const res = await deleteProject({projectId: deleteInfo.projectId , userId: deleteInfo.userId})
+		const res = await deleteProject({projectId: project._id , userId: userId})
 		if (res.status === 200) {
-			onDelete(deleteInfo.projectId)
+			onDelete(project._id)
 		}
 		return res;
 	}
 
 
 	return (
-		open &&
 		<>
-			<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[hsl(222,10%,20%)]">
-				<ul className="relative m-0 py-[8px] block m-0">
-					<li className="block ">
-						<button className="popoverButton" onClick={(e: any) => {
-							e.stopPropagation()
-							handleShowModal(true)
-							}}> 
-							<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]">
-								<path d="M14 7v1H8v6H7V8H1V7h6V1h1v6z"></path>
-							</svg>
-							Share project
-						</button>
-					</li>
-					<li className="block">
-						<button className ="popoverButton text-[hsl(355,80%,65%)]" onClick={handleDelete}>
-							<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]"> 
-								<path fillRule="evenodd" clipRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z"></path>
-							</svg>
-							Delete project
-						</button>
-					</li>
-				</ul>
-			</div>
-			{showModal && <ShareModal project={project} onSelect={(status) => handleShowModal(status)} />}
+			<td className="cell w-[38px] text-right">
+				<div className="flex relative min-h-full items-center">
+					<button ref={toggleButtonRef} onClick ={handleTogglePopover} className="w-[38px] h-[38px] align-middle inline-flex items-center justify-center hover:text-[hsl(0,0%,94%)]">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor">
+							<path fillRule = "evenodd" d="M7.444 13.832a1 1 0 1 0 1.111-1.663 1 1 0 0 0-1.11 1.662zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2m0-5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" clipRule="evenodd">
+							</path>
+						</svg>
+					</button>
+					{/* //Popover section */}
+					{
+					open &&
+						<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[hsl(222,10%,20%)]">
+							<ul className="relative m-0 py-[8px] block m-0">
+								<li className="block ">
+									<button className="popoverButton" onClick={(e: any) => {
+										e.stopPropagation()
+										handleToggleModal(true)
+										}}> 
+										<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]">
+											<path d="M14 7v1H8v6H7V8H1V7h6V1h1v6z"></path>
+										</svg>
+										Share project
+									</button>
+								</li>
+								<li className="block">
+									<button className ="popoverButton text-[hsl(355,80%,65%)]" onClick={handleDelete}>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]"> 
+											<path fillRule="evenodd" clipRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z"></path>
+										</svg>
+										Delete project
+									</button>
+								</li>
+							</ul>
+						</div>
+					}
+				</div>
+			</td>
+			{showModal && <ShareModal project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	)
 }

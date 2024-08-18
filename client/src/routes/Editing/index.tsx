@@ -77,14 +77,15 @@ export default function Editing(): JSX.Element {
 		}
 	}
 
-	const handleShowModal = (status: boolean) => {
+	const handleToggleModal = (status: boolean) => {
 		if (status) {
-			setShowModal(true)
+			setShowModal(status)
 			document.body.style.overflow = 'hidden';
-			return;
 		}
-		setShowModal(false)
-		document.body.style.overflow = 'unset';
+		else {
+			setShowModal(status)
+			document.body.style.overflow = 'unset';
+		}
 	}
 	return (
 		<>
@@ -106,7 +107,7 @@ export default function Editing(): JSX.Element {
 					<InfoBox content={project.title} />
 				</div>
 				{project.owner._id === user._id &&
-					<button className="px-4 py-2" onClick={() => handleShowModal(true)}>
+					<button className="px-4 py-2" onClick={() => handleToggleModal(true)}>
 						<InfoBox content={"Share"} />
 					</button>
 				}
@@ -137,7 +138,7 @@ export default function Editing(): JSX.Element {
 				</div>
 			</div>
 			
-			{showModal && <ShareModal project={project} onSelect={(status) => handleShowModal(status)} />}
+			{showModal && <ShareModal project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
 };
