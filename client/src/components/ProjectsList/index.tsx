@@ -37,12 +37,8 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 							{projectsList.map((project: IProject) => (
 								<Project
 									key={project._id}
-									name={project.title}
-									id={project._id}
 									onDelete={onDelete}
-									ownerId={project.owner._id}
-									ownerEmail={project.owner.email}
-									updateAt = {project.updatedAt}
+									project = {project}
 								/>
 							))}
 						</tbody>

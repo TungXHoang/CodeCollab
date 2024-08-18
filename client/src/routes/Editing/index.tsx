@@ -137,7 +137,7 @@ export default function Editing(): JSX.Element {
 				</div>
 			</div>
 			
-			{showModal && <ShareModal onSelect={(status) => handleShowModal(status)} />}
+			{showModal && <ShareModal project={project} onSelect={(status) => handleShowModal(status)} />}
 		</>
 	);
 };

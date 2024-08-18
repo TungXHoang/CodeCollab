@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { useProjectContext } from "../../context/ProjectContext.tsx"
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
-
+import {IProject} from "../ProjectsList/IProject.tsx"
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 
 interface IShareModalProps {
 	onSelect: (param: boolean) => void,
+	project: IProject
 }
 
 
-const ShareModal = ({ onSelect }: IShareModalProps) => {
-	const project = useProjectContext();
+const ShareModal = ({ onSelect, project }: IShareModalProps) => {	
 	const user = useAuthContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
@@ -23,7 +22,7 @@ const ShareModal = ({ onSelect }: IShareModalProps) => {
 		setShareUser(e.currentTarget.value);
 	}
 	const CopyToClip = async () => {
-		await navigator.clipboard.writeText(location.href);
+		await navigator.clipboard.writeText(location.href); //fix this
     setCopySuccess(true);
 	}
 

@@ -6,8 +6,8 @@ import {useState, useRef, useEffect} from "react"
 import Popover from "../Popover"
 import { useGetGuests } from "../../hooks/useGetGuests"
 
-const Project = ({ name, id, onDelete, ownerId, updateAt, ownerEmail}: IProjectProps) => {
-	const { loadingGuests, guestsList } = useGetGuests(id);
+const Project = ({ onDelete, project}: IProjectProps) => {
+	const { loadingGuests, guestsList } = useGetGuests(project._id);
 	const [guestNumber, setGuestNumber] = useState<number | undefined>(undefined);
 
 	useEffect(() => {
@@ -30,23 +30,23 @@ const Project = ({ name, id, onDelete, ownerId, updateAt, ownerEmail}: IProjectP
 	return (
 		<>
 			<tr className="relative hover:bg-[#646464b3] hover:cursor-pointer"
-				onClick = {()=>navigate(`/edit/${id}`)}>
+				onClick = {()=>navigate(`/edit/${project._id}`)}>
 				<td className="cell text-[hsl(0,0%,80%)]">
 					<div className="projectRowCell">
 						<span>
-						{name} 
+						{project.title} 
 						</span>
 					</div>
 				</td>
 				<td className="cell">
 					<span className="projectRowCell">
-						{name} program run on CodeCollab
+						{project.title} program run on CodeCollab
 					</span>
 				</td>
-				{ownerId !== user._id &&
+				{project.owner._id !== user._id &&
 					<td className="cell">
 						<span className="projectRowCell">
-							<span>{ownerEmail}</span>
+							<span>{project.owner.email}</span>
 						</span>
 					</td>}
 				<td className="cell">
@@ -59,10 +59,10 @@ const Project = ({ name, id, onDelete, ownerId, updateAt, ownerEmail}: IProjectP
 				</td>
 				<td className="cell">
 					<span className="projectRowCell">
-						{updateAt}
+						{project.updatedAt}
 					</span>
 				</td>
-				{ownerId === user._id &&
+				{project.owner._id === user._id &&
 				<td className="cell w-[38px] text-right">
 					<div className="flex relative min-h-full items-center">
 						<button ref={toggleButtonRef} onClick ={handleToggle} className="w-[38px] h-[38px] align-middle inline-flex items-center justify-center hover:text-[hsl(0,0%,94%)]">
@@ -71,7 +71,7 @@ const Project = ({ name, id, onDelete, ownerId, updateAt, ownerEmail}: IProjectP
 								</path>
 							</svg>
 						</button>
-					<Popover toggleRef={toggleButtonRef}  onDelete={onDelete} open={open} onClose={()=>setOpen(false)} deleteInfo={{userId: user._id, projectId: id}} />
+						<Popover project={project} toggleRef={toggleButtonRef}  onDelete={onDelete} open={open} onClose={()=>setOpen(false)} deleteInfo={{userId: user._id, projectId: project._id}} />
 					</div>
 				</td>
 				}
