@@ -9,6 +9,11 @@ import ActionButtonGroup from "../../components/ActionButtonGroup";
 import HeaderAction from "../../components/HeaderAction"
 import Loading from "../../foundation/utils/Loading";
 
+//Toast
+import { ToastContainer, toast } from "react-toastify";
+import {showDeleteToast } from "../../foundation/utils/ToastMessage.tsx"
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Dashboard() {
 	const user = useAuthContext()
 	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
@@ -31,6 +36,7 @@ export default function Dashboard() {
 	}));
 	}
 	const handleDelete = (projectId: string) => {
+		showDeleteToast();
     setProjectsList((prevProjectsList) => ({
 			...prevProjectsList,
 			owner: prevProjectsList.owner.filter(project => project._id !== projectId),
@@ -46,10 +52,21 @@ export default function Dashboard() {
 			...projectsList,		
 			guest: projectsList.guest.filter(project => project.title.toLowerCase().includes(searchField.toLowerCase()))
 		}
-
+	
 
 	return (
 		<>
+			<ToastContainer
+				toastStyle={{ backgroundColor: `hsl(225, 60%, 35%)`, color: "white", maxHeight: `70px`, minHeight:`auto`, alignItems: `center` }}
+				bodyClassName="toast-style"
+				position="bottom-center"
+				autoClose={100000}
+				hideProgressBar={true}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				containerId="DashboardToast"
+			/>
 			<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">
 				<main className="flex flex-col p-8">
 					<div className="text-white w-full">
@@ -69,8 +86,6 @@ export default function Dashboard() {
 				</div>
 				</main>
 			</div>
-			
-		
 			{showModal &&
 				<SelectionModal onSelect={setShowModal}
 					onCreate={(newProject:IProject) => handleCreate(newProject)} />

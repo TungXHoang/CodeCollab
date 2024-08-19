@@ -1,7 +1,8 @@
 // Toast Noti
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import {showErrorToast, showSuccessToast, showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
+
 
 // Custom Hooks 
 import useKeyPress from "../../hooks/useKeyPress.tsx";
@@ -40,7 +41,12 @@ export default function Editing(): JSX.Element {
 			handleSubmission();
 		}
 	}, [ctrlPress, enterPress]);
-
+	
+	// useEffect(() => {
+	// 	// Dismiss all active toasts when the route changes
+	// 	toast.dismiss()
+	// 	console.log(location.href);
+  // }, [location.href]);
 	
 	const debouncedRequest = useDebounce(async () => {
 		// send request to the backend and access to latest state here
@@ -96,9 +102,8 @@ export default function Editing(): JSX.Element {
 				newestOnTop={false}
 				closeOnClick
 				rtl={false}
-				// pauseOnFocusLoss
 				draggable
-			// pauseOnHover
+				containerId = "EditingToast"
 			/>
 			
 			{/* Info Box */}
