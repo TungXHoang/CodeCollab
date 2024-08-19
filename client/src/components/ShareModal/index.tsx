@@ -1,25 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 import {IProject} from "../ProjectsList/IProject.tsx"
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
-
+import {IOwner} from "../ProjectsList/IProject.tsx"
+import { useGetGuests } from "../../hooks/useGetGuests.tsx";
 
 interface IShareModalProps {
-	onShare: ()=> void,
+	onShare: (guest:IOwner)=> void,
 	onClose: () => void,
 	project: IProject,
 	toastContainerId: string,
-	
 }
-
 
 const ShareModal = ({ onClose, onShare, project, toastContainerId }: IShareModalProps) => {	
 	const user = useAuthContext();
+	const { loadingGuests, guestsList } = useGetGuests(project._id);
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
+	const [guests, setGuests] = useState< IOwner[]|undefined>(undefined);
+
+	useEffect(() => {
+		if (!loadingGuests && guestsList !== undefined) {
+			const inviteesList: IOwner[] = guestsList.map((guest)=>guest.guestId)
+			setGuests(inviteesList);
+		}
+	}, [loadingGuests, guestsList]);
+
 
 	//  utils functions
 	const handleChange = (e: React.FormEvent<HTMLInputElement>) =>{
@@ -37,7 +46,8 @@ const ShareModal = ({ onClose, onShare, project, toastContainerId }: IShareModal
 		const res = await shareProject(formData);
 		showShareToast(res!.status, res!.data.message, { containerId: toastContainerId });
 		if (res!.status === 201) {
-			onShare();
+			setGuests((prevGuests) => (prevGuests ? [...prevGuests, res!.data.guest] : [res!.data.guest]));
+			onShare(res!.data.guest);
 		}
 		return res;
 	}
@@ -103,6 +113,14 @@ const ShareModal = ({ onClose, onShare, project, toastContainerId }: IShareModal
 									<div>{project.owner.firstName}{project.owner.lastName}</div>
 									<div className="ml-[10px]">Owner</div>
 								</li>
+								{guests &&
+									guests.map(guest =>
+										<li key={guest._id} className="flex text-[hsl(0,0,80%)]">
+											<div>{guest.firstName}{guest.lastName}</div>
+											<div className="ml-[10px]">Guest</div>
+										</li>
+									)
+								}
 							</ul>
 						</div>
 					</div>

@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState} from 'react'
 import { deleteProject } from "../../foundation/projectsAPI"
 import ShareModal from "../../components/ShareModal"
-import { IProject } from "../ProjectsList/IProject"
+import { IProject, IOwner } from "../ProjectsList/IProject"
 
 interface IPopoverProps {
 	onDelete: (id: string) => void;
-	onShare: ()=>void;
+	onShare: (guest: IOwner) => void,
 	userId: string;
 	project: IProject;
 }
 
-const Popover = ({ onDelete, onShare, userId, project }: IPopoverProps) => {
+const Popover = ({onDelete, onShare, userId, project }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);

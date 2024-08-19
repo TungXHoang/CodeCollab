@@ -36,14 +36,11 @@ export default function Editing(): JSX.Element {
 
 	useEffect(() => {
 		if (enterPress && ctrlPress) {
-			console.log("enterPress", enterPress);
-			console.log("ctrlPress", ctrlPress);
 			handleSubmission();
 		}
 	}, [ctrlPress, enterPress]);
 	
 	const debouncedRequest = useDebounce(async () => {
-		// send request to the backend and access to latest state here
 		showSaveToast(SaveDocsAPI(project._id));
 	});
 	
@@ -136,7 +133,6 @@ export default function Editing(): JSX.Element {
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
 			</div>
-			
 			{showModal && <ShareModal onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
