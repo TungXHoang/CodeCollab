@@ -17,6 +17,10 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 		}
 	}, [loadingGuests, guestsList]);
 
+	const handleShare = () => {
+		setGuestNumber(prevNumber => prevNumber! + 1);
+	}
+	
 	const user = useAuthContext();
 	const navigate = useNavigate();
 	
@@ -56,7 +60,7 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 					</span>
 				</td>
 				{project.owner._id === user._id &&
-					<Popover project={project} onDelete={onDelete} userId={user._id} />
+					<Popover project={project} onDelete={onDelete} onShare={handleShare} userId={user._id} />
 				}
 			</tr>		
 		</>

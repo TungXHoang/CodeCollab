@@ -137,7 +137,7 @@ export default function Editing(): JSX.Element {
 				</div>
 			</div>
 			
-			{showModal && <ShareModal toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
 };

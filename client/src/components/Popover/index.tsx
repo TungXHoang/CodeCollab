@@ -5,11 +5,12 @@ import { IProject } from "../ProjectsList/IProject"
 
 interface IPopoverProps {
 	onDelete: (id: string) => void;
+	onShare: ()=>void;
 	userId: string;
 	project: IProject;
 }
 
-const Popover = ({ onDelete, userId, project }: IPopoverProps) => {
+const Popover = ({ onDelete, onShare, userId, project }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);
@@ -100,7 +101,7 @@ const Popover = ({ onDelete, userId, project }: IPopoverProps) => {
 					}
 				</div>
 			</td>
-			{showModal && <ShareModal toastContainerId={"DashboardToast"} project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal onShare={onShare} toastContainerId={"DashboardToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	)
 }

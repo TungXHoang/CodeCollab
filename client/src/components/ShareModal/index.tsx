@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 import {IProject} from "../ProjectsList/IProject.tsx"
@@ -7,13 +8,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 interface IShareModalProps {
+	onShare: ()=> void,
 	onClose: () => void,
 	project: IProject,
 	toastContainerId: string,
+	
 }
 
 
-const ShareModal = ({ onClose, project, toastContainerId }: IShareModalProps) => {	
+const ShareModal = ({ onClose, onShare, project, toastContainerId }: IShareModalProps) => {	
 	const user = useAuthContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [shareUser, setShareUser] = useState("")
@@ -32,7 +35,10 @@ const ShareModal = ({ onClose, project, toastContainerId }: IShareModalProps) =>
 		setShareUser("");
 		const formData = {guestEmail:shareUser, ownerId:user._id, projectId: project._id }
 		const res = await shareProject(formData);
-		showShareToast(res!.status, res!.data.message, {containerId:toastContainerId}); 
+		showShareToast(res!.status, res!.data.message, { containerId: toastContainerId });
+		if (res!.status === 201) {
+			onShare();
+		}
 		return res;
 	}
 
@@ -41,7 +47,7 @@ const ShareModal = ({ onClose, project, toastContainerId }: IShareModalProps) =>
 		onClose()
 	}
 
-	return (
+	return createPortal(
 		<> 
 			<div className="cursor-auto top-0 right-0 bottom-0 right-0 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
 				onClick={handleClose}>
@@ -103,7 +109,7 @@ const ShareModal = ({ onClose, project, toastContainerId }: IShareModalProps) =>
 				</div>
 			</div>
 			<div className="opacity-50 fixed inset-0 z-40 bg-black" ></div>
-		</>
+		</>, document.body,
 	)
 }
 
