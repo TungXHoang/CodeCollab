@@ -10,8 +10,8 @@ import HeaderAction from "../../components/HeaderAction"
 import Loading from "../../foundation/utils/Loading";
 
 //Toast
-import { ToastContainer, toast } from "react-toastify";
-import {showDeleteToast } from "../../foundation/utils/ToastMessage.tsx"
+import { ToastContainer } from "react-toastify";
+import {showDashboardToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Dashboard() {
@@ -30,13 +30,14 @@ export default function Dashboard() {
 	}, [loading, projects]);
 
 	const handleCreate = (newProject: IProject) => {
+		showDashboardToast("Project created successfully!", "success");
 		setProjectsList((prevProjectsList) => ({
 		...prevProjectsList,
 		owner: [newProject, ...prevProjectsList.owner],
 	}));
 	}
 	const handleDelete = (projectId: string) => {
-		showDeleteToast();
+		showDashboardToast("Project deleted successfully!", "success");
     setProjectsList((prevProjectsList) => ({
 			...prevProjectsList,
 			owner: prevProjectsList.owner.filter(project => project._id !== projectId),
@@ -57,14 +58,10 @@ export default function Dashboard() {
 	return (
 		<>
 			<ToastContainer
-				toastStyle={{ backgroundColor: `hsl(225, 60%, 35%)`, color: "white", maxHeight: `70px`, minHeight:`auto`, alignItems: `center` }}
-				bodyClassName="toast-style"
 				position="bottom-center"
-				autoClose={100000}
 				hideProgressBar={true}
 				newestOnTop={false}
 				closeOnClick
-				rtl={false}
 				containerId="DashboardToast"
 			/>
 			<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">

@@ -100,7 +100,7 @@ const Popover = ({ onDelete, userId, project }: IPopoverProps) => {
 					}
 				</div>
 			</td>
-			{showModal && <ShareModal project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal toastContainerId={"DashboardToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	)
 }

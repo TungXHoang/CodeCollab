@@ -1,5 +1,5 @@
 // Toast Noti
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {showErrorToast, showSuccessToast, showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,12 +42,6 @@ export default function Editing(): JSX.Element {
 		}
 	}, [ctrlPress, enterPress]);
 	
-	// useEffect(() => {
-	// 	// Dismiss all active toasts when the route changes
-	// 	toast.dismiss()
-	// 	console.log(location.href);
-  // }, [location.href]);
-	
 	const debouncedRequest = useDebounce(async () => {
 		// send request to the backend and access to latest state here
 		showSaveToast(SaveDocsAPI(project._id));
@@ -67,16 +61,16 @@ export default function Editing(): JSX.Element {
 			setProcessing(false)
 			setOutputDetails(response)
 			if (response.status_id == 3) {
-				showSuccessToast(`Compiled Successfully!`)
+				showSuccessToast(`Compiled Successfully!`, {containerId: 'EditingToast'})
 			}
 			else {
-				showErrorToast(response.status.description);
+				showErrorToast(response.status.description, {containerId: 'EditingToast'});
 			}
 			return;
 		}
 		catch (err) {
 			console.log("err", err);
-			showErrorToast(err as string);
+			showErrorToast(err as string, {containerId: 'EditingToast'});
 		}
 		finally {
 			setProcessing(false);
@@ -143,7 +137,7 @@ export default function Editing(): JSX.Element {
 				</div>
 			</div>
 			
-			{showModal && <ShareModal project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
 };
