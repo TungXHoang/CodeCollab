@@ -96,15 +96,15 @@ const ShareModal = ({ onClose, onShare, project, toastContainerId }: IShareModal
 									<label className="text-left pb-[8px] text-[hsl(0,0,80%)] font-[400]">
 										<b>Share with other users</b>
 									</label>
-									<form className="flex flex-col text-[hsl(0,0,80%)] ">
+									<div className="flex text-[hsl(0,0,80%)] ">
 										<span className="w-[417px] text-[14px]">
 											<input autoComplete="off" required name = "email" placeholder="Enter email..." className="outline-none focus:border-[hsl(205,100%,50%)] px-2 py-1 w-full bg-[hsl(0,0%,0%,0.15)] border-[1px] border-[hsl(220,10%,45%)]" type="email" value={shareUser}  onChange={handleChange} />
 										</span>
-										<button onClick={handleShare} className="flex items-center text-[12px] shrink-0 mt-[20px] bg-[hsl(191,91%,69%)] text-[hsl(220,18%,10%)] px-[8px] py-[8px] h-full w-fit">
+										<button onClick={handleShare} className="flex items-center  text-[12px] ml-[8px] bg-[hsl(191,91%,69%)] text-[hsl(220,18%,10%)] px-[4px] py-[6px] h-full flex-grow max-w-[84px]">
+											<svg className="mx-[5px]" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="14px" height="14px"><path d="M 15.990234 1.9902344 A 1.0001 1.0001 0 0 0 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 A 1.0001 1.0001 0 1 0 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 A 1.0001 1.0001 0 1 0 16.707031 11.707031 L 20.707031 7.7070312 A 1.0001 1.0001 0 0 0 20.707031 6.2929688 L 16.707031 2.2929688 A 1.0001 1.0001 0 0 0 15.990234 1.9902344 z M 2.984375 7.9863281 A 1.0001 1.0001 0 0 0 2 9 L 2 19 C 2 20.64497 3.3550302 22 5 22 L 19 22 C 20.64497 22 22 20.64497 22 19 L 22 18 A 1.0001 1.0001 0 1 0 20 18 L 20 19 C 20 19.56503 19.56503 20 19 20 L 5 20 C 4.4349698 20 4 19.56503 4 19 L 4 9 A 1.0001 1.0001 0 0 0 2.984375 7.9863281 z"/></svg>
 											Share
-										<svg className="mx-[5px]" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="14px" height="14px"><path d="M 15.990234 1.9902344 A 1.0001 1.0001 0 0 0 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 A 1.0001 1.0001 0 1 0 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 A 1.0001 1.0001 0 1 0 16.707031 11.707031 L 20.707031 7.7070312 A 1.0001 1.0001 0 0 0 20.707031 6.2929688 L 16.707031 2.2929688 A 1.0001 1.0001 0 0 0 15.990234 1.9902344 z M 2.984375 7.9863281 A 1.0001 1.0001 0 0 0 2 9 L 2 19 C 2 20.64497 3.3550302 22 5 22 L 19 22 C 20.64497 22 22 20.64497 22 19 L 22 18 A 1.0001 1.0001 0 1 0 20 18 L 20 19 C 20 19.56503 19.56503 20 19 20 L 5 20 C 4.4349698 20 4 19.56503 4 19 L 4 9 A 1.0001 1.0001 0 0 0 2.984375 7.9863281 z"/></svg>
 										</button>
-									</form>
+									</div>
 									
 								</div>
 								{<InviteesList project={project} guests={guests} />}
