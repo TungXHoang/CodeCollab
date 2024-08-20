@@ -1,6 +1,6 @@
 // Toast Noti
 import { ToastContainer } from "react-toastify";
-import {showErrorToast, showSuccessToast, showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
+import {showErrorToast, showSuccessToast, showSaveToast, showShareToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -93,7 +93,6 @@ export default function Editing(): JSX.Element {
 				newestOnTop={false}
 				closeOnClick
 				rtl={false}
-				draggable
 				containerId = "EditingToast"
 			/>
 			
@@ -133,7 +132,7 @@ export default function Editing(): JSX.Element {
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
 			</div>
-			{showModal && <ShareModal onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal onDeleteGuest={()=>showShareToast(200, "Delete guest successfully", { containerId: "EditingToast" }) } onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
 };

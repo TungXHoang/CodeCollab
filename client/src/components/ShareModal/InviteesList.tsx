@@ -1,6 +1,7 @@
 import { IProject, IOwner } from "../ProjectsList/IProject.tsx"
 import { deleteGuest } from "../../foundation/projectsAPI";
 import { useAuthContext } from "../../context/AuthContext.tsx";
+import {showDashboardToast} from "../../foundation/utils/ToastMessage.tsx"
 
 interface IInviteesList {
 	project: IProject,
@@ -15,6 +16,10 @@ const InviteesList = ({ project, guests, onDelete }:IInviteesList ) => {
 		const res = await deleteGuest({ userId:user._id, guestId: guestId, projectId: projectId })
 		if (res!.status === 200) {
 			onDelete(guestId);
+			showDashboardToast("Delete guest successfully!", "success");
+		}
+		else {
+			showDashboardToast("Error occur when deleting guest", "error");
 		}
 	}
 

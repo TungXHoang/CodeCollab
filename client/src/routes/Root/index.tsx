@@ -13,7 +13,7 @@ export default function Root() {
 				<div className="brief">Real-time collaborative online coding platform. </div>
 				<div className="button-row">
 					<Button className="start-button" variant="light"
-						onClick = {()=>navigate("/auth/login")}>
+						onClick = {()=>navigate("/app")}>
 					Get Started</Button>
 					<Button className="github-button" variant="light"
 						onClick={() => window.open("https://github.com/TungXHoang/CodeCollab", '_blank')}>
