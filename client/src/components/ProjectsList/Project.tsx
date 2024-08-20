@@ -60,7 +60,7 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 					</span>
 				</td>
 				{project.owner._id === user._id &&
-					<Popover  project={project} onDelete={onDelete} onShare={(guest)=>handleShare(guest)} userId={user._id} />
+					<Popover onDeleteGuest={(guestId)=>setGuests(prevGuests => prevGuests!.filter(guest => guest._id !== guestId))} project={project} onDelete={onDelete} onShare={(guest)=>handleShare(guest)} userId={user._id} />
 				}
 			</tr>		
 		</>

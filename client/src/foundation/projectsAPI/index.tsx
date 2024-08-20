@@ -33,4 +33,20 @@ async function shareProject(formData: IShareProject) {
 	}
 	
 }
-export {createProject, deleteProject, shareProject}
+
+async function deleteGuest({userId, guestId, projectId}:{userId:string, guestId:string,projectId:string}) {
+	try {
+		const res: AxiosResponse = await Axios.delete(`${import.meta.env.VITE_CLIENT_BASEURL}/api/guests/${projectId}`, {
+			headers: {
+				Authorization: userId
+			},
+			data: {guestId, projectId}
+		});
+		return res;
+	}
+	catch (err) {
+		console.log(err);
+		return (err as AxiosError).response;
+	}
+}
+export {createProject, deleteProject, shareProject, deleteGuest}
