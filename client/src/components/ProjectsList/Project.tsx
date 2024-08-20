@@ -37,7 +37,7 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 				</td>
 				<td className="cell">
 					<span className="projectRowCell">
-						{project.title} program run on CodeCollab
+						{project.description}
 					</span>
 				</td>
 				{project.owner._id !== user._id &&

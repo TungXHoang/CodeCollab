@@ -44,15 +44,15 @@ export default function Dashboard() {
     }));
 	};
 
-	const filteredProject = isOwner ? 
-		{
-			...projectsList,		
-			owner: projectsList.owner.filter(project => project.title.toLowerCase().includes(searchField.toLowerCase()))
-		} :
-		{
-			...projectsList,		
-			guest: projectsList.guest.filter(project => project.title.toLowerCase().includes(searchField.toLowerCase()))
-		}
+	
+	const filteredKey = isOwner ? 'owner' : 'guest';
+	const filteredProject = {
+		...projectsList,
+		[filteredKey]: projectsList[filteredKey].filter(project =>
+			project.title.toLowerCase().includes(searchField.toLowerCase()) ||
+			project.description.toLowerCase().includes(searchField.toLowerCase())
+		)
+	};
 	
 
 	return (
