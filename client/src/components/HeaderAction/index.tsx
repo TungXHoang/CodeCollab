@@ -20,7 +20,7 @@ const HeaderAction = ({onCreate, searchField, setSearchField}:IHeaderAction) => 
 					</span>
 					<span className="px-[2px] text-[13px]">New</span>
 				</button>
-				<span className="block relative w-full h-[32px] ">
+				<span className="block relative w-full h-[32px]">
 					<svg className="absolute text-[hsl(0,0%,62%)] text-[16px] top-[calc(50%-.5em)] left-[10px] pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16px" height="16px">
 						<path d="M6.5 2a4.5 4.5 0 0 1 3.52 7.3l3.97 3.99-.7.7-3.98-3.97A4.5 4.5 0 1 1 6.5 2m0 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"></path>
 					</svg>
