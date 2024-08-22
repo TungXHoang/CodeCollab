@@ -17,15 +17,15 @@ const useClickOutside = ({ isOpen, targetRef, toggleButtonRef, onClickOutside }:
 	};
 
   useEffect(() => {
-			if (isOpen) {
-				document.addEventListener('mousedown', handleClickOutside);
-			} else {
-				document.removeEventListener('mousedown', handleClickOutside);
-			}
-			return () => {
-				document.removeEventListener('mousedown', handleClickOutside);
-			};
-		}, [isOpen]);
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+		}
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen]);
 }
 
 export default useClickOutside
