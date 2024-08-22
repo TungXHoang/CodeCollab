@@ -10,6 +10,7 @@ const useClickOutside = ({ isOpen, targetRef, toggleButtonRef, onClickOutside }:
 	const handleClickOutside = (event: MouseEvent) => {
 		if (targetRef.current && 
 			!targetRef.current.contains(event.target as Node) &&
+			// enable ability to close dropdown/modal when we click the button that trigger open again
 			!(toggleButtonRef.current && toggleButtonRef.current.contains(event.target as Node))) {
 				onClickOutside()
 		}
