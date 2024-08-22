@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState} from 'react'
+import { useRef, useState} from 'react'
 import { deleteProject } from "../../foundation/projectsAPI"
 import ShareModal from "../../components/ShareModal"
 import { IProject, IOwner } from "../ProjectsList/IProject"
+import useClickOutside from '../../hooks/useClickOutside';
 
 interface IPopoverProps {
 	onDelete: (id: string) => void;
@@ -17,23 +18,30 @@ const Popover = ({onDelete, onShare, userId, project, onDeleteGuest }: IPopoverP
 	const [showModal, setShowModal] = useState(false);
 	const [open, setOpen] = useState(false); 
 
-	const handleClickOutside = (event: MouseEvent) => {
-    if (popoverRef.current && 
-			!popoverRef.current.contains(event.target as Node) &&
-			!(toggleButtonRef.current && toggleButtonRef.current.contains(event.target as Node))) {
-      setOpen(false)
+	useClickOutside({
+		isOpen: open, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
+		onClickOutside: () => {
+			setOpen(false)
 		}
-	};
-	useEffect(() => {
-		if (open) {
-			document.addEventListener('mousedown', handleClickOutside);
-		} else {
-			document.removeEventListener('mousedown', handleClickOutside);
-		}
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [open]);
+	})
+
+	// const handleClickOutside = (event: MouseEvent) => {
+  //   if (popoverRef.current && 
+	// 		!popoverRef.current.contains(event.target as Node) &&
+	// 		!(toggleButtonRef.current && toggleButtonRef.current.contains(event.target as Node))) {
+  //     setOpen(false)
+	// 	}
+	// };
+	// useEffect(() => {
+	// 	if (open) {
+	// 		document.addEventListener('mousedown', handleClickOutside);
+	// 	} else {
+	// 		document.removeEventListener('mousedown', handleClickOutside);
+	// 	}
+	// 	return () => {
+	// 		document.removeEventListener('mousedown', handleClickOutside);
+	// 	};
+	// }, [open]);
 
 
 	const handleToggleModal = (status: boolean) => {

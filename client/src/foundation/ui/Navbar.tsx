@@ -1,8 +1,8 @@
 import { useNavigate, Outlet, } from 'react-router-dom';
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import { LogoutAPI } from "../authAPI";
 import {useAuthContext} from "../../context/AuthContext"
-
+import useClickOutside from "../../hooks/useClickOutside"
 
 
 const Navbar = () => {
@@ -10,11 +10,30 @@ const Navbar = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
 	const user = useAuthContext();
 	const navigate = useNavigate();
+	const popoverRef = useRef<HTMLDivElement | null>(null);
+	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleLogout = async () => {
 		await LogoutAPI();
 		return navigate("/", { replace: true });
 	};
+
+	useClickOutside({
+		isOpen: showDropdown, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
+		onClickOutside: () => {
+			setShowDropdown(false)
+		}
+	});
+	
+	const handleToggleDropdown = () => {
+		if (!showDropdown) {
+			document.body.style.overflow = 'hidden';
+		}
+		else {
+			document.body.style.overflow = 'unset';
+		}
+		setShowDropdown(!showDropdown)
+	}
 
 	return (
 		<>
@@ -44,12 +63,13 @@ const Navbar = () => {
 						</svg>
 						<span className="ml-1">New Project</span>
 					</button>
-					<div className="3"> 
-						<button className="w-[35px] height-[35px]  border-[5px] border-transparent hover:border-[hsl(220,10%,16.5%)] rounded-full">
+					<div className=""> 
+						<button ref={toggleButtonRef} onClick={handleToggleDropdown} className="w-[35px] height-[35px]  border-[5px] border-transparent hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">
 							<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
 						</button>
 						{/* Profile dropdown */}
-						<div className="dropdown-shadow z-10 absolute top-[38px] right-[10px] w-[230px] bg-[hsl(222,10%,20%)]">
+						{showDropdown &&
+							<div ref={popoverRef} className="dropdown-shadow z-10 absolute top-[38px] right-[10px] w-[230px] bg-[hsl(222,10%,20%)]">
 							<div className="flex flex-col items-center text-center px-[16px] pt-[20px] ">
 								<img className="w-[60px] h-[60px] bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
 								<h3 className="leading-[1.375] mt-[10px] mb-[2px] text-[hsl(0,0%,94%)] text-[16px]">{user.firstName}{user.lastName}</h3>
@@ -74,7 +94,7 @@ const Navbar = () => {
 								</li>
 								<li className="block cursor-default py-[8px] before:block before:border-t-[1px] before:border-[hsl(0,0%,100%)]/[0.1]"></li>
 								<li className="p-0 m-0"> 
-									<a  className="popoverButton">
+									<a onClick={handleLogout} className="popoverButton">
 										<svg className="mr-[8px] leading-[1.3]" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 16 16">
 											<path fillRule="evenodd" clipRule="evenodd" d="M11.02 3.77v1.56l1-.99V2.5l-.5-.5h-9l-.5.5v.486L2 3v10.29l.36.46 5 1.72L8 15v-1h3.52l.5-.5v-1.81l-1-1V13H8V4.71l-.33-.46L4.036 3h6.984zM7 14.28l-4-1.34V3.72l4 1.34zm6.52-5.8H8.55v-1h4.93l-1.6-1.6.71-.7 2.47 2.46v.71l-2.49 2.48-.7-.7z"></path>
 										</svg>
@@ -83,6 +103,7 @@ const Navbar = () => {
 								</li>
 							</ul>
 						</div>
+						}
 					</div>
 
 				</div>
