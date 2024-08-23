@@ -1,12 +1,13 @@
 import SelectionModal from "../../components/SelectionModal"
 import { useState } from 'react';
+
 import {IHeaderAction} from "./IHeaderAction"
 
-const HeaderAction = ({onCreate, searchField, setSearchField}:IHeaderAction) => {
+const HeaderAction = ({onCreate, searchField, onChange}:IHeaderAction) => {
 	const [showModal, setShowModal] = useState(false);
-
+	
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchField(e.target.value)
+		onChange(e.target.value)
 	}
 
 	return (

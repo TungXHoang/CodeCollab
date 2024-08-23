@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { useState,useEffect } from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import ProjectsList from "../../components/ProjectsList";
@@ -20,8 +20,17 @@ export default function Dashboard() {
 	const [showModal, setShowModal]: ModalContextType = useOutletContext();
 	const [isOwner, setIsOwner] = useState(true)
 	const { loading, projects } = useGetProjects(user._id);
-	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
-	const [searchField, setSearchField] = useState("");
+	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({ owner: [], guest: [] })
+	
+	let [searchParams, setSearchParams] = useSearchParams();
+	const query = searchParams.get('q');
+	const [searchField, setSearchField] = useState(query || "");
+
+
+	useEffect(() => {
+		setSearchField(query || "");
+	}, [query])
+	
 	
 	useEffect(() => {
 		if (!loading) {
@@ -29,13 +38,20 @@ export default function Dashboard() {
     }
 	}, [loading, projects]);
 
+
+	const handleChange = (change: string) => {
+		setSearchParams({ q: change });
+		setSearchField(change);
+	}
+
 	const handleCreate = (newProject: IProject) => {
 		showDashboardToast("Project created successfully!", "success");
 		setProjectsList((prevProjectsList) => ({
 		...prevProjectsList,
 		owner: [newProject, ...prevProjectsList.owner],
-	}));
+		}));
 	}
+	
 	const handleDelete = (projectId: string) => {
 		showDashboardToast("Project deleted successfully!", "success");
     setProjectsList((prevProjectsList) => ({
@@ -70,7 +86,7 @@ export default function Dashboard() {
 						<section className="flex flex-col my-10 flex-1  p-[32px] pl-[10px] pt-0">
 							<header className="mb-[24px] flex items-center">	
 								<h2 className="font-[600] text-[20px] text-[hsl(0,0%,94%)]">My Projects</h2>
-								<HeaderAction searchField={searchField} setSearchField={setSearchField} onCreate={handleCreate}/>
+								<HeaderAction searchField={searchField} onChange={(change)=>handleChange(change)} onCreate={handleCreate}/>
 							</header>
 							<div className="mb-[24px]">
 								<ActionButtonGroup onSelect={setIsOwner} />

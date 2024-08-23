@@ -13,7 +13,6 @@ const Navbar = () => {
 	// React state
 	const [showModal, setShowModal] = useState(false)
 	const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-
 	// ref 
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -29,7 +28,6 @@ const Navbar = () => {
 			setProjectsList(projects);
     }
 	}, [loading, projects]);
-
  
 	const handleToggleDropdown = () => {
 		!showProfileDropdown ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
@@ -66,6 +64,7 @@ const Navbar = () => {
 							<ProfileDropdown user={user} toggleButtonRef={toggleButtonRef} isShow={showProfileDropdown} onClose={()=>setShowProfileDropdown(false)} />
 						}
 					</div>
+
 				</div>
 			</header>
 			<Outlet context={[showModal, setShowModal]} />
