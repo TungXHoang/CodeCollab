@@ -66,10 +66,8 @@ export default function Dashboard() {
 			/>
 			<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)]">
 				<main className="flex flex-col p-8">
-					<div className="text-white w-full">
-						<div> Hello {user.firstName} {user.lastName} </div> 
-						<div> This is Dashboard </div>
-						<section className="flex flex-col my-10 flex-1 p-[32px] pl-[10px]">
+					<div className="w-full text-white">
+						<section className="flex flex-col my-10 flex-1  p-[32px] pl-[10px] pt-0">
 							<header className="mb-[24px] flex items-center">	
 								<h2 className="font-[600] text-[20px] text-[hsl(0,0%,94%)]">My Projects</h2>
 								<HeaderAction searchField={searchField} setSearchField={setSearchField} onCreate={handleCreate}/>
@@ -78,9 +76,9 @@ export default function Dashboard() {
 								<ActionButtonGroup onSelect={setIsOwner} />
 							</div>
 							{loading ? <Loading /> : <ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner} />}
-					</section>
+						</section>
 					
-				</div>
+					</div>
 				</main>
 			</div>
 			{showModal &&

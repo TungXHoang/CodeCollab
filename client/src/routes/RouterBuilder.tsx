@@ -7,7 +7,7 @@ import { RouteObject,Outlet } from 'react-router-dom';
 import Root from './Root';
 import Login from './Login';
 import Register from './Register';
-import Navbar from '../foundation/ui/Navbar';
+import Navbar from '../components/Navbar';
 import AuthLayout from "../foundation/ui/AuthLayout";
 import Editing from "./Editing";
 import Dashboard from "./Dashboard";

@@ -75,14 +75,8 @@ export default function Editing(): JSX.Element {
 	}
 
 	const handleToggleModal = (status: boolean) => {
-		if (status) {
-			setShowModal(status)
-			document.body.style.overflow = 'hidden';
-		}
-		else {
-			setShowModal(status)
-			document.body.style.overflow = 'unset';
-		}
+		status ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
+		setShowModal(status);
 	}
 	return (
 		<>
