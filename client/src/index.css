@@ -23,6 +23,9 @@
 	.dropdownButton {
 		@apply text-[13px] font-[400] leading-[1.2] flex items-center w-full min-h-[30px] py-[6px] px-[16px] text-[hsl(0,0%,100%)]/[0.9] bg-transparent cursor-pointer;
 	}
+	.animate-spin-fast {
+		animation: spin 0.35s linear infinite;
+	}
 }
 
 @layer utilities {

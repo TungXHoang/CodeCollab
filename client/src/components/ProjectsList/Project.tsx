@@ -26,7 +26,7 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 	
 	return (
 		<>
-			<tr className="relative hover:bg-[#646464b3] hover:cursor-pointer"
+			<tr className="relative hover:bg-[#646464b3] hover:bg-[#2B3245] hover:cursor-pointer"
 				onClick = {()=>navigate(`/edit/${project._id}`)}>
 				<td className="cell text-[hsl(0,0%,80%)]">
 					<div className="projectRowCell">

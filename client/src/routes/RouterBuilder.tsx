@@ -8,6 +8,7 @@ import Root from './Root';
 import Login from './Login';
 import Register from './Register';
 import Navbar from '../components/Navbar';
+import EditingNavbar from "../components/EditingNavbar";
 import AuthLayout from "../foundation/ui/AuthLayout";
 import Editing from "./Editing";
 import Dashboard from "./Dashboard";
@@ -49,7 +50,7 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <PrivateRoutes><ProjectRoutes> <Navbar /> </ProjectRoutes></PrivateRoutes>,
+			element: <PrivateRoutes><ProjectRoutes> <EditingNavbar /> </ProjectRoutes></PrivateRoutes>,
 			children: EditingRoute,
 		},
 	  {
