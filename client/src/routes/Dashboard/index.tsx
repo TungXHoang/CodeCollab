@@ -80,7 +80,7 @@ export default function Dashboard() {
 				closeOnClick
 				containerId="DashboardToast"
 			/>
-			<div className="h-screen overflow-hidden bg-[hsl(220,10%,14%)] bg-[#0E1525] ">
+			<div className="h-screen overflow-hidden bg-[#0E1525] ">
 				<main className="flex flex-col p-8">
 					<div className="w-full text-white">
 						<section className="flex flex-col my-10 flex-1  p-[32px] pl-[10px] pt-0">

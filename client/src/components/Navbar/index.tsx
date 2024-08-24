@@ -36,7 +36,7 @@ const Navbar = () => {
 
 	return (
 		<>
-			<header className="border-b-[1px] border-b-[#2B3245] nav-shadow flex z-20 relative shrink-0 items-center h-[48px] px-[12px] bg-[hsl(220,10%,20%)] bg-[#0E1525]">
+			<header className="border-b-[1px] border-b-[#2B3245] nav-shadow flex z-20 relative shrink-0 items-center h-[48px] px-[12px] bg-[#0E1525]">
 				{/* Header Left */}
 				<a href="/app" onClick={() => navigate("/app")} className="p-[4px] ml-[10px] flex flex-row items-center">
 					<span className="flex items-center justify-center align-center">

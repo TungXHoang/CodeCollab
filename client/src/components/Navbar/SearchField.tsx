@@ -47,7 +47,7 @@ const SearchField = ({ projectsList }: { projectsList: IProjectList }) => {
 			</span>
 			{searchField && showSearchDropdown &&
 				// <SearchDropdown filteredProject={filteredProject} />
-				<ul className="dropdown-shadow absolute top-[32px] right-0 left-0 z-10 text-[hsl(0,0%,80%)] py-1 bg-[hsl(220,10%,20%)] bg-[#1C2333]">
+				<ul className="dropdown-shadow absolute top-[32px] right-0 left-0 z-10 text-[hsl(0,0%,80%)] py-1 bg-[#1C2333]">
 				{
 					filteredProject.owner.length || filteredProject.guest.length ? (
 						<>
