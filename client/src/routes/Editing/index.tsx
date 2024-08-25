@@ -1,6 +1,6 @@
 // Toast Noti
 import { ToastContainer } from "react-toastify";
-import {showErrorToast, showSuccessToast, showSaveToast, showShareToast } from "../../foundation/utils/ToastMessage.tsx"
+import {showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -13,23 +13,22 @@ import CodeEditorWindow from "../../components/CodeEditorWindow";
 import OutputWindow from "../../components/OutputWindow";
 import OutputDetails from "../../components/OutputDetails";
 import InfoBox from "../../components/InfoBox";
-import ShareModal from "../../components/ShareModal"
+
 
 // Utils & Apis
 import { useEffect, useState } from "react";
 import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { useProjectContext } from "../../context/ProjectContext.tsx"
-import { useAuthContext } from "../../context/AuthContext.tsx";
-import {SubmissionAPI, CheckStatusAPI, SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
+import {SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
+import useCompiling from "../../hooks/useCompiling.tsx";
+
 
 export default function Editing(): JSX.Element {
 	const project = useProjectContext();
-	const user = useAuthContext();
 
 	const [code, setCode] = useState<string>("");
-	const [outputDetails, setOutputDetails] = useState(null);
-	const [processing, setProcessing] = useState(false);
-	const [showModal, setShowModal] = useState(false);
+
+	const { outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
 
 	const enterPress = useKeyPress("Enter");
 	const ctrlPress = useKeyPress("Control");
@@ -48,36 +47,8 @@ export default function Editing(): JSX.Element {
 		setCode(data);
 		debouncedRequest();
 	};
-	
-	const handleSubmission = async () => {
-		setProcessing(true);
-		try {
-			await SaveDocsAPI(project._id);
-			const token: string = await SubmissionAPI(project.languageId, code);
-			const response = await CheckStatusAPI(token);
-			setProcessing(false)
-			setOutputDetails(response)
-			if (response.status_id == 3) {
-				showSuccessToast(`Compiled Successfully!`, {containerId: 'EditingToast'})
-			}
-			else {
-				showErrorToast(response.status.description, {containerId: 'EditingToast'});
-			}
-			return;
-		}
-		catch (err) {
-			console.log("err", err);
-			showErrorToast(err as string, {containerId: 'EditingToast'});
-		}
-		finally {
-			setProcessing(false);
-		}
-	}
 
-	const handleToggleModal = (status: boolean) => {
-		status ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
-		setShowModal(status);
-	}
+	
 	return (
 		<>
 			<ToastContainer
@@ -95,11 +66,6 @@ export default function Editing(): JSX.Element {
 				<div className="px-4 py-2">
 					<InfoBox content={project.title} />
 				</div>
-				{project.owner._id === user._id &&
-					<button className="px-4 py-2" onClick={() => handleToggleModal(true)}>
-						<InfoBox content={"Share"} />
-					</button>
-				}
 			</div>
 			
 			{/* Code window and output */}
@@ -126,7 +92,6 @@ export default function Editing(): JSX.Element {
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
 			</div>
-			{showModal && <ShareModal onDeleteGuest={()=>showShareToast(200, "Delete guest successfully", { containerId: "EditingToast" }) } onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	);
 };
