@@ -1,12 +1,16 @@
 import { Outlet, useOutletContext} from 'react-router-dom';
-import React, {useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// hooks and context 
+import useCompiling from "../../hooks/useCompiling";
+import useKeyPress from "../../hooks/useKeyPress.tsx";
 import { useAuthContext } from "../../context/AuthContext"
 import { useProjectContext } from "../../context/ProjectContext";
 
-// sub-component
-import useCompiling from "../../hooks/useCompiling";
-import useKeyPress from "../../hooks/useKeyPress.tsx";
+// Subcomponent
 import EditingNavRightGroup from "./EditingNavRightGroup.tsx";
+import ProjectInfo from "./ProjectInfo.tsx";
+
 
 type ContextType = { outputDetails: string | null, processing: boolean, setCode: (code:string)=>void };
 
@@ -49,13 +53,7 @@ const EditingNavbar = () => {
 					</a>
 				</div>
 				{/* Project title and info */}
-				<div className="transition-all duration-300 ease-in-out flex  grow-1 gap-[4px] items-center">
-					<div className="w-fit flex flex-row items-center text-[14px] font-[400] h-full text-[hsl(0,0%,80%)] ">
-							<button className="border-[1px] border-[#0000] hover:bg-[hsl(220,60%,95%)]/[0.1] hover:border-[hsl(220,60%,95%)]/[0.15] transition-all duration-200 ease-in-out rounded-[6px] h-full py-[4px] px-[6px]">
-								{project.title}
-							</button>
-						</div>
-				</div>
+				<ProjectInfo project={project} user={user}/>
 			
 				{/* Header Center */}
 				<div className="flex-grow flex justify-center items-center">

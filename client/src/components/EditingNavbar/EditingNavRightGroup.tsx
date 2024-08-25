@@ -5,8 +5,16 @@ import ShareModal from "../../components/ShareModal";
 import ProfileDropdown from "../Navbar/ProfileDropdown"
 import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
 
+// Interface
+import { IAuthUser } from "../../types/auth";
+import { IProject } from "../../components/ProjectsList/IProject";
 
-const EditingNavRightGroup = ({project,user}:any) => {
+interface IEditingNavRightGroup {
+	project: IProject;
+	user: IAuthUser;
+}
+
+const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [showProfileDropdown, setShowProfileDropdown] = useState(false);
