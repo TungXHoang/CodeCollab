@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 // Custom Hooks 
-import useKeyPress from "../../hooks/useKeyPress.tsx";
 import useDebounce from "../../hooks/useDebounce.tsx";
 
 // Components
@@ -16,28 +15,18 @@ import InfoBox from "../../components/InfoBox";
 
 
 // Utils & Apis
-import { useEffect, useState } from "react";
-import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
+// import { useEffect, useState } from "react";
+// import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { useProjectContext } from "../../context/ProjectContext.tsx"
 import {SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
-import useCompiling from "../../hooks/useCompiling.tsx";
+import { useEditNavbar } from "../../components/EditingNavbar";
 
 
 export default function Editing(): JSX.Element {
 	const project = useProjectContext();
 
-	const [code, setCode] = useState<string>("");
+	const { outputDetails, setCode } = useEditNavbar();
 
-	const { outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
-
-	const enterPress = useKeyPress("Enter");
-	const ctrlPress = useKeyPress("Control");
-
-	useEffect(() => {
-		if (enterPress && ctrlPress) {
-			handleSubmission();
-		}
-	}, [ctrlPress, enterPress]);
 	
 	const debouncedRequest = useDebounce(async () => {
 		showSaveToast(SaveDocsAPI(project._id));
@@ -79,7 +68,7 @@ export default function Editing(): JSX.Element {
 
 				<div className="right-container flex flex-shrink-0 w-[30%] flex-col">
 					<OutputWindow outputDetails={outputDetails} />
-					<button
+					{/* <button
 						onClick={handleSubmission}
 						disabled={processing}
 						className={ClassNames(
@@ -88,7 +77,7 @@ export default function Editing(): JSX.Element {
 						)}
 					>
 						{processing ? "Processing..." : "Compile and Execute"}
-					</button>
+					</button> */}
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
 			</div>

@@ -9,7 +9,7 @@ interface IUseCompiling {
 	code: string
 }
 const useCompiling = ({project, code}:IUseCompiling) => {
-	const [outputDetails, setOutputDetails] = useState(null);
+	const [outputDetails, setOutputDetails] = useState<string | null>(null);
 	const [processing, setProcessing] = useState(false);
 
 	const handleSubmission = async () => {

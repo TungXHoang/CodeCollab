@@ -1,47 +1,42 @@
-import { Outlet} from 'react-router-dom';
-import React, {useState,useRef } from 'react';
+import { Outlet, useOutletContext} from 'react-router-dom';
+import React, {useState , useEffect } from 'react';
 import { useAuthContext } from "../../context/AuthContext"
 import { useProjectContext } from "../../context/ProjectContext";
-import ShareModal from "../../components/ShareModal";
+
 // sub-component
-import ProfileDropdown from "../Navbar/ProfileDropdown"
-import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
+import useCompiling from "../../hooks/useCompiling";
+import useKeyPress from "../../hooks/useKeyPress.tsx";
+import EditingNavRightGroup from "./EditingNavRightGroup.tsx";
+
+type ContextType = { outputDetails: string | null, processing: boolean, setCode: (code:string)=>void };
+
 
 const EditingNavbar = () => {
-	// React state
-	const [showShareModal, setShowShareModal] = useState(false);
-	const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-	const [isSpinning, setIsSpinning] = useState(false);
 
-  const handleClick = () => {
-    setIsSpinning(true);
-    setTimeout(() => {
-      setIsSpinning(false);
-    }, 2000);
-    // Add your save functionality here
-  };
-
-	// ref 
-	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
-
-	//utility
+	//Context consume
 	const user = useAuthContext();
 	const project = useProjectContext();
 
+	//State for handling compile
 
-	const handleToggleShareModal = (status: boolean) => {
-		status ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
-		setShowShareModal(status);
-	}
+	const [code, setCode] = useState<string>("");
+	const { outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
 
-	const handleToggleDropdown = () => {
-		!showProfileDropdown ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
-		setShowProfileDropdown(!showProfileDropdown)
-	}
+
+	const enterPress = useKeyPress("Enter");
+	const ctrlPress = useKeyPress("Control");
+
+	useEffect(() => {
+		if (enterPress && ctrlPress) {
+			handleSubmission();
+		}
+	}, [ctrlPress, enterPress]);
+
+
 
 	return (
 		<>
-			<nav className="nav-shadow flex z-20 relative shrink-0 items-center h-[48px] px-[12px] pl-0 bg-[#0E1525]">
+			<nav className="nav-shadow flex z-20 relative justify-between justify-center items-center h-[48px] px-[6px] pl-0 bg-[#0E1525]">
 				{/* Header Left */}
 				<div className="flex-none h-full">
 					<a href="/app" className="group block text-[13px] h-full leading-[1.3] px-[12px] pr-[3px] relative ">
@@ -63,74 +58,32 @@ const EditingNavbar = () => {
 				</div>
 			
 				{/* Header Center */}
-				<div className="flex flex-auto items-center justify-center w-[600px]">
-					<div>
-						<button className="hover:text-white hover:bg-[#009118] w-[68px] flex items-center justify-center rounded-[4px] text-[#BFFFCA] bg-[#044A10] border-transparent h-[32px]">
+				<div className="flex-grow flex justify-center items-center">
+					<button disabled={processing} onClick={handleSubmission} className={`translate-x-1/2 w-fit flex items-center justify-center rounded-[4px] h-[32px] p-2 text-[#BFFFCA] !px-[12px] ${!processing ? "bg-[#044A10] border-transparent hover:text-white hover:bg-[#009118]" : "!px-2 bg-[#2B3245] text-[#C2C8CC] hover:text-white hover:bg-[#3C445C]" }`}>
+						{processing ?
+							<svg aria-hidden="true" className="w-[15px] h-[15x] mr-[2px] animate-spin-fast dark:text-gray-600 fill-[#C2C8CC]" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+							</svg>
+						:
 							<svg width="12px" height="12px" viewBox="0 0 24 24" fill="currentColor">
 								<path clipRule="evenodd" fillRule="evenodd" d="M20.593 10.91a1.25 1.25 0 0 1 0 2.18l-14.48 8.145a1.25 1.25 0 0 1-1.863-1.09V3.855a1.25 1.25 0 0 1 1.863-1.09l14.48 8.146Z"></path>
 							</svg>
-							<span className="pl-[6px]"> Run </span>
-						</button>
-					</div>
+						}
+						<span className="text-[14px] font-medium pl-[5px]"> {processing ? "Compiling"  : "Run"} </span>
+					</button>
 				</div>
 
 				{/* Header Right */}
-				<div className="flex items-center ml-auto gap-[8px]">
-					<button onClick={handleClick} className=" transition-all duration-200 ease-in-out text-white bg-[#1C2333] font-[400] items-center rounded-[6px] border-[1px] border-[#0000] flex gap-[8px] h-[32px] px-[10px] text-[13px] hover:border-[hsl(220,60%,95%)]/[0.14] hover:bg-[hsl(220,60%,95%)]/[0.1]">
-						<span className="flex color-inherit items-center  justify-center h-fit w-fit">
-							{
-								isSpinning ?
-								<svg aria-hidden="true" className="w-5 h-5 mr-[2px] animate-spin-fast dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-									<path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-								</svg>
-								:
-								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512" width="16px" height="16px">
-									<path d="M32 480H0V32h336l112 112v336H32m384-32V157.3L322.7 64H320v128H64V64H32v384zM96 64v96h192V64zm80 256a48 48 0 1 0 96 0 48 48 0 1 0-96 0m48 80a80 80 0 1 1 0-160 80 80 0 1 1 0 160"></path>
-								</svg>
-							}
-						
-						</span>
-						<span className="flex items-center flex-row justify-center overflow-hidden px-[2px]">Save</span>
-					</button>
-					<div className="group h-full relative">
-						<button disabled={project.owner._id !== user._id} onClick={() => handleToggleShareModal(true)} className={`transition-all duration-200 ease-in-out text-white bg-[#1C2333] font-[400] items-center rounded-[6px] border-[1px] border-[#0000] flex gap-[8px] h-[32px] px-[10px] text-[13px] ${project.owner._id === user._id ? 'hover:border-[hsl(220,60%,95%)]/[0.14] hover:bg-[hsl(220,60%,95%)]/[0.1]' : ''} `}>
-							<svg width="16px" height="16px" viewBox="0 0 24 24" fill="currentColor" >
-								<path fillRule="evenodd" clipRule="evenodd" d="M8.5 3.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5ZM3.75 7a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM20 7.25a.75.75 0 0 1 .75.75v2.25H23a.75.75 0 0 1 0 1.5h-2.25V14a.75.75 0 0 1-1.5 0v-2.25H17a.75.75 0 0 1 0-1.5h2.25V8a.75.75 0 0 1 .75-.75ZM1.641 15.641A4.75 4.75 0 0 1 5 14.25h7A4.75 4.75 0 0 1 16.75 19v2a.75.75 0 0 1-1.5 0v-2A3.25 3.25 0 0 0 12 15.75H5A3.25 3.25 0 0 0 1.75 19v2a.75.75 0 0 1-1.5 0v-2c0-1.26.5-2.468 1.391-3.359Z"></path>
-							</svg>
-							<span className="text-[14px] flex items-center flex-row justify-center overflow-hidden">Invite</span>
-						</button>
-						{project.owner._id !== user._id  && (
-							<div className="w-[130px] absolute left-0 top-full mt-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-[10px] px-2 z-10">
-								Only for project owner
-						</div>
-						)}
-					</div>
-
-
-					
-					<div className="ml-[5px]"> 
-						<button ref={toggleButtonRef} onClick={handleToggleDropdown} className="ml-3 flex items-center gap-[3px] p-[6px] px-[8px] hover:bg-[#1C2333] rounded-[4px]"> 
-							<div className="w-[21px] h-[21px] hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">
-								<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
-							</div>
-							<svg width="12px" height="12px" viewBox="0 0 24 24" fill="#9DA2A6">
-								<path fillRule="evenodd" clipRule="evenodd" d="M12.53 15.53a.75.75 0 0 1-1.06 0l-6-6a.75.75 0 0 1 1.06-1.06L12 13.94l5.47-5.47a.75.75 0 1 1 1.06 1.06l-6 6Z"></path>
-							</svg>
-							{/* Profile dropdown */}
-							{showProfileDropdown &&
-								<ProfileDropdown user={user} toggleButtonRef={toggleButtonRef} isShow={showProfileDropdown} onClose={()=>setShowProfileDropdown(false)} />
-							}
-						</button>
-					</div>
-
-				</div>
+				<EditingNavRightGroup project={project} user={user} />
 				
 			</nav>
-			{showShareModal && <ShareModal onDeleteGuest={()=>showShareToast(200, "Delete guest successfully", { containerId: "EditingToast" }) } onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleShareModal(false)} />}
-			<Outlet />
+			<Outlet context={{outputDetails, processing, setCode} satisfies ContextType} />
 		</>
 	)
 }
 
 export default React.memo(EditingNavbar);
+
+export function useEditNavbar() {
+  return useOutletContext<ContextType>();
+}
