@@ -49,4 +49,15 @@ async function deleteGuest({userId, guestId, projectId}:{userId:string, guestId:
 		return (err as AxiosError).response;
 	}
 }
-export {createProject, deleteProject, shareProject, deleteGuest}
+
+async function updateProject({ userId, projectId, newTitle, newDescription }: { userId: string, projectId: string, newTitle:string,newDescription:string})  {
+	try {
+		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/update`, { userId, projectId, newTitle, newDescription })
+		return res
+	}
+	catch (err) {
+		console.log(err);
+		return (err as AxiosError).response;
+	}
+}
+export {createProject, deleteProject, shareProject, deleteGuest, updateProject}

@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import useClickOutside from "../../hooks/useClickOutside";
 import { IAuthUser } from "../../types/auth"
 import DeletionAlertModal from "../DeletionAlertModal"
+import {updateProject} from "../../foundation/projectsAPI"
 
 const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) => {
 	const [showProjectInfo, setShowProjectInfo] = useState(false);
@@ -23,6 +24,20 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 		}
 	});
 
+	const handleUpdate = async ({ newTitle, newDescription }:{newTitle:string,newDescription:string}) => {
+		const res = await updateProject({ userId:user._id, projectId: project._id, newTitle: newTitle, newDescription:newDescription })
+		if (res!.status === 200) {
+			console.log("update successfully")
+			// onDelete(guestId);
+			// showDashboardToast("Delete guest successfully!", "success");
+		}
+		else {
+			console.log(res!.data)
+			console.log("update unsuccessfully")
+			// showDashboardToast("Error occur when deleting guest", "error");
+		}
+	}
+
 	return (
 		<div className="relative transition-all duration-300 ease-in-out flex h-[32px] grow-1 gap-[4px] items-center">
 			<div className="w-fit flex flex-row items-center text-[14px] font-[400] h-full text-[hsl(0,0%,80%)] ">
@@ -31,6 +46,7 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 				</button>
 			</div>
 
+			{/* Popover */}
 			{showProjectInfo &&
 				<div ref={popoverRef} className="absolute left-0 top-[calc(100%+5px)] w-[400px] flex flex-col bg-[#1C2333] dropdown-shadow rounded-[4px]">
 					<div className="flex p-[8px] pt-[12px] items-center shrink-0">
@@ -62,11 +78,11 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 							<textarea onChange={(e)=>setProjectDescription(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] min-h-[96px] max-h-[150px] w-full outline-none px-[7px] py-[7px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-2 focus:outline-[#0079F2] outline-offset-0" value={projectDescription} autoCorrect="off" spellCheck="false"></textarea>			
 						</div>
 						<div>
-							<button className="text-[#F5F9FC] bg-[#0053A6] hover:bg-[#0079F2] h-[32px] p-[8px] w-full flex justify-center items-center gap-[8px] rounded-[4px]">
+							<button onClick={()=>handleUpdate({newTitle:projectTitle,newDescription:projectDescription})}  className="text-[#F5F9FC] bg-[#0053A6] hover:bg-[#0079F2] h-[32px] p-[8px] w-full flex justify-center items-center gap-[8px] rounded-[4px]">
 								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 448 512" width="16px" height="16px">
 									<path d="M32 480H0V32h336l112 112v336H32m384-32V157.3L322.7 64H320v128H64V64H32v384zM96 64v96h192V64zm80 256a48 48 0 1 0 96 0 48 48 0 1 0-96 0m48 80a80 80 0 1 1 0-160 80 80 0 1 1 0 160"></path>
 								</svg>
-								<span>Save Update </span>
+								<span>Save Update</span>
 							</button>
 						</div>
 					</form>
