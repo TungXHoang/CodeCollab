@@ -26,6 +26,9 @@
 	.animate-spin-fast {
 		animation: spin 0.35s linear infinite;
 	}
+	.dashboard-checkbox {
+		@apply w-[16px] h-[16px] cursor-pointer bg-transparent border-[1px] rounded-[4px] border-[hsl(0,0%,100%)]/[0.1] text-[hsl(220,10%,80%)] checked:!border-[hsl(220,10%,80%)] checked:!bg-transparent checked:!shadow-none;
+	}
 }
 
 @layer utilities {
@@ -36,6 +39,10 @@
 	.dropdown-shadow {
 		@apply shadow-sm; /* Base shadow */
 		box-shadow: 0 2px 4px hsl(0 0% 0% / 0.25), 0 4px 12px hsl(0 0% 0% / 0.25);
+	}
+	.checkbox-shadow {
+		@apply shadow-sm; /* Apply Tailwind's shadow-sm utility */
+		box-shadow: inset 0 0 0 0.5px hsl(0 0% 100% / 0.1); /* Add your custom box-shadow */
 	}
 }
 

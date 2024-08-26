@@ -13,6 +13,14 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 					<table className="w-full border-collapse">
 						<thead>
 							<tr className="z-10 sticky top-0">
+								<th className="headerCell pl-[6px]">
+									<span>
+										<label>
+											<span className="sr-only">Select all projects</span>
+											<input type="checkbox" className="checkbox-shadow dashboard-checkbox focus:text-primary focus:ring-offset-0 focus:ring-0"></input>
+										</label>
+									</span>
+								</th>
 								<th className="headerCell">
 									<span className="headerCellWrapper">Title</span>
 								</th>
@@ -38,7 +46,8 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 								<Project
 									key={project._id}
 									onDelete={onDelete}
-									project = {project}
+									project={project}
+									checked={true}
 								/>
 							))}
 						</tbody>

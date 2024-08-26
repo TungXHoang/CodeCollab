@@ -38,6 +38,7 @@ const ProjectInfo = ({ setProject,project,user }: { setProject: React.Dispatch<R
 		else {
 			showEditingToast("Update fail!", "error")
 		}
+		setShowProjectInfo(false);
 	}
 
 	return (

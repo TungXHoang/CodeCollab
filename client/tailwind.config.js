@@ -11,5 +11,5 @@ export default {
 		fill: ["hover", "focus"],
 		border: ["first", "last"],
 	},
-	plugins: [],
+	plugins: [require("@tailwindcss/forms")],
 };

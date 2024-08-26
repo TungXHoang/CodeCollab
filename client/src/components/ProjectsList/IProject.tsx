@@ -21,7 +21,8 @@ export interface IProject {
 
 export interface IProjectProps {
 	project: IProject;
-  onDelete: (id: string) => void;
+	onDelete: (id: string) => void;
+	checked: boolean;
 }
 
 export interface IProjectsListProps { 

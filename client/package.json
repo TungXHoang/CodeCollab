@@ -30,6 +30,7 @@
     "yjs": "^13.6.18"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/bootstrap": "^5.2.10",
     "@types/lodash": "^4.17.6",
     "@types/node": "^20.14.2",

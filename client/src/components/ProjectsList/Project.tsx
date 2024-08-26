@@ -6,7 +6,7 @@ import {useState, useEffect} from "react"
 import ProjectPopover from "../ProjectPopover"
 import { useGetGuests } from "../../hooks/useGetGuests"
 
-const Project = ({ onDelete, project}: IProjectProps) => {
+const Project = ({ onDelete, project, checked}: IProjectProps) => {
 	const { loadingGuests, guestsList } = useGetGuests(project._id);
 	const [guests, setGuests] = useState< IOwner[]|undefined>(undefined);
 
@@ -26,8 +26,14 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 	
 	return (
 		<>
-			<tr className="relative hover:bg-[#2B3245] text-[ hover:cursor-pointer"
-				onClick = {()=>navigate(`/edit/${project._id}`)}>
+			<tr className={`relative hover:bg-[#2B3245] w-full hover:cursor-pointer ${checked ? "bg-[#192236]": "" }`}
+				onClick={() => navigate(`/edit/${project._id}`)}>
+				<td data-cell-type="checkbox" className="cell pl-[6px] pt-[7px]">
+					<label className="h-[16px]">
+						<span className="sr-only">Select {project.title}</span>
+						<input onClick={(e) => e.stopPropagation()} type="checkbox" className="checkbox-shadow dashboard-checkbox focus:text-primary focus:ring-offset-0 focus:ring-0"></input>
+					</label>
+				</td>
 				<td className="cell text-[#E4E8F1]">
 					<div className="projectRowCell">
 						<span>
