@@ -17,7 +17,7 @@ const ProfileDropdown = ({isShow, user,toggleButtonRef, onClose}:IProfileDropdow
 	const navigate = useNavigate();
 
 	useClickOutside({
-		isOpen: isShow, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
+		disable:false, isOpen: isShow, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
 		onClickOutside: () => {
 			onClose()
 			document.body.style.overflow = 'unset';
@@ -31,12 +31,12 @@ const ProfileDropdown = ({isShow, user,toggleButtonRef, onClose}:IProfileDropdow
 
 
 	return (
-		<div ref={popoverRef} className="dropdown-shadow z-10 absolute top-[38px] right-[10px] w-[230px] bg-[#1C2333]">
-			<div className="flex flex-col items-center text-center px-[16px] pt-[20px] ">
+		<div ref={popoverRef} className="z-50 dropdown-shadow absolute top-[38px] right-[10px] w-[230px] bg-[#1C2333]">
+			<div className="cursor-default flex flex-col items-center text-center px-[16px] pt-[20px] ">
 				<img className="w-[60px] h-[60px] bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
 				<h3 className="leading-[1.375] mt-[10px] mb-[2px] text-[hsl(0,0%,94%)] text-[16px]">{user.firstName}{user.lastName}</h3>
 			</div>
-			<ul className="py-[8px] pt-0">
+			<ul className="py-[8px] px-1 pt-0">
 				<li className="block cursor-default py-[8px] before:block before:border-t-[1px] before:border-[hsl(0,0%,100%)]/[0.1]"></li>
 				<li className="p-0 m-0"> 
 					<a href="/app" className="popoverButton">

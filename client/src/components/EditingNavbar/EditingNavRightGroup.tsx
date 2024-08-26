@@ -2,7 +2,7 @@ import { useState,useRef } from 'react';
 import ShareModal from "../../components/ShareModal";
 
 // sub-component
-import ProfileDropdown from "../Navbar/ProfileDropdown"
+import ProfileDropdown from "../ProfileDropdown"
 import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
 
 // Interface

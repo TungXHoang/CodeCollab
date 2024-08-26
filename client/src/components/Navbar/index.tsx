@@ -6,7 +6,7 @@ import useGetProjects from '../../hooks/useGetProjects';
 
 // sub-component
 import SearchField from "./SearchField";
-import ProfileDropdown from "./ProfileDropdown"
+import ProfileDropdown from "../ProfileDropdown"
 
 
 const Navbar = () => {

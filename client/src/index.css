@@ -18,7 +18,7 @@
 		@apply p-0 border-b-[1px] border-[hsl(220,60%,95%)]/[0.06] align-top cursor-pointer text-[hsl(0,05,62%)];
 	}
 	.popoverButton {
-		@apply text-[13px] font-[400] flex items-center w-full min-h-[30px] py-[6px] px-[16px] text-[hsl(0,0%,100%)]/[0.9] cursor-pointer hover:bg-[hsl(220,9%,25%)] hover:text-[hsl(0,0%,100%)];
+		@apply text-[13px] font-[400] flex items-center w-full min-h-[30px] py-[6px] px-[12px] text-[hsl(0,0%,100%)]/[0.9] rounded-[6px] cursor-pointer hover:bg-[#2B3245] hover:text-[hsl(0,0%,100%)];
 	}
 	.dropdownButton {
 		@apply text-[13px] font-[400] leading-[1.2] flex items-center w-full min-h-[30px] py-[6px] px-[16px] text-[hsl(0,0%,100%)]/[0.9] bg-transparent cursor-pointer;
