@@ -6,7 +6,7 @@ import { useGetEditProject } from "../hooks/useGetEditProject.tsx";
 import { useAuthContext } from "./AuthContext";
 
 // Create the context with the appropriate default value and type
-export const ProjectContext = createContext<IProject | undefined >(undefined);
+export const ProjectContext = createContext<{ project: IProject, setProject: React.Dispatch<React.SetStateAction<IProject | undefined>> } | undefined >(undefined);
 
 export const useProjectContext = () => {
 	const context = useContext(ProjectContext);
@@ -46,7 +46,7 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode}) => 
 	}
 	else {
 		return (user.auth && ( (user._id === project.owner._id) || (guestsId.includes(user._id)))) ?
-			<ProjectContext.Provider value={project!}>
+			<ProjectContext.Provider value={{ project, setProject }}>
 				{children}
 			</ProjectContext.Provider> :
 			<Navigate to="/app" replace />;

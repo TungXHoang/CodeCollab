@@ -5,8 +5,9 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { IAuthUser } from "../../types/auth"
 import DeletionAlertModal from "../DeletionAlertModal"
 import {updateProject} from "../../foundation/projectsAPI"
+import { showEditingToast } from "../../foundation/utils/ToastMessage";
 
-const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) => {
+const ProjectInfo = ({ setProject,project,user }: { setProject: React.Dispatch<React.SetStateAction<IProject | undefined>> , project: IProject, user:IAuthUser }) => {
 	const [showProjectInfo, setShowProjectInfo] = useState(false);
 	const [showDeletionAlert, setShowDeletionAlert] = useState(false);
 	const [projectTitle, setProjectTitle] = useState(project.title);
@@ -27,14 +28,15 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 	const handleUpdate = async ({ newTitle, newDescription }:{newTitle:string,newDescription:string}) => {
 		const res = await updateProject({ userId:user._id, projectId: project._id, newTitle: newTitle, newDescription:newDescription })
 		if (res!.status === 200) {
-			console.log("update successfully")
-			// onDelete(guestId);
-			// showDashboardToast("Delete guest successfully!", "success");
+			showEditingToast("Update successfully", "success");
+			setProject({
+				...project,
+				title: newTitle,
+				description:newDescription,
+			});
 		}
 		else {
-			console.log(res!.data)
-			console.log("update unsuccessfully")
-			// showDashboardToast("Error occur when deleting guest", "error");
+			showEditingToast("Update fail!", "error")
 		}
 	}
 
@@ -68,10 +70,10 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 						}
 						
 					</div>
-					<form onSubmit={(e)=>e.preventDefault()} className="flex flex-col text-[13px] font-[400] gap-[20px] leading-[1.2] p-[16px]">
+					<form onSubmit={(e) => e.preventDefault()} className="flex flex-col text-[13px] font-[400] gap-[20px] leading-[1.2] p-[16px]">
 						<div>	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Title</label>	
-							<input onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-2 focus:outline-[#0079F2] outline-offset-0" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
+							<input onKeyDown={(e) => { if(e.key === 'Enter') e.preventDefault()}}  onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-2 focus:outline-[#0079F2] outline-offset-0" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
 						</div>
 						<div>	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Description</label>

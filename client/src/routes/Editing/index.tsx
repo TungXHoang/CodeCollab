@@ -19,7 +19,7 @@ import { useEditNavbar } from "../../components/EditingNavbar";
 
 
 export default function Editing(): JSX.Element {
-	const project = useProjectContext();
+	const {project} = useProjectContext();
 
 	const { outputDetails, setCode } = useEditNavbar();
 

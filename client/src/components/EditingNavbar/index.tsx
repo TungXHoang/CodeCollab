@@ -19,12 +19,12 @@ const EditingNavbar = () => {
 
 	//Context consume
 	const user = useAuthContext();
-	const project = useProjectContext();
+	const {project,setProject} = useProjectContext();
 
 	//State for handling compile
 
 	const [code, setCode] = useState<string>("");
-	const { outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
+	const {outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
 
 
 	const enterPress = useKeyPress("Enter");
@@ -54,7 +54,7 @@ const EditingNavbar = () => {
 						</a>
 					</div>
 					{/* Project title and info */}
-					<ProjectInfo project={project} user={user}/>
+					<ProjectInfo project={project} setProject={setProject} user={user}/>
 				</div>
 				
 			

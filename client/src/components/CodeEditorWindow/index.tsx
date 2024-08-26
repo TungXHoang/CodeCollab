@@ -8,7 +8,7 @@ import {useYjs} from "../../hooks/useYjs"
 
 
 const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
-	const project = useProjectContext();
+	const {project} = useProjectContext();
 	const user = useAuthContext();
 	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor | null>(null);
 

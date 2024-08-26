@@ -53,6 +53,35 @@ export const showSaveToast = (cb: any) => {
 }
 
 
+
+export const showEditingToast = (msg: string, type: ToastType) => {
+	const dashboardOptions: ToastOptions = {
+		icon: false,
+		position: "top-right",
+		autoClose: 1500,
+		hideProgressBar: true,
+		closeOnClick: true,
+		closeButton: CloseButton,
+		containerId: "EditingToast",
+		style: {
+			color: "white",
+			maxHeight: `70px`,
+			minHeight: `auto`
+			}
+		};
+		switch (type) {
+			case "success":
+				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
+				return toast.success(msg, dashboardOptions);
+			case "error":
+				dashboardOptions.style!.backgroundColor = `hsl(0, 79%, 57%)`;
+				return toast.error(msg, dashboardOptions);
+			default:
+				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
+				return toast(msg, dashboardOptions);
+		}
+}
+
 export const showDashboardToast = (msg: string, type: ToastType) => {
 	const dashboardOptions: ToastOptions = {
 		icon: false,
