@@ -24,7 +24,7 @@ const ProjectInfo = ({ project,user }: { project: IProject, user:IAuthUser }) =>
 	});
 
 	return (
-		<div className="relative transition-all duration-300 ease-in-out flex  grow-1 gap-[4px] items-center">
+		<div className="relative transition-all duration-300 ease-in-out flex h-[32px] grow-1 gap-[4px] items-center">
 			<div className="w-fit flex flex-row items-center text-[14px] font-[400] h-full text-[hsl(0,0%,80%)] ">
 				<button ref={toggleButtonRef} onClick={()=>setShowProjectInfo(!showProjectInfo)} className="border-[1px] border-[#0000] hover:bg-[hsl(220,60%,95%)]/[0.1] hover:border-[hsl(220,60%,95%)]/[0.15] transition-all duration-200 ease-in-out rounded-[6px] h-full py-[4px] px-[6px]">
 					{project.title}

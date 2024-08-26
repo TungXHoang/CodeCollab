@@ -43,7 +43,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 
 	
 	return (
-		<div className="flex items-center gap-[8px]">
+		<div className="flex items-center gap-[8px] ml-auto">
 			<button onClick={handleClick} className=" transition-all duration-200 ease-in-out text-white bg-[#1C2333] font-[400] items-center rounded-[6px] border-[1px] border-[#0000] flex gap-[8px] h-[32px] px-[10px] text-[13px] hover:border-[hsl(220,60%,95%)]/[0.14] hover:bg-[hsl(220,60%,95%)]/[0.1]">
 				<span className="flex color-inherit items-center  justify-center h-fit w-fit">
 					{
