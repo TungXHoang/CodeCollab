@@ -11,12 +11,8 @@ import useDebounce from "../../hooks/useDebounce.tsx";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import OutputWindow from "../../components/OutputWindow";
 import OutputDetails from "../../components/OutputDetails";
-import InfoBox from "../../components/InfoBox";
-
 
 // Utils & Apis
-// import { useEffect, useState } from "react";
-// import { ClassNames } from "../../foundation/utils/ClassNames.tsx";
 import { useProjectContext } from "../../context/ProjectContext.tsx"
 import {SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 import { useEditNavbar } from "../../components/EditingNavbar";
@@ -50,15 +46,8 @@ export default function Editing(): JSX.Element {
 				containerId = "EditingToast"
 			/>
 			
-			{/* Info Box */}
-			<div className="flex flex-row">
-				<div className="px-4 py-2">
-					<InfoBox content={project.title} />
-				</div>
-			</div>
-			
 			{/* Code window and output */}
-			<div className="flex flex-row space-x-4 items-start px-4 py-3">
+			<div className="flex flex-row space-x-4 items-start px-4 py-3 mt-8">
 				<div className="flex flex-col w-full h-full justify-start items-end">
 					<CodeEditorWindow
 						onEdit={onChange}

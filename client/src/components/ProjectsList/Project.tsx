@@ -3,7 +3,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { IProjectProps, IOwner} from "./IProject"
 import { useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react"
-import Popover from "../Popover"
+import ProjectPopover from "../ProjectPopover"
 import { useGetGuests } from "../../hooks/useGetGuests"
 
 const Project = ({ onDelete, project}: IProjectProps) => {
@@ -60,7 +60,7 @@ const Project = ({ onDelete, project}: IProjectProps) => {
 					</span>
 				</td>
 				{project.owner._id === user._id &&
-					<Popover onDeleteGuest={(guestId)=>setGuests(prevGuests => prevGuests!.filter(guest => guest._id !== guestId))} project={project} onDelete={onDelete} onShare={(guest)=>handleShare(guest)} userId={user._id} />
+					<ProjectPopover onDeleteGuest={(guestId)=>setGuests(prevGuests => prevGuests!.filter(guest => guest._id !== guestId))} project={project} onDelete={onDelete} onShare={(guest)=>handleShare(guest)} userId={user._id} />
 				}
 			</tr>		
 		</>

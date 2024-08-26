@@ -82,11 +82,10 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 					<svg width="12px" height="12px" viewBox="0 0 24 24" fill="#9DA2A6">
 						<path fillRule="evenodd" clipRule="evenodd" d="M12.53 15.53a.75.75 0 0 1-1.06 0l-6-6a.75.75 0 0 1 1.06-1.06L12 13.94l5.47-5.47a.75.75 0 1 1 1.06 1.06l-6 6Z"></path>
 					</svg>
-					{/* Profile dropdown */}
-					{showProfileDropdown &&
-						<ProfileDropdown user={user} toggleButtonRef={toggleButtonRef} isShow={showProfileDropdown} onClose={()=>setShowProfileDropdown(false)} />
-					}
 				</button>
+				{showProfileDropdown &&
+					<ProfileDropdown user={user} toggleButtonRef={toggleButtonRef} isShow={showProfileDropdown} onClose={()=>setShowProfileDropdown(false)} />
+				}
 			</div>
 			
 			{showShareModal && <ShareModal onDeleteGuest={()=>showShareToast(200, "Delete guest successfully", { containerId: "EditingToast" }) } onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleShareModal(false)} />}

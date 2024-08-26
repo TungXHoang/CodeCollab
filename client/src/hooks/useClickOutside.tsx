@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 
 interface IUseClickOutside {
-	targetRef: React.MutableRefObject<HTMLDivElement | HTMLUListElement| null>
-	toggleButtonRef: React.MutableRefObject<HTMLButtonElement | null>
-	onClickOutside: () => void
-	isOpen: boolean
+	targetRef: React.MutableRefObject<HTMLDivElement | HTMLUListElement | null>;
+	toggleButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
+	onClickOutside: () => void;
+	isOpen: boolean;
+	disable: boolean;
 }
-const useClickOutside = ({ isOpen, targetRef, toggleButtonRef, onClickOutside }: IUseClickOutside) => {
+const useClickOutside = ({ disable, isOpen, targetRef, toggleButtonRef, onClickOutside }: IUseClickOutside) => {
 	const handleClickOutside = (event: MouseEvent) => {
 		if (targetRef.current && 
 			!targetRef.current.contains(event.target as Node) &&
@@ -17,7 +18,7 @@ const useClickOutside = ({ isOpen, targetRef, toggleButtonRef, onClickOutside }:
 	};
 
   useEffect(() => {
-		if (isOpen) {
+		if (isOpen && !disable ) {
 			document.addEventListener('mousedown', handleClickOutside);
 		} else {
 			document.removeEventListener('mousedown', handleClickOutside);
@@ -25,7 +26,7 @@ const useClickOutside = ({ isOpen, targetRef, toggleButtonRef, onClickOutside }:
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen]);
+	}, [isOpen, disable]);
 }
 
 export default useClickOutside

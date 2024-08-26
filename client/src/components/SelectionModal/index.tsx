@@ -57,7 +57,7 @@ const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 					</div>
 				</div>
 			</div>
-			<div className="opacity-25 fixed inset-0 z-40 bg-black" ></div>
+			<div className="fixed inset-0 z-40 bg-[#0e1525A0]" ></div>
 		</>
 	)
 }
