@@ -6,19 +6,19 @@
 
 @layer components {
 	.headerCell {
-		@apply border-b-[2px] border-[hsl(220,60%,95%)]/[0.06] h-[34px] bg-[hsl(220,10%,14%)]/[0.9] text-[hsl(0,0%,62%)] text-[12px] align-middle font-[500];
+		@apply border-b-[2px] border-[hsl(220,60%,95%)]/[0.06] h-[34px] bg-[#121A2B] text-[#C7D1E6] text-[13px] align-middle font-[500];
 	}
 	.projectRowCell {
 		@apply flex items-start w-full my-[5px] py-[4px] px-[8px] gap-[4px] leading-[1.4];
 	}
 	.headerCellWrapper {
-		@apply flex items-center p-[8px] pb-[10px] gap-[4px];
+		@apply flex items-center p-[8px] gap-[4px];
 	}
 	.cell {
 		@apply p-0 border-b-[1px] border-[hsl(220,60%,95%)]/[0.06] align-top cursor-pointer text-[hsl(0,05,62%)];
 	}
 	.popoverButton {
-		@apply text-[13px] font-[400] flex items-center w-full min-h-[30px] py-[6px] px-[12px] text-[hsl(0,0%,100%)]/[0.9] rounded-[6px] cursor-pointer hover:bg-[#2B3245] hover:text-[hsl(0,0%,100%)];
+		@apply text-[13px] text-[#F5F9FC] font-[400] flex items-center w-full min-h-[30px] py-[6px] px-[12px] rounded-[6px] cursor-pointer hover:bg-[#2B3245];
 	}
 	.dropdownButton {
 		@apply text-[13px] font-[400] leading-[1.2] flex items-center w-full min-h-[30px] py-[6px] px-[16px] text-[hsl(0,0%,100%)]/[0.9] bg-transparent cursor-pointer;

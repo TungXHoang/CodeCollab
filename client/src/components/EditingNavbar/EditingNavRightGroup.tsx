@@ -61,19 +61,17 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 				</span>
 				<span className="flex items-center flex-row justify-center overflow-hidden px-[2px]">Save</span>
 			</button>
-			<div className="group h-full relative">
-				<button disabled={project.owner._id !== user._id} onClick={() => handleToggleShareModal(true)} className={`transition-all duration-200 ease-in-out text-white bg-[#1C2333] font-[400] items-center rounded-[6px] border-[1px] border-[#0000] flex gap-[8px] h-[32px] px-[10px] text-[13px] ${project.owner._id === user._id ? 'hover:border-[hsl(220,60%,95%)]/[0.14] hover:bg-[hsl(220,60%,95%)]/[0.1]' : ''} `}>
-					<svg width="16px" height="16px" viewBox="0 0 24 24" fill="currentColor" >
-						<path fillRule="evenodd" clipRule="evenodd" d="M8.5 3.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5ZM3.75 7a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM20 7.25a.75.75 0 0 1 .75.75v2.25H23a.75.75 0 0 1 0 1.5h-2.25V14a.75.75 0 0 1-1.5 0v-2.25H17a.75.75 0 0 1 0-1.5h2.25V8a.75.75 0 0 1 .75-.75ZM1.641 15.641A4.75 4.75 0 0 1 5 14.25h7A4.75 4.75 0 0 1 16.75 19v2a.75.75 0 0 1-1.5 0v-2A3.25 3.25 0 0 0 12 15.75H5A3.25 3.25 0 0 0 1.75 19v2a.75.75 0 0 1-1.5 0v-2c0-1.26.5-2.468 1.391-3.359Z"></path>
-					</svg>
-					<span className="text-[14px] flex items-center flex-row justify-center overflow-hidden">Invite</span>
-				</button>
-				{project.owner._id !== user._id  && (
-					<div className="w-[130px] absolute left-0 top-full mt-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-[10px] px-2 z-10">
-						Only for project owner
+			{project.owner._id === user._id &&
+				<div className="group h-full relative">
+					<button disabled={project.owner._id !== user._id} onClick={() => handleToggleShareModal(true)} className={`transition-all duration-200 ease-in-out text-white bg-[#1C2333] font-[400] items-center rounded-[6px] border-[1px] border-[#0000] flex gap-[8px] h-[32px] px-[10px] text-[13px] ${project.owner._id === user._id ? 'hover:border-[hsl(220,60%,95%)]/[0.14] hover:bg-[hsl(220,60%,95%)]/[0.1]' : ''} `}>
+						<svg width="16px" height="16px" viewBox="0 0 24 24" fill="currentColor" >
+							<path fillRule="evenodd" clipRule="evenodd" d="M8.5 3.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5ZM3.75 7a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM20 7.25a.75.75 0 0 1 .75.75v2.25H23a.75.75 0 0 1 0 1.5h-2.25V14a.75.75 0 0 1-1.5 0v-2.25H17a.75.75 0 0 1 0-1.5h2.25V8a.75.75 0 0 1 .75-.75ZM1.641 15.641A4.75 4.75 0 0 1 5 14.25h7A4.75 4.75 0 0 1 16.75 19v2a.75.75 0 0 1-1.5 0v-2A3.25 3.25 0 0 0 12 15.75H5A3.25 3.25 0 0 0 1.75 19v2a.75.75 0 0 1-1.5 0v-2c0-1.26.5-2.468 1.391-3.359Z"></path>
+						</svg>
+						<span className="text-[14px] flex items-center flex-row justify-center overflow-hidden">Invite</span>
+					</button>
 				</div>
-				)}
-			</div>
+			}
+			
 			<div className=""> 
 				<button ref={toggleButtonRef} onClick={handleToggleDropdown} className="flex items-center gap-[3px] p-[6px] px-[8px] hover:bg-[#1C2333] rounded-[4px]"> 
 					<div className="w-[21px] h-[21px] hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">

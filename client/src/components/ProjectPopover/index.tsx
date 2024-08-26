@@ -1,9 +1,8 @@
 import { useRef, useState} from 'react'
-import { deleteProject } from "../../foundation/projectsAPI"
 import ShareModal from "../ShareModal"
 import { IProject, IOwner } from "../ProjectsList/IProject"
 import useClickOutside from '../../hooks/useClickOutside';
-
+import DeletionAlertModal from "../DeletionAlertModal";
 interface IPopoverProps {
 	onDelete: (id: string) => void;
 	onShare: (guest: IOwner) => void;
@@ -17,9 +16,10 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);
 	const [open, setOpen] = useState(false); 
+	const [showDeletionAlert, setShowDeletionAlert] = useState(false);
 
 	useClickOutside({
-		isOpen: open, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
+		disable: showDeletionAlert, isOpen: open, targetRef: popoverRef, toggleButtonRef: toggleButtonRef,
 		onClickOutside: () => {
 			setOpen(false)
 		}
@@ -36,22 +36,18 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 			setShowModal(status)
 			document.body.style.overflow = 'unset';
 		}
-	}
+	};
 
 	const handleTogglePopover = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		setOpen(!open);
-	}
+	};
 
-	const handleDelete = async (e:React.MouseEvent<HTMLButtonElement>) => {
+	const handleShowDeletionAlert = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		const res = await deleteProject({projectId: project._id , userId: userId})
-		if (res.status === 200) {
-			onDelete(project._id)
-		}
-		return res;
+		setShowDeletionAlert(true);
 	}
-
+	
 
 	return (
 		<>
@@ -66,9 +62,9 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 					{/* //Popover section */}
 					{
 					open &&
-						<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[hsl(222,10%,20%)]">
-							<ul className="relative m-0 py-[8px] block m-0">
-								<li className="block ">
+						<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[#1C2333] rounded-[4px]">
+							<ul className="relative m-0 py-[8px] px-1 block m-0">
+								<li className="block">
 									<button className="popoverButton" onClick={(e: any) => {
 										e.stopPropagation()
 										handleToggleModal(true)
@@ -80,7 +76,7 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 									</button>
 								</li>
 								<li className="block">
-									<button className ="popoverButton text-[hsl(355,80%,65%)]" onClick={handleDelete}>
+									<button className ="popoverButton text-[hsl(355,80%,65%)]" onClick={handleShowDeletionAlert}>
 										<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16" fill="currentColor" className="mr-[8px]"> 
 											<path fillRule="evenodd" clipRule="evenodd" d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zM9 2H6v1h3zM4 13h7V4H4zm2-8H5v7h1zm1 0h1v7H7zm2 0h1v7H9z"></path>
 										</svg>
@@ -89,6 +85,10 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 								</li>
 							</ul>
 						</div>
+					}
+					{
+						showDeletionAlert && 
+						<DeletionAlertModal onClose={()=>setShowDeletionAlert(false)} onDelete={onDelete} project={project} userId={userId} />
 					}
 				</div>
 			</td>

@@ -5,8 +5,8 @@ import ProjectsList from "../../components/ProjectsList";
 import { IProject } from "../../components/ProjectsList/IProject"
 import useGetProjects from "../../hooks/useGetProjects";
 import SelectionModal from "../../components/SelectionModal"
-import ActionButtonGroup from "../../components/ActionButtonGroup";
-import HeaderAction from "../../components/HeaderAction"
+import SwitchViewGroup from "../../components/SwitchViewGroup";
+import DashboardActionGroup from "../../components/DashboardActionGroup"
 import Loading from "../../foundation/utils/Loading";
 
 //Toast
@@ -53,7 +53,7 @@ export default function Dashboard() {
 	}
 	
 	const handleDelete = (projectId: string) => {
-		showDashboardToast("Project deleted successfully!", "success");
+		// showDashboardToast("Project deleted successfully!", "success");
     setProjectsList((prevProjectsList) => ({
 			...prevProjectsList,
 			owner: prevProjectsList.owner.filter(project => project._id !== projectId),
@@ -80,16 +80,16 @@ export default function Dashboard() {
 				closeOnClick
 				containerId="DashboardToast"
 			/>
-			<div className="h-screen overflow-hidden bg-[#0E1525] ">
+			<div className="h-screen overflow-hidden bg-[#0E1525]">
 				<main className="flex flex-col p-8">
 					<div className="w-full text-white">
 						<section className="flex flex-col my-10 flex-1  p-[32px] pl-[10px] pt-0">
 							<header className="mb-[24px] flex items-center">	
 								<h2 className="font-[600] text-[20px] text-[hsl(0,0%,94%)]">My Projects</h2>
-								<HeaderAction searchField={searchField} onChange={(change)=>handleChange(change)} onCreate={handleCreate}/>
+								<DashboardActionGroup searchField={searchField} onChange={(change)=>handleChange(change)} onCreate={handleCreate}/>
 							</header>
 							<div className="mb-[24px]">
-								<ActionButtonGroup onSelect={setIsOwner} />
+								<SwitchViewGroup onSelect={setIsOwner} />
 							</div>
 							{loading ? <Loading /> : <ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} onCreate={handleCreate} onDelete={handleDelete} isOwner={isOwner} />}
 						</section>

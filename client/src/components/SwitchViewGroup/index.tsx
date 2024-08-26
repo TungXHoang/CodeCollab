@@ -1,6 +1,7 @@
 import ActionButton from "./ActionButton"
 import { useState } from "react";
-const ActionButtonGroup = ({onSelect}:{onSelect:React.Dispatch<React.SetStateAction<boolean>>}) => {
+
+const SwitchViewGroup = ({onSelect}:{onSelect:React.Dispatch<React.SetStateAction<boolean>>}) => {
 	const [ownership, setOwnership] = useState("owned");
 
 	const handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -15,4 +16,4 @@ const ActionButtonGroup = ({onSelect}:{onSelect:React.Dispatch<React.SetStateAct
 		</div>
 	)
 }
-export default ActionButtonGroup
+export default SwitchViewGroup

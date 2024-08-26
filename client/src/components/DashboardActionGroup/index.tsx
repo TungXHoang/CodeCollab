@@ -1,9 +1,9 @@
-import SelectionModal from "../../components/SelectionModal"
+import SelectionModal from "../SelectionModal"
 import { useState } from 'react';
 
 import {IHeaderAction} from "./IHeaderAction"
 
-const HeaderAction = ({onCreate, searchField, onChange}:IHeaderAction) => {
+const DashboardActionGroup = ({onCreate, searchField, onChange}:IHeaderAction) => {
 	const [showModal, setShowModal] = useState(false);
 	
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +13,7 @@ const HeaderAction = ({onCreate, searchField, onChange}:IHeaderAction) => {
 	return (
 		<>
 			<div className="flex items-center ml-auto gap-[12px]">
-				<button type="button" onClick={() => setShowModal(true)} className="leading-[30px] rounded-[3px] text-[13px] px-[10px] border-[1px] flex items-center gap-[4px] bg-transparent hover:!bg-[hsl(220,60%,95%)]/[0.06] border-[hsl(220,60%,95%)]/[0.14] text-[hsl(0,0%,80%)]">
+				<button type="button" onClick={() => setShowModal(true)} className="leading-[30px] rounded-[4px] text-[13px] px-[10px] border-[1px] flex items-center gap-[4px] bg-transparent hover:!bg-[#1C2333] border-[hsl(220,60%,95%)]/[0.14] text-[#F5F9FC]">
 					<span className="w-[12px] h-[12px]">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="12px" height="12px">
 							<path d="M14 7v1H8v6H7V8H1V7h6V1h1v6z"></path>
@@ -35,4 +35,4 @@ const HeaderAction = ({onCreate, searchField, onChange}:IHeaderAction) => {
 	)
 }
 
-export default HeaderAction
+export default DashboardActionGroup
