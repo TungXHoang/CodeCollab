@@ -13,10 +13,10 @@ import Loading from "../../foundation/utils/Loading";
 import { ToastContainer } from "react-toastify";
 import {showDashboardToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
+type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 
 export default function Dashboard() {
 	const user = useAuthContext()
-	type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 	const [showModal, setShowModal]: ModalContextType = useOutletContext();
 	const [isOwner, setIsOwner] = useState(true)
 	const { loading, projects } = useGetProjects(user._id);
