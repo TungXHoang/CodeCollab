@@ -12,7 +12,7 @@ const DashboardActionGroup = ({onCreate, searchField, onChange}:IHeaderAction) =
 
 	return (
 		<>
-			<div className="flex items-center ml-auto gap-[12px]">
+			<div className="flex items-center ml-auto gap-[12px] text-[13px]">
 				<button type="button" onClick={() => setShowModal(true)} className="leading-[30px] rounded-[4px] text-[13px] px-[10px] border-[1px] flex items-center gap-[4px] bg-transparent hover:!bg-[#1C2333] border-[hsl(220,60%,95%)]/[0.14] text-[#F5F9FC]">
 					<span className="w-[12px] h-[12px]">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="12px" height="12px">
@@ -25,7 +25,7 @@ const DashboardActionGroup = ({onCreate, searchField, onChange}:IHeaderAction) =
 					<svg className="absolute text-[hsl(0,0%,62%)] text-[16px] top-[calc(50%-.5em)] left-[10px] pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" width="16px" height="16px">
 						<path d="M6.5 2a4.5 4.5 0 0 1 3.52 7.3l3.97 3.99-.7.7-3.98-3.97A4.5 4.5 0 1 1 6.5 2m0 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"></path>
 					</svg>
-					<input value={searchField} onChange={handleChange} className="outline-none focus:border-[hsl(205,100%,50%)] focus:!bg-[hsl(0,0%,0%)]/[0.15] text-[hsl(0,0%,94%)] hover:border-[hsl(220,10%,45%)] block h-[32px] py-[4px] pl-[30px] pr-[8px] border-[1px] border-[hsl(220,60%,95%)]/[0.1] bg-transparent rounded-[3px] text-ellipsis" type="search" autoCapitalize="off" autoComplete="off" autoCorrect="off" placeholder="Title or description" />
+					<input value={searchField} onChange={handleChange} className="outline-none focus:border-[hsl(205,100%,50%)] focus:!bg-[hsl(0,0%,0%)]/[0.15] text-[hsl(0,0%,94%)] hover:border-[hsl(220,10%,45%)] block h-[32px] py-[4px] pl-[30px] pr-[8px] border-[1px] border-[hsl(220,60%,95%)]/[0.1] bg-transparent rounded-[3px] text-[13px] text-ellipsis" type="search" autoCapitalize="off" autoComplete="off" autoCorrect="off" placeholder="Title or description" />
 				</span>
 			</div>
 			{showModal &&

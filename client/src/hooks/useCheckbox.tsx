@@ -25,6 +25,7 @@ const useCheckbox = (projectsList: Project[], selectAllRef:React.RefObject<HTMLI
 	useEffect(() => {
 		if (isChecked.length === 0) {
 			setIsIndeterminate(false)
+			setIsCheckedAll(false);
 		}
 		else if (isChecked.length < projectsList.length) {
 			setIsIndeterminate(true);

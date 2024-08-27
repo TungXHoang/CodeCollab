@@ -1,8 +1,9 @@
 import Project from "./Project";
 import { IProject, IProjectsListProps } from "./IProject";
 import { useState, useRef, useEffect} from "react";
-import SelectionModal from "../../components/SelectionModal"
+import SelectionModal from "../SelectionModal"
 import useCheckbox from "../../hooks/useCheckbox";
+import CheckboxModal from "../CheckboxModal";
 
 const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
@@ -76,9 +77,12 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 					: <div className="px-[6.25em] py-[8em] text-[hsl(0,0%,62%)] font-[600] text-[18px] text-center">You have no shared projects yet</div>} </>
 			)
 			}
-				{showModal &&
-					<SelectionModal onSelect={setShowModal} onCreate={onCreate} />
-				}
+			{showModal &&
+				<SelectionModal onSelect={setShowModal} onCreate={onCreate} />
+			}
+			{isChecked.length > 0 &&
+				<CheckboxModal selectedProject={isChecked} />
+			}
 			</>
 	);
 };
