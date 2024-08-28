@@ -89,7 +89,7 @@ const ProjectPopover = ({ onShare, onDelete, project, onDeleteGuest }: IPopoverP
 					}
 					{
 						showDeletionAlert && 
-						<DeletionAlertModal project={project} onDelete={onDelete } onClose={()=>setShowDeletionAlert(false)} />
+						<DeletionAlertModal project={project} onDelete={onDelete} onClose={()=>setShowDeletionAlert(false)} />
 					}
 				</div>
 			</td>
