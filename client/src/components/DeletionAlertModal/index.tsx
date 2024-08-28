@@ -1,23 +1,21 @@
 import { IProject } from "../ProjectsList/IProject";
 import { deleteProject } from "../../foundation/projectsAPI"
-import { showDashboardToast } from "../../foundation/utils/ToastMessage.tsx"
 
+import { useAuthContext } from "../../context/AuthContext.tsx";
 interface IDeletionAlertModal {
 	onClose: () => void;
-	onDelete: (projectId: string) => void;
+	onDelete: (projectsId: string[]) => void;
 	project: IProject;
-	userId: string;
 	
 }
-const DeletionAlertModal = ({ onClose, onDelete, project, userId }: IDeletionAlertModal) => {	
+const DeletionAlertModal = ({ onClose, onDelete, project }: IDeletionAlertModal) => {	
 	
+	const user = useAuthContext();
 	const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
-		onDelete(project._id);
-		const res = await deleteProject({projectId: project._id , userId: userId})
+		const res = await deleteProject({projectId: project._id , userId: user._id})
 		if (res.status === 200) {
-			onDelete(project._id)
-			showDashboardToast("Project deleted successfully!", "success");
+			onDelete([project._id])
 		}
 		return res;
 	}

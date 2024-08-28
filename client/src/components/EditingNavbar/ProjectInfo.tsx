@@ -1,18 +1,25 @@
 import { IProject } from "../ProjectsList/IProject";
 import { useState, useRef } from 'react';
-import {useNavigate} from 'react-router-dom'
+
 import useClickOutside from "../../hooks/useClickOutside";
 import { IAuthUser } from "../../types/auth"
 import DeletionAlertModal from "../DeletionAlertModal"
 import {updateProject} from "../../foundation/projectsAPI"
 import { showEditingToast } from "../../foundation/utils/ToastMessage";
 
-const ProjectInfo = ({ setProject,project,user }: { setProject: React.Dispatch<React.SetStateAction<IProject | undefined>> , project: IProject, user:IAuthUser }) => {
+
+interface IProjectInfo {
+	onDelete: (projectsId: string[]) => void;
+	setProject: React.Dispatch<React.SetStateAction<IProject | undefined>>;
+	project: IProject;
+	user: IAuthUser 
+}
+
+const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 	const [showProjectInfo, setShowProjectInfo] = useState(false);
 	const [showDeletionAlert, setShowDeletionAlert] = useState(false);
 	const [projectTitle, setProjectTitle] = useState(project.title);
 	const [projectDescription, setProjectDescription] = useState(project.description);
-	const navigate = useNavigate()
 
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -93,7 +100,7 @@ const ProjectInfo = ({ setProject,project,user }: { setProject: React.Dispatch<R
 			}
 			{
 				showDeletionAlert && 
-				<DeletionAlertModal onClose={()=>setShowDeletionAlert(false)} onDelete={()=>{return navigate("/app")}} project={project} userId={user._id} />
+				<DeletionAlertModal project={project} onDelete={onDelete} onClose={()=>setShowDeletionAlert(false)} />
 			}
 			
 		</div>

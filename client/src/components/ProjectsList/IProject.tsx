@@ -21,14 +21,14 @@ export interface IProject {
 
 export interface IProjectProps {
 	project: IProject;
-	onDelete: (id: string) => void;
+	onDelete: (id: string[]) => void;
 	onCheck: (projectId:string,checked:boolean)=>void;
 	isChecked: boolean;
 }
 
 export interface IProjectsListProps { 
 	onCreate: (project: IProject)=>void;
-	onDelete: (id:string) => void;
+	onDelete: (id:string[]) => void;
 	projectsList : IProject[]
 	isOwner: boolean
 }

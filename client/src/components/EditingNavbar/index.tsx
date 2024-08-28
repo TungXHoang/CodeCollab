@@ -1,17 +1,13 @@
-import { Outlet, useOutletContext} from 'react-router-dom';
+import { Outlet, useOutletContext,useNavigate} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-
 // hooks and context 
 import useCompiling from "../../hooks/useCompiling";
 import useKeyPress from "../../hooks/useKeyPress.tsx";
 import { useAuthContext } from "../../context/AuthContext"
 import { useProjectContext } from "../../context/ProjectContext";
-
 // Subcomponent
 import EditingNavRightGroup from "./EditingNavRightGroup.tsx";
 import ProjectInfo from "./ProjectInfo.tsx";
-
-
 type ContextType = { outputDetails: string | null, processing: boolean, setCode: (code:string)=>void };
 
 
@@ -19,13 +15,16 @@ const EditingNavbar = () => {
 
 	//Context consume
 	const user = useAuthContext();
+	const navigate = useNavigate();
 	const {project,setProject} = useProjectContext();
-
 	//State for handling compile
 
 	const [code, setCode] = useState<string>("");
 	const {outputDetails, processing, handleSubmission } = useCompiling({project:project, code:code});
 
+	const deleteAndNavigate =  (projectsId: string[]) => {
+		navigate("/app", { replace: true, state: { deleteId:projectsId }});
+	};
 
 	const enterPress = useKeyPress("Enter");
 	const ctrlPress = useKeyPress("Control");
@@ -54,7 +53,7 @@ const EditingNavbar = () => {
 						</a>
 					</div>
 					{/* Project title and info */}
-					<ProjectInfo project={project} setProject={setProject} user={user}/>
+					<ProjectInfo project={project} setProject={setProject} user={user} onDelete={deleteAndNavigate} />
 				</div>
 				
 			

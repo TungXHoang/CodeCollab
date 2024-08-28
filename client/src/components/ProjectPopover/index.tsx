@@ -3,15 +3,16 @@ import ShareModal from "../ShareModal"
 import { IProject, IOwner } from "../ProjectsList/IProject"
 import useClickOutside from '../../hooks/useClickOutside';
 import DeletionAlertModal from "../DeletionAlertModal";
+
 interface IPopoverProps {
-	onDelete: (id: string) => void;
 	onShare: (guest: IOwner) => void;
-	onDeleteGuest: (guestId:string) => void;
+	onDeleteGuest: (guestId: string) => void;
+	onDelete: (projectsId: string[]) =>void;
 	userId: string;
 	project: IProject;
 }
 
-const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IPopoverProps) => {
+const ProjectPopover = ({ onShare, onDelete, project, onDeleteGuest }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);
@@ -88,7 +89,7 @@ const ProjectPopover = ({onDelete, onShare, userId, project, onDeleteGuest }: IP
 					}
 					{
 						showDeletionAlert && 
-						<DeletionAlertModal onClose={()=>setShowDeletionAlert(false)} onDelete={onDelete} project={project} userId={userId} />
+						<DeletionAlertModal project={project} onDelete={onDelete } onClose={()=>setShowDeletionAlert(false)} />
 					}
 				</div>
 			</td>

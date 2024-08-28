@@ -5,16 +5,20 @@ import SelectionModal from "../SelectionModal"
 import useCheckbox from "../../hooks/useCheckbox";
 import CheckboxModal from "../CheckboxModal";
 
-const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsListProps) => {
+const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
 	const selectAllRef = useRef<HTMLInputElement>(null);
-	const {isCheckedAll,isChecked,handleCheck,handleCheckedAll,resetCheckBox} = useCheckbox(projectsList, selectAllRef);
 
-	const handleDelete = (id: string) => {
+	const {isCheckedAll,isChecked,handleCheck,handleCheckedAll,resetCheckBox} = useCheckbox(projectsList, selectAllRef);
+	
+
+	const handleDelete = (idList: string[]) => {
 		resetCheckBox();
-		onDelete(id);
+		onDelete(idList);
 	}
 	
+
+
 	useEffect(() => {
 		resetCheckBox();
 	}, [isOwner])
@@ -59,7 +63,7 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 							{projectsList.map((project: IProject) => (
 								<Project
 									key={project._id}
-									onDelete={(id:string)=>handleDelete(id)}
+									onDelete={(idsList: string[])=>handleDelete(idsList)}
 									project={project}
 									onCheck={(projectId,checked)=>handleCheck({projectId:projectId, checked:checked})}
 									isChecked={isChecked.includes(project._id)}
@@ -81,7 +85,7 @@ const ProjectsList = ({ projectsList, onDelete, onCreate, isOwner }: IProjectsLi
 				<SelectionModal onSelect={setShowModal} onCreate={onCreate} />
 			}
 			{isChecked.length > 0 &&
-				<CheckboxModal selectedProject={isChecked} />
+				<CheckboxModal onDelete={(idList:string[])=>handleDelete(idList)} selectedProject={isChecked} />
 			}
 			</>
 	);
