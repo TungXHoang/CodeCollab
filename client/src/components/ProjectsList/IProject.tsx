@@ -22,7 +22,7 @@ export interface IProject {
 export interface IProjectProps {
 	project: IProject;
 	onDelete: (id: string[]) => void;
-	onCheck: (projectId:string,checked:boolean)=>void;
+	onCheck: (project:IProject,checked:boolean)=>void;
 	isChecked: boolean;
 }
 

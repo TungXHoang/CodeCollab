@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
+import {IProject} from "../components/ProjectsList/IProject"
 
-interface Project {
-  _id: string;
-}
 
-const useCheckbox = (projectsList: Project[], selectAllRef:React.RefObject<HTMLInputElement>) => {
+const useCheckbox = (projectsList: IProject[], selectAllRef:React.RefObject<HTMLInputElement>) => {
 	const [isCheckedAll, setIsCheckedAll] = useState(false);
-	const [isChecked, setIsChecked] = useState<string[]>([]);
+	const [isChecked, setIsChecked] = useState<IProject[]>([]);
 	const [isIndeterminate, setIsIndeterminate] = useState(false);
 
 	const resetCheckBox = () => {
@@ -36,12 +34,12 @@ const useCheckbox = (projectsList: Project[], selectAllRef:React.RefObject<HTMLI
 		}
 	},[isChecked,projectsList])
 
-	const handleCheck = ({projectId, checked}:{projectId:string,checked:boolean}) => {
+	const handleCheck = ({project, checked}:{project:IProject,checked:boolean}) => {
 		if (checked) {
-			setIsChecked(isChecked.filter(item => item !== projectId))
+			setIsChecked(isChecked.filter(item => item._id !== project._id))
 		}
 		else {
-			setIsChecked([...isChecked, projectId])
+			setIsChecked([...isChecked, project])
 		}
 	}
 
@@ -50,7 +48,7 @@ const useCheckbox = (projectsList: Project[], selectAllRef:React.RefObject<HTMLI
 			setIsChecked([]);   
 			setIsCheckedAll(false);
     } else {
-			setIsChecked(projectsList.map(project => project._id));// Check all items
+			setIsChecked(projectsList.map(project => project));// Check all items
 			setIsCheckedAll(true);
 		}
 	};

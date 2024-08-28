@@ -55,6 +55,7 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 	const handleDelete = (projectIds: string[]) => {
 		// console.log('handleDelte context trigger');
 		showDashboardToast("Project deleted successfully!", "success");
+		console.log(projectIds);
     setProjectsList((prevProjectsList) => {
 			if (prevProjectsList) {
 				return {

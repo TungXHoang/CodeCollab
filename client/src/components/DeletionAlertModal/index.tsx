@@ -5,17 +5,19 @@ import { useAuthContext } from "../../context/AuthContext.tsx";
 interface IDeletionAlertModal {
 	onClose: () => void;
 	onDelete: (projectsId: string[]) => void;
-	project: IProject;
+	projectsList: IProject[];
 	
 }
-const DeletionAlertModal = ({ onClose, onDelete, project }: IDeletionAlertModal) => {	
+const DeletionAlertModal = ({ onClose, onDelete, projectsList }: IDeletionAlertModal) => {	
 	
 	const user = useAuthContext();
+	const projectIdList: string[] = projectsList.map(projectIdList => projectIdList._id);
+
 	const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
-		const res = await deleteProject({projectId: project._id , userId: user._id})
+		const res = await deleteProject({projectsId: projectIdList , userId: user._id})
 		if (res.status === 200) {
-			onDelete([project._id])
+			onDelete(projectIdList)
 		}
 		return res;
 	}
@@ -37,7 +39,7 @@ const DeletionAlertModal = ({ onClose, onDelete, project }: IDeletionAlertModal)
 						<div className="flex flex-col gap-[16px]">
 							<h2 className="text-[20px] leading-[1.4] font-[500]">Delete Project?</h2>
 							<div className="text-[14px] leading-[1.6] text-[#C2C8CC] mt-1">
-							Are you sure you want to delete <span className="text-[#F5F9FC] font-[500]">{project.title}?{" "}</span>This action cannot be undone.
+								Are you sure you want to delete <span className="text-[#F5F9FC] font-[500]">{projectsList.length>1 ? `${projectsList.length} projects` : projectsList[0].title}?{" "}</span>This action cannot be undone.
 							</div>
 							<div className="flex flex-row gap-[12px] justify-end items-center">
 								<button onClick={onClose} className="bg-[#2B3245] hover:bg-[#3C445C] transition-[background-color] ease-in-out p-[8px] rounded-[4px] h-[32px] flex items-center">

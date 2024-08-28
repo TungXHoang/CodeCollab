@@ -11,12 +11,12 @@ async function createProject(formData: FormData) {
 	return res;
 }
 
-async function deleteProject(formData: any) {
+async function deleteProject({userId, projectsId}:{userId:string,projectsId:string[]}) {
 	const res = await Axios.delete(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects`, {
 		headers: {
-			Authorization: formData.userId
+			Authorization: userId
 		},
-		data: formData
+		data: {userId,projectsId}
 	});
 	return res;
 }

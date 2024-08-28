@@ -31,7 +31,7 @@ const Project = ({ onDelete, project, isChecked, onCheck}: IProjectProps) => {
 				<td onClick={(e) => e.stopPropagation()} data-cell-type="checkbox" className="cell pl-[6px] pt-[7px]">
 					<label className="h-[16px]">
 						<span className="sr-only">Select {project.title}</span>
-						<input checked={isChecked}  onChange={() => onCheck(project._id, isChecked)} onClick={(e) => e.stopPropagation()} type="checkbox" className="checkbox-shadow dashboard-checkbox cursor-pointer focus:text-primary focus:ring-offset-0 focus:ring-0"></input>
+						<input checked={isChecked}  onChange={() => onCheck(project, isChecked)} onClick={(e) => e.stopPropagation()} type="checkbox" className="checkbox-shadow dashboard-checkbox cursor-pointer focus:text-primary focus:ring-offset-0 focus:ring-0"></input>
 					</label>
 				</td>
 				<td className="cell text-[#E4E8F1]">

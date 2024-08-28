@@ -100,7 +100,7 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 			}
 			{
 				showDeletionAlert && 
-				<DeletionAlertModal project={project} onDelete={onDelete} onClose={()=>setShowDeletionAlert(false)} />
+				<DeletionAlertModal projectsList={[project]} onDelete={onDelete} onClose={()=>setShowDeletionAlert(false)} />
 			}
 			
 		</div>

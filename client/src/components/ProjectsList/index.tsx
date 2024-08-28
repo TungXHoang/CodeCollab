@@ -63,10 +63,10 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 							{projectsList.map((project: IProject) => (
 								<Project
 									key={project._id}
-									onDelete={(idsList: string[])=>handleDelete(idsList)}
+									onDelete={handleDelete}
 									project={project}
-									onCheck={(projectId,checked)=>handleCheck({projectId:projectId, checked:checked})}
-									isChecked={isChecked.includes(project._id)}
+									onCheck={(project,checked)=>handleCheck({project:project, checked:checked})}
+									isChecked={isChecked.includes(project)}
 								/>
 							))}
 						</tbody>
@@ -85,7 +85,7 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 				<SelectionModal onSelect={setShowModal} onCreate={onCreate} />
 			}
 			{isChecked.length > 0 &&
-				<CheckboxModal onDelete={(idList:string[])=>handleDelete(idList)} selectedProject={isChecked} />
+				<CheckboxModal onDelete={handleDelete} selectedProject={isChecked} />
 			}
 			</>
 	);
