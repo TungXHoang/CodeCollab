@@ -63,7 +63,7 @@ const ProjectPopover = ({ onShare, onDelete, project, onDeleteGuest }: IPopoverP
 					{/* //Popover section */}
 					{
 					open &&
-						<div ref={popoverRef} className="z-50 absolute right-0 w-[220px] top-[80%] bg-[#1C2333] rounded-[4px]">
+						<div ref={popoverRef} className="z-40 absolute right-0 w-[220px] top-[80%] bg-[#1C2333] rounded-[4px]">
 							<ul className="relative m-0 py-[8px] px-1 block m-0">
 								<li className="block">
 									<button className="popoverButton" onClick={(e: any) => {

@@ -29,7 +29,7 @@ const DeletionAlertModal = ({ onClose, onDelete, projectsList }: IDeletionAlertM
 					e.stopPropagation();
 					onClose();
 				}}>
-				<div className="absolute left-0 right-0 top-[100px] w-full max-w-[510px] mx-auto" onClick={(e) => e.stopPropagation()}>
+				<div className="absolute left-0 right-0 top-[150px] w-full max-w-[480px] mx-auto" onClick={(e) => e.stopPropagation()}>
 					<div className="dropdown-shadow flex flex-col text-left p-[16px] pb-[20px] bg-[#1C2333] rounded-[6px] text-[#F5F9FC]">
 						<button onClick={onClose} className="absolute w-[24px] h-[24px] top-[8px] right-[8px] flex items-center justify-center rounded-[4px] transition-[background-color] ease-in-out duration-150 hover:bg-[#2B3245]">
 							<svg width="16px" height="16px" fill="#F5F9FC" viewBox="0 0 24 24"> 
@@ -39,9 +39,13 @@ const DeletionAlertModal = ({ onClose, onDelete, projectsList }: IDeletionAlertM
 						<div className="flex flex-col gap-[16px]">
 							<h2 className="text-[20px] leading-[1.4] font-[500]">Delete Project?</h2>
 							<div className="text-[14px] leading-[1.6] text-[#C2C8CC] mt-1">
-								Are you sure you want to delete <span className="text-[#F5F9FC] font-[500]">{projectsList.length>1 ? `${projectsList.length} projects` : projectsList[0].title}?{" "}</span>This action cannot be undone.
+								Are you sure you want to delete
+								<span className="text-[#F5F9FC] font-[500]">
+								{" "}{projectsList.length > 1 ? `${projectsList.length} projects` : projectsList[0].title}?{" "}
+								</span>
+								This action cannot be undone.
 							</div>
-							<div className="flex flex-row gap-[12px] justify-end items-center">
+							<div className="flex flex-row gap-[12px] justify-end mt-[10px] items-center">
 								<button onClick={onClose} className="bg-[#2B3245] hover:bg-[#3C445C] transition-[background-color] ease-in-out p-[8px] rounded-[4px] h-[32px] flex items-center">
 									<span className="text-[14px] leading-[1.6]">Cancel</span>
 								</button>
@@ -56,7 +60,7 @@ const DeletionAlertModal = ({ onClose, onDelete, projectsList }: IDeletionAlertM
 					</div>
 				</div>
 			</div>
-			<div className="fixed inset-0 z-40 bg-[#0e1525A0]" ></div>
+			<div className="fixed inset-0 z-40 opacity-70 bg-[#0e1525A0]" ></div>
 		</>
 	)
 }

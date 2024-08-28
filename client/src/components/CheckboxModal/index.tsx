@@ -9,7 +9,6 @@ interface ICheckboxModal {
 
 const CheckboxModal = ({ selectedProject,onDelete }: ICheckboxModal) => {
 	const [showDeletionAlert, setShowDeletionAlert] = useState(false);
-	console.log(selectedProject);
 	return (
 		<>
 			<div className="flex sticky z-10 bottom-[20px] justify-center items-center mt-auto pointer-events-none pt-[32px]">
