@@ -50,7 +50,7 @@ const RouterBuilder = () => {
 			element: <Root/>
 		},
 		{
-			element: <PrivateRoutes><ProjectRoutes> <EditingNavbar /> </ProjectRoutes></PrivateRoutes>,
+			element: <ProjectRoutes> <EditingNavbar /> </ProjectRoutes>,
 			children: EditingRoute,
 		},
 	  {

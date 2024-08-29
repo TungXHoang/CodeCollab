@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
 import { ProjectContextProvider } from "../../context/ProjectContext";
-import { SocketContextProvider } from "../../context/SocketContext";
+import { AuthContextProvider } from "../../context/AuthContext";
 interface ProjectRoutesProps {
     children: ReactNode;
 }
@@ -9,7 +9,7 @@ interface ProjectRoutesProps {
 const ProjectRoutes: React.FC<ProjectRoutesProps> = ({
     children,
 }): React.JSX.Element => {
-	return <ProjectContextProvider><SocketContextProvider><React.Fragment>{children}</React.Fragment></SocketContextProvider></ProjectContextProvider>
+	return <AuthContextProvider><ProjectContextProvider><React.Fragment>{children}</React.Fragment></ProjectContextProvider></AuthContextProvider>
 };
 
 export default ProjectRoutes;
