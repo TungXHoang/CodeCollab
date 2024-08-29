@@ -60,4 +60,15 @@ async function updateProject({ userId, projectId, newTitle, newDescription }: { 
 		return (err as AxiosError).response;
 	}
 }
-export {createProject, deleteProject, shareProject, deleteGuest, updateProject}
+
+async function saveProject({ docName }: { docName: string }) {
+	try {
+		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/save`, {docName})
+		return res
+	}
+	catch (err) {
+		console.log(err);
+		return (err as AxiosError).response;
+	}
+}
+export {saveProject,createProject, deleteProject, shareProject, deleteGuest, updateProject}

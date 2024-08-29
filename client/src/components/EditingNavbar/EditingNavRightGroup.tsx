@@ -1,10 +1,10 @@
 import { useState,useRef } from 'react';
-import ShareModal from "../../components/ShareModal";
 
+import {saveProject} from "../../foundation/projectsAPI"
 // sub-component
 import ProfileDropdown from "../ProfileDropdown"
 import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
-
+import ShareModal from "../../components/ShareModal";
 // Interface
 import { IAuthUser } from "../../types/auth";
 import { IProject } from "../../components/ProjectsList/IProject";
@@ -22,12 +22,18 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
-	const handleClick = () => {
-    setIsSpinning(true);
-    setTimeout(() => {
-      setIsSpinning(false);
-    }, 2000);
-    // Add your save functionality here
+	const handleClick = async () => {
+		setIsSpinning(true);
+		try {
+			const res = await saveProject({ docName: project._id });
+			if (res) {
+				console.log(res.data);
+			}
+			setIsSpinning(false);
+		} catch (error) {
+			console.error('Error saving project:', error);
+			setIsSpinning(false);
+		}
 	};
 
 
