@@ -7,6 +7,7 @@ import { IProject } from "../../components/ProjectsList/IProject"
 import SelectionModal from "../../components/SelectionModal"
 import SwitchViewGroup from "../../components/SwitchViewGroup";
 import DashboardActionGroup from "../../components/DashboardActionGroup"
+import UndefinedQuery from "../../components/UndefinedQuery";
 
 //Toast
 import { ToastContainer } from "react-toastify";
@@ -76,7 +77,11 @@ export default function Dashboard() {
 								<SwitchViewGroup onSelect={setIsOwner} />
 							</div>
 							<div className="flex flex-col grow">
-								<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest } isOwner={isOwner} onDelete={handleDelete} onCreate={handleCreate} />
+								{searchField !== "" && filteredProject[filteredKey] ?
+									<UndefinedQuery query={searchField} /> :
+									<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} isOwner={isOwner} onDelete={handleDelete} onCreate={handleCreate} />
+								}
+
 							</div>
 							
 						</main>
