@@ -94,7 +94,7 @@ export const showDashboardToast = (msg: string, type: ToastType) => {
 		style: {
 			color: "white",
 			maxHeight: `70px`,
-			minHeight: `auto`
+			minHeight: `auto`,
 			}
 		};
 		switch (type) {
