@@ -77,7 +77,7 @@ export default function Dashboard() {
 								<SwitchViewGroup onSelect={setIsOwner} />
 							</div>
 							<div className="flex flex-col grow">
-								{searchField !== "" && filteredProject[filteredKey] ?
+								{searchField !== "" && filteredProject[filteredKey].length === 0 ?
 									<UndefinedQuery query={searchField} /> :
 									<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} isOwner={isOwner} onDelete={handleDelete} onCreate={handleCreate} />
 								}
