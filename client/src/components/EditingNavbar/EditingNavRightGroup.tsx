@@ -22,18 +22,23 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
+	const wait = (delay: number) => new Promise(resolve => setTimeout(resolve, delay));
 	const handleClick = async () => {
 		setIsSpinning(true);
-		try {
-			const res = await saveProject({ docName: project._id });
-			if (res) {
-				console.log(res.data);
-			}
-			setIsSpinning(false);
-		} catch (error) {
-			console.error('Error saving project:', error);
-			setIsSpinning(false);
-		}
+		const minimumSpinnerDuration = 2000;
+		const saveProjectPromise = saveProject({ docName: project._id });
+		const delayPromise = wait(minimumSpinnerDuration);
+	
+		Promise.all([saveProjectPromise, delayPromise])
+			.then(([res]) => {
+				return res?.data;
+			})
+			.catch(error => {
+				console.error('Error saving project:', error);
+			})
+			.finally(() => {
+				setIsSpinning(false);
+			});
 	};
 
 

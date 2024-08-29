@@ -12,7 +12,7 @@ import EditingNavbar from "../components/EditingNavbar";
 import AuthLayout from "../foundation/ui/AuthLayout";
 import Editing from "./Editing";
 import Dashboard from "./Dashboard";
-
+// import DashboardSkeleton from "./Dashboard/DashboardSkeleton"
 // Route wrapper
 import PrivateRoutes from "../foundation/routeWrapper/PrivateRoutes";
 import ProjectRoutes from "../foundation/routeWrapper/ProjectRoutes";

@@ -64,6 +64,9 @@ async function updateProject({ userId, projectId, newTitle, newDescription }: { 
 async function saveProject({ docName }: { docName: string }) {
 	try {
 		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/save`, {docName})
+		if (res) {
+			console.log(res);
+		}
 		return res
 	}
 	catch (err) {
