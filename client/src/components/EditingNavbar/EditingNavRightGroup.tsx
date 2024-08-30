@@ -5,6 +5,7 @@ import {saveProject} from "../../foundation/projectsAPI"
 import ProfileDropdown from "../ProfileDropdown"
 import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
 import ShareModal from "../../components/ShareModal";
+import { useGetGuests } from "../../hooks/useGetGuests"
 // Interface
 import { IAuthUser } from "../../types/auth";
 import { IProject } from "../../components/ProjectsList/IProject";
@@ -18,7 +19,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-
+	const { guestsList, setGuestsList } = useGetGuests(project._id);
 
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 

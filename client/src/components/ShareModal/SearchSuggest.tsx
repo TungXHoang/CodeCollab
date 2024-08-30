@@ -29,7 +29,6 @@ const SearchSuggest = ({ filterQuery, setFilterQuery }: ISearchSuggest) => {
 		return allUsers ? allUsers.filter((user) => user.email.toLowerCase().includes(filterQuery.toLowerCase())):undefined;
   }, [filterQuery, allUsers,loadingAllUsers]);
 	
-
 	
 
 	return (

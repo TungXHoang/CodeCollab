@@ -1,18 +1,19 @@
 import { useRef, useState} from 'react'
 import ShareModal from "../ShareModal"
-import { IProject, IOwner } from "../ProjectsList/IProject"
+import { IProject } from "../ProjectsList/IProject"
 import useClickOutside from '../../hooks/useClickOutside';
 import DeletionAlertModal from "../DeletionAlertModal";
+import { IGuestList } from "../../hooks/useGetGuests";
 
 interface IPopoverProps {
-	onShare: (guest: IOwner) => void;
-	onDeleteGuest: (guestId: string) => void;
-	onDelete: (projectsId: string[]) =>void;
+	onDelete: (projectsId: string[]) => void;
+	onEditGuest: React.Dispatch<React.SetStateAction<IGuestList[] | undefined>>
 	userId: string;
 	project: IProject;
+	guestsList: IGuestList[] | undefined
 }
 
-const ProjectPopover = ({ onShare, onDelete, project, onDeleteGuest }: IPopoverProps) => {
+const ProjectPopover = ({ guestsList, onDelete, project,onEditGuest }: IPopoverProps) => {
 	const popoverRef = useRef<HTMLDivElement | null>(null);
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 	const [showModal, setShowModal] = useState(false);
@@ -93,7 +94,7 @@ const ProjectPopover = ({ onShare, onDelete, project, onDeleteGuest }: IPopoverP
 					}
 				</div>
 			</td>
-			{showModal && <ShareModal onDeleteGuest={onDeleteGuest} onShare={onShare} toastContainerId={"DashboardToast"} project={project} onClose={() => handleToggleModal(false)} />}
+			{showModal && <ShareModal guestsList={guestsList} onEditGuest={onEditGuest } toastContainerId={"DashboardToast"} project={project} onClose={() => handleToggleModal(false)} />}
 		</>
 	)
 }

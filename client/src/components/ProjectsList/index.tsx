@@ -8,10 +8,8 @@ import CheckboxModal from "../CheckboxModal";
 const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsListProps) => {
 	const [showModal, setShowModal] = useState(false);
 	const selectAllRef = useRef<HTMLInputElement>(null);
-
 	const {isCheckedAll,isChecked,handleCheck,handleCheckedAll,resetCheckBox} = useCheckbox(projectsList, selectAllRef);
 	
-
 	const handleDelete = (idList: string[]) => {
 		resetCheckBox();
 		onDelete(idList);

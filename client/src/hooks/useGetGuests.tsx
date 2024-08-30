@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import Axios from "axios";
 import { IOwner } from "../components/ProjectsList/IProject"
 
-interface IGuestList {
-	_id: string,
-	projectId: string,
-	guestId: IOwner
+export interface IGuestList {
+	_id?: string,
+	project: string,
+	guest: IOwner
 }
 
 function useGetGuests(projectId: string) {
@@ -30,7 +30,7 @@ function useGetGuests(projectId: string) {
 		getGuests();
 	}, [projectId]);
 
-	return { loadingGuests, guestsList };
+	return { loadingGuests, guestsList,setGuestsList };
 }
 
 export {useGetGuests} ;

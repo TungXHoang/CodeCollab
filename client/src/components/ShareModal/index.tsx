@@ -1,38 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
-import {IProject, IOwner} from "../ProjectsList/IProject.tsx"
+import {IProject} from "../ProjectsList/IProject.tsx"
 import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
-import { useGetGuests } from "../../hooks/useGetGuests.tsx";
-
+//Subcomponent
 import SearchSuggest from "./SearchSuggest.tsx";
 import InviteesList from "./InviteesList.tsx";
+import { IGuestList } from "../../hooks/useGetGuests";
 
 
 interface IShareModalProps {
-	onShare: (guest:IOwner)=> void,
 	onClose: () => void,
-	onDeleteGuest: (guestId:string) => void;
+	guestsList: IGuestList[] | undefined,
 	project: IProject,
 	toastContainerId: string,
+	onEditGuest: React.Dispatch<React.SetStateAction<IGuestList[] | undefined>>
 }
 
-const ShareModal = ({ onClose, onShare, onDeleteGuest, project, toastContainerId }: IShareModalProps) => {	
+const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId }: IShareModalProps) => {	
 	const user = useAuthContext();
-	const { loadingGuests, guestsList } = useGetGuests(project._id);
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [filterQuery, setFilterQuery] = useState("")
-	const [guests, setGuests] = useState<IOwner[] | undefined>(undefined);
-
-
-	useEffect(() => {
-		if (!loadingGuests && guestsList !== undefined) {
-			const inviteesList: IOwner[] = guestsList.map((guest)=>guest.guestId)
-			setGuests(inviteesList);
-		}
-	}, [loadingGuests, guestsList]);
-
+	
 
 	const CopyToClip = async () => {
 		await navigator.clipboard.writeText(`${import.meta.env.VITE_CLIENT_BASEURL}/edit/${project._id}`); 
@@ -46,20 +36,19 @@ const ShareModal = ({ onClose, onShare, onDeleteGuest, project, toastContainerId
 		const res = await shareProject(formData);
 		showShareToast(res!.status, res!.data.message, { containerId: toastContainerId });
 		if (res!.status === 201) {
-			setGuests((prevGuests) => (prevGuests ? [...prevGuests, res!.data.guest] : [res!.data.guest]));
-			onShare(res!.data.guest);
+			const newGuest = { project: project._id, guest:res!.data.guest}
+			onEditGuest((prevGuests) => (prevGuests ? [...prevGuests, newGuest] : [newGuest]));
 		}
 		return;
 	}
 
 	const handleDeleteGuest = (guestId:string) => {
-		setGuests(prevGuests => prevGuests!.filter(guest => guest._id !== guestId))
-		onDeleteGuest(guestId);
+		onEditGuest(prevGuests => prevGuests!.filter(guest => guest.guest._id !== guestId))
 	}
 
 	return createPortal(
 		<> 
-			{ guests &&
+			{ guestsList &&
 				<div className="cursor-auto top-0 right-0 bottom-0 right-0 overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
 					onClick={(e) => {
 						e.stopPropagation();
@@ -107,7 +96,7 @@ const ShareModal = ({ onClose, onShare, onDeleteGuest, project, toastContainerId
 										</button>
 									</div>
 								</div>
-								{<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guests={guests} />}
+								<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guestsList={guestsList} />
 							</div>
 						</div>
 					</div>

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 interface IUseClickOutside {
 	targetRef: React.MutableRefObject<HTMLDivElement | HTMLUListElement | null>;
-	toggleButtonRef?: React.MutableRefObject<HTMLButtonElement | HTMLInputElement | null>;
+	toggleButtonRef?: React.MutableRefObject<HTMLButtonElement | HTMLInputElement | HTMLDivElement | null>;
 	onClickOutside: () => void;
 	isOpen: boolean;
 	disable: boolean;
