@@ -17,8 +17,6 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 		onDelete(idList);
 	}
 	
-
-
 	useEffect(() => {
 		resetCheckBox();
 	}, [isOwner])

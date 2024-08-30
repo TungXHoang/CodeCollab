@@ -64,6 +64,17 @@ async function isLoggedIn() {
 	return { auth: response.data.auth, username: "", id: "" };
 }
 
+async function GetAllUsers() {
+	try {
+		const response = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/getall`)
+		return response.data;
+	}
+	catch (err) {
+		console.log(err);
+		return;
+	}
+}
+
 // async function fetchUserData(id: string, thumbnailDim: number) {
 // 	const response = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/${id}/${thumbnailDim}`);
 // 	if (response) {
@@ -77,4 +88,4 @@ async function isLoggedIn() {
 // 		};
 // 	}
 // }
-export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI };
+export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI, GetAllUsers };

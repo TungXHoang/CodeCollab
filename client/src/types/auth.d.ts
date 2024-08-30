@@ -3,6 +3,7 @@ export interface IAuthUser {
 	_id: string;
 	lastName: string;
 	firstName: string;
+	email: string;
 }
 
 export interface IRegisterCrendential{

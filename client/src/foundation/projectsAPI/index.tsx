@@ -1,6 +1,6 @@
 import Axios, { AxiosError,AxiosResponse } from "axios"
 
-interface IShareProject {
+interface shareProjectCredential {
 	projectId: string,
 	ownerId: string,
 	guestEmail: string
@@ -22,9 +22,9 @@ async function deleteProject({userId, projectsId}:{userId:string,projectsId:stri
 }
 
 
-async function shareProject(formData: IShareProject) {
+async function shareProject(shareProjectCredential: shareProjectCredential) {
 	try {
-		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/share`, formData);
+		const res: AxiosResponse = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/share`, shareProjectCredential);
 		return res;
 	}
 	catch (err) {
