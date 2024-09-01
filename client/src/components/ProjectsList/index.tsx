@@ -81,7 +81,7 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 				<SelectionModal onSelect={setShowModal} onCreate={onCreate} />
 			}
 			{isChecked.length > 0 &&
-				<CheckboxModal onDelete={handleDelete} selectedProject={isChecked} />
+				<CheckboxModal isOwner={isOwner} onDelete={handleDelete} selectedProject={isChecked} />
 			}
 			</>
 	);
