@@ -1,5 +1,6 @@
-import Axios from "axios";
-import {IRegisterCrendential} from "../../types/auth"
+import Axios, { AxiosResponse } from "axios";
+import { IRegisterCrendential } from "./IAuthAPI";
+
 interface LoginCredential {
 	password: string;
 	email: string;
@@ -9,19 +10,18 @@ interface LoginCredential {
 async function RegisterAPI(registerCredential: IRegisterCrendential ) {
 	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/register`, registerCredential);
 	if (response.data.auth) {
-			return {
-				auth: true,
-				msg: "Register Successfully",
-				id: response.data.id,
-			};
+		return {
+			auth: true,
+			msg: "Register Successfully",
+		};
 	} else {
-			return {
-					auth: false,
-					msg:
-						response.data.err.name === "UserExistsError"
-							? "A user with the given email is already registered"
-							: response.data.err.message,
-			};
+		return {
+			auth: false,
+			msg:
+				response.data.err.name === "UserExistsError"
+					? "A user with the given email is already registered"
+					: response.data.err.message,
+		};
 	}
 }
 
@@ -37,12 +37,8 @@ async function LogoutAPI() {
 }
 
 async function LoginAPI(credential: LoginCredential) {
-	const { email, password } = credential;
 	try {
-		const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/login`, {
-				email: email,
-				password: password, 
-		});
+		const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/login`, credential);
 		if (response.data.auth) {
 			return {
 				auth: response.data.auth,
