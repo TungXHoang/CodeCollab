@@ -37,7 +37,6 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 
 
 	const handleCreate = (newProject: IProject) => {
-		showDashboardToast("Project created successfully!", "success");
 		setProjectsList((prevProjectsList) => {
 			if (prevProjectsList) {
 				return {

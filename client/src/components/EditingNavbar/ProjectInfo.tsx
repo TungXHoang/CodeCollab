@@ -34,16 +34,12 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 
 	const handleUpdate = async ({ newTitle, newDescription }:{newTitle:string,newDescription:string}) => {
 		const res = await updateProject({ userId:user._id, projectId: project._id, newTitle: newTitle, newDescription:newDescription })
-		if (res!.status === 200) {
-			showEditingToast("Update successfully", "success");
+		if (res) {
 			setProject({
 				...project,
 				title: newTitle,
 				description:newDescription,
 			});
-		}
-		else {
-			showEditingToast("Update fail!", "error")
 		}
 		setShowProjectInfo(false);
 	}

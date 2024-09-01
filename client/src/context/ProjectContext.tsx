@@ -35,7 +35,7 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode}) => 
 	const { loadingGuests, guestsList } = useGetGuests(projectId!)
 	useEffect(() => {
 		if (!loadingGuests && guestsList !== undefined) {
-			const guestIds = guestsList.map(guest => guest.guestId._id);
+			const guestIds = guestsList.map(item => item.guest._id);
 			setGuestsId(guestIds);
 		}
 	}, [loadingGuests, guestsList]);

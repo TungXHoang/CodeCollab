@@ -1,9 +1,8 @@
 import { useState,useRef } from 'react';
-
+import {showEditingToast } from "../../foundation/utils/ToastMessage.tsx"
 import {saveProject} from "../../foundation/projectsAPI"
 // sub-component
 import ProfileDropdown from "../ProfileDropdown"
-import {showShareToast } from "../../foundation/utils/ToastMessage.tsx"
 import ShareModal from "../../components/ShareModal";
 import { useGetGuests } from "../../hooks/useGetGuests"
 // Interface
@@ -32,7 +31,8 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 	
 		Promise.all([saveProjectPromise, delayPromise])
 			.then(([res]) => {
-				return res?.data;
+				showEditingToast("Save successfully", "success")
+				return res;
 			})
 			.catch(error => {
 				console.error('Error saving project:', error);
@@ -98,7 +98,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 				}
 			</div>
 			
-			{showShareModal && <ShareModal onDeleteGuest={()=>showShareToast(200, "Delete guest successfully", { containerId: "EditingToast" }) } onShare={()=>{return}} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleShareModal(false)} />}
+			{showShareModal && <ShareModal onEditGuest={setGuestsList} guestsList={guestsList} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleShareModal(false)} />}
 		</div>
 	)
 

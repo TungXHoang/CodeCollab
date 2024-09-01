@@ -16,7 +16,7 @@ const DeletionAlertModal = ({ onClose, onDelete, projectsList }: IDeletionAlertM
 	const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
 		const res = await deleteProject({projectsId: projectIdList , userId: user._id})
-		if (res.status === 200) {
+		if (res) {
 			onDelete(projectIdList)
 		}
 		return res;

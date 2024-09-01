@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
 import {IProject} from "../ProjectsList/IProject.tsx"
-import {showShareToast} from "../../foundation/utils/ToastMessage.tsx"
 //Subcomponent
 import SearchSuggest from "./SearchSuggest.tsx";
 import InviteesList from "./InviteesList.tsx";
@@ -12,10 +11,10 @@ import { IGuestList } from "../../hooks/useGetGuests";
 
 interface IShareModalProps {
 	onClose: () => void,
+	onEditGuest: React.Dispatch<React.SetStateAction<IGuestList[] | undefined>>
 	guestsList: IGuestList[] | undefined,
 	project: IProject,
 	toastContainerId: string,
-	onEditGuest: React.Dispatch<React.SetStateAction<IGuestList[] | undefined>>
 }
 
 const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId }: IShareModalProps) => {	
@@ -32,14 +31,12 @@ const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId 
 	const handleShare = async (e?: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {3
 		if (e) e.preventDefault();
 		setFilterQuery("");
-		const formData = {guestEmail:filterQuery, ownerId:user._id, projectId: project._id }
-		const res = await shareProject(formData);
-		showShareToast(res!.status, res!.data.message, { containerId: toastContainerId });
-		if (res!.status === 201) {
-			const newGuest = { project: project._id, guest:res!.data.guest}
+		const shareParams = { guestEmail: filterQuery, ownerId: user._id, projectId: project._id, toastContainer: toastContainerId }
+		const result = await shareProject(shareParams);
+		if (result) {
+			const newGuest = { project: project._id, guest:result.guest}
 			onEditGuest((prevGuests) => (prevGuests ? [...prevGuests, newGuest] : [newGuest]));
-		}
-		return;
+		}	
 	}
 
 	const handleDeleteGuest = (guestId:string) => {
@@ -90,13 +87,13 @@ const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId 
 									</label>
 									<div className="flex text-[hsl(0,0,80%)] ">
 										<SearchSuggest filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
-										<button onClick={handleShare} className="flex font-[500] items-center text-[13px] ml-[8px] bg-[#0053A6] hover:bg-[#0079F2] text-[#F5F9FC] p-[5px] pl-0 shrink-0 flex-grow rounded-[4px] max-h-[32px]">
+										<button disabled={filterQuery === ""} onClick={handleShare} className="flex font-[500] items-center text-[13px] ml-[8px] bg-[#0053A6] hover:bg-[#0079F2] text-[#F5F9FC] p-[5px] pl-0 shrink-0 flex-grow rounded-[4px] max-h-[32px] disabled:cursor-default disabled:pointer-events-none disabled:bg-[#004182] disabled:text-[#0079F2]">
 											<svg className="mx-[5px]" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="14px" height="14px" fill="currentColor"><path d="M 15.990234 1.9902344 A 1.0001 1.0001 0 0 0 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 A 1.0001 1.0001 0 1 0 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 A 1.0001 1.0001 0 1 0 16.707031 11.707031 L 20.707031 7.7070312 A 1.0001 1.0001 0 0 0 20.707031 6.2929688 L 16.707031 2.2929688 A 1.0001 1.0001 0 0 0 15.990234 1.9902344 z M 2.984375 7.9863281 A 1.0001 1.0001 0 0 0 2 9 L 2 19 C 2 20.64497 3.3550302 22 5 22 L 19 22 C 20.64497 22 22 20.64497 22 19 L 22 18 A 1.0001 1.0001 0 1 0 20 18 L 20 19 C 20 19.56503 19.56503 20 19 20 L 5 20 C 4.4349698 20 4 19.56503 4 19 L 4 9 A 1.0001 1.0001 0 0 0 2.984375 7.9863281 z"/></svg>
 											Add guest
 										</button>
 									</div>
 								</div>
-								<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guestsList={guestsList} />
+								<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guestsList={guestsList} containerId={toastContainerId} />
 							</div>
 						</div>
 					</div>

@@ -11,7 +11,9 @@ interface ISelectionModalProps {
 const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 	const handleCreate = async (data: any) => {
 		const res = await createProject(data);
-		onCreate(res.data);
+		if (res) {
+			onCreate(res);
+		}
 		return;
 	}
 	const user = useAuthContext();

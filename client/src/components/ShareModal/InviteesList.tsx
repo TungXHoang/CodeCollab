@@ -1,26 +1,22 @@
 import { IProject } from "../ProjectsList/IProject.tsx"
 import { deleteGuest } from "../../foundation/projectsAPI";
 import { useAuthContext } from "../../context/AuthContext.tsx";
-import {showDashboardToast} from "../../foundation/utils/ToastMessage.tsx"
 import { IGuestList } from "../../hooks/useGetGuests";
 
 interface IInviteesList {
 	project: IProject,
 	guestsList: IGuestList[] | undefined,
-	onDelete: (guestId:string)=>void
+	onDelete: (guestId: string) => void,
+	containerId: string
 }
 
-const InviteesList = ({ project, guestsList, onDelete }:IInviteesList ) => {
+const InviteesList = ({ project, guestsList, onDelete, containerId }:IInviteesList ) => {
 
 	const user = useAuthContext()
 	const handleDelete = async ({ guestId, projectId }:{guestId:string,projectId:string}) => {
-		const res = await deleteGuest({ userId:user._id, guestId: guestId, projectId: projectId })
-		if (res!.status === 200) {
+		const res = await deleteGuest({ userId:user._id, guestId: guestId, projectId: projectId, containerId:containerId })
+		if (res) {
 			onDelete(guestId);
-			showDashboardToast("Delete guest successfully!", "success");
-		}
-		else {
-			showDashboardToast("Error occur when deleting guest", "error");
 		}
 	}
 

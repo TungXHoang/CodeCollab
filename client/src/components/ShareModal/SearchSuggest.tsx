@@ -36,7 +36,7 @@ const SearchSuggest = ({ filterQuery, setFilterQuery }: ISearchSuggest) => {
 			<input ref={inputRef} onFocus={() => setShowSearchDropdown(true)} autoFocus={false} autoComplete="off" required name="email" placeholder="Enter email..." className="text-[13px] outline-none focus:border-[#0079F2] px-2 py-1 w-full bg-[#2B3245] border-[1px] border-[#3C445C] hover:border-[#5F677A] rounded-[4px]" type="email" value={filterQuery} onChange={(e) => setFilterQuery(e.currentTarget.value)} />
 			{
 				(showSearchDropdown && filteredUser && filterQuery !== "") &&
-				<ul ref={ulRef} role="listbox" className="absolute w-full flex flex-col shrink-0 outline-none bg-[#2B3245] rounded-[10px] top-[36px] z-10 border-[#3C445C] border-[1px] max-h-[280px]">
+				<ul ref={ulRef} role="listbox" className={`max-h-[280px] ${filteredUser.length === 0 ? 'hidden':''} absolute w-full flex flex-col shrink-0 outline-none bg-[#2B3245] rounded-[10px] top-[36px] z-10 border-[#3C445C] border-[1px]`}>
 					{filteredUser.map((user) => (
 						<li key={user._id} onClick={()=>handleOnClick(user.email)} className="hover:bg-[#0053A6] first:rounded-t-[8px] last:rounded-b-[8px] p-[8px] flex flex-row gap-[8px] items-center cursor-pointer">
 							<div className="flex gap-[8px] flex-row items-center">
