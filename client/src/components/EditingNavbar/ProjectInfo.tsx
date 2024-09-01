@@ -5,7 +5,6 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { IAuthUser } from "../../types/auth"
 import DeletionAlertModal from "../DeletionAlertModal"
 import {updateProject} from "../../foundation/projectsAPI"
-import { showEditingToast } from "../../foundation/utils/ToastMessage";
 
 
 interface IProjectInfo {
@@ -77,11 +76,11 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 					<form onSubmit={(e) => e.preventDefault()} className="flex flex-col text-[13px] font-[400] gap-[20px] leading-[1.2] p-[16px]">
 						<div>	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Title</label>	
-							<input onKeyDown={(e) => { if(e.key === 'Enter') e.preventDefault()}}  onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-2 focus:outline-[#0079F2] outline-offset-0" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
+							<input onKeyDown={(e) => { if(e.key === 'Enter') e.preventDefault()}}  onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-[0px]" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
 						</div>
 						<div>	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Description</label>
-							<textarea onChange={(e)=>setProjectDescription(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] min-h-[96px] max-h-[150px] w-full outline-none px-[7px] py-[7px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-2 focus:outline-[#0079F2] outline-offset-0" value={projectDescription} autoCorrect="off" spellCheck="false"></textarea>			
+							<textarea onChange={(e)=>setProjectDescription(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] min-h-[96px] max-h-[150px] w-full outline-none px-[7px] py-[7px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-0" value={projectDescription} autoCorrect="off" spellCheck="false"></textarea>			
 						</div>
 						<div>
 							<button onClick={()=>handleUpdate({newTitle:projectTitle,newDescription:projectDescription})}  className="text-[#F5F9FC] bg-[#0053A6] hover:bg-[#0079F2] h-[32px] p-[8px] w-full flex justify-center items-center gap-[8px] rounded-[4px]">
