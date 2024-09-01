@@ -1,18 +1,18 @@
 import Axios, { AxiosResponse } from "axios"
 
 import * as IProject from "./IProjectsAPI";
-import { showShareToast,showEditingToast,showDashboardToast } from "../../foundation/utils/ToastMessage.tsx"
+import { showToast } from "../../foundation/utils/ToastMessage.tsx"
 
 async function createProject(createProjectParams: IProject.ICreateProjectParams) {
 	try {
 		const res: AxiosResponse<IProject.ICreateProjectResponse, IProject.ICreateProjectParams> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects`, createProjectParams);
-		showShareToast(res.status, "Project created successfully", { containerId: "DashboardToast" })
+		showToast("success", "Project created successfully", { containerId: "DashboardToast" })
 		const result = res.data
 		return result;
 	}
 	catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showShareToast(err.response!.status, err.response!.data.message, { containerId: "DashboardToast" })
+			showToast("error", err.response!.data.message, { containerId: "DashboardToast" })
 		}
 		else {
 			throw new Error("An unexpected error occurred")
@@ -30,11 +30,12 @@ async function deleteProject(formData: { userId: string, projectsId: string[] })
 			data: formData
 		});
 		const result = res.data
+		// handle toast noti at UI layer
 		return result;
 	}
 	catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showDashboardToast("Delete project fail!", "error")
+			showToast("error","Delete project fail!", {containerId: "DashboardToast"})
 		}
 		else {
 			throw new Error("An unexpected error occurred")
@@ -47,12 +48,12 @@ async function deleteProject(formData: { userId: string, projectsId: string[] })
 async function shareProject(shareProjectParams: IProject.IShareProjectParams) {
 	try {
 		const res: AxiosResponse<IProject.IShareProjectResponse,IProject.IShareProjectParams> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/share`,shareProjectParams);
-		showShareToast(res.status, res.data.message, { containerId: shareProjectParams.toastContainer })
+		showToast("success", res.data.message, { containerId: shareProjectParams.toastContainer })
 		const result = res.data;
 		return result;
 	} catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showShareToast(err.response!.status, err.response!.data.message, { containerId: shareProjectParams.toastContainer })
+			showToast("error", err.response!.data.message, { containerId: shareProjectParams.toastContainer })
 		}
 		else {
 			throw new Error("An unexpected error occurred")
@@ -68,13 +69,13 @@ async function deleteGuest({userId, guestId, projectId, containerId}:IProject.ID
 			},
 			data: {guestId, projectId}
 		});
-		showShareToast(res.status, "Guest deleted successfully!", { containerId: containerId })
+		showToast('success', "Remove guest successfully!", { containerId: containerId })
 		const result = res.data;
 		return result;
 	}
 	catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showShareToast(err.response!.status, "Guest deleted unsuccessfully!", { containerId: containerId })
+			showToast('error', "Guest deleted unsuccessfully!", { containerId: containerId })
 		}
 		else {
 			throw new Error("An unexpected error occurred")
@@ -85,13 +86,13 @@ async function deleteGuest({userId, guestId, projectId, containerId}:IProject.ID
 async function updateProject({ userId, projectId, newTitle, newDescription }: IProject.IUpdateProjectParams)  {
 	try {
 		const res: AxiosResponse<IProject.IUpdateProjectResponse,IProject.IUpdateProjectParams> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/update`, { userId, projectId, newTitle, newDescription })
-		showEditingToast("Update successfully", "success");
+		showToast("success", "Update successfully", { containerId: "EditingToast" });
 		const result = res.data;
 		return result
 	}
 	catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showEditingToast("Updated fail", "error")
+			showToast("error", "Update fail!", { containerId: "EditingToast" });
 		}
 		else {
 			throw new Error("An unexpected error occurred")
@@ -103,11 +104,12 @@ async function saveProject({ docName }: { docName: string }) {
 	try {
 		const res: AxiosResponse<{message:string},{docName:string}> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/projects/save`, {docName})
 		const result = res.data;
+		// handle toast noti at UI layer
 		return result;
 	}
 	catch (err) {
 		if (Axios.isAxiosError(err)) {
-			showEditingToast("Save fail", "error")
+			showToast("error", "Save fail!", { containerId: "EditingToast" });
 		}
 		else {
 			throw new Error("An unexpected error occurred")

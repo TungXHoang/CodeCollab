@@ -1,5 +1,5 @@
 import { useState,useRef } from 'react';
-import {showEditingToast } from "../../foundation/utils/ToastMessage.tsx"
+import {showToast } from "../../foundation/utils/ToastMessage.tsx"
 import {saveProject} from "../../foundation/projectsAPI"
 // sub-component
 import ProfileDropdown from "../ProfileDropdown"
@@ -31,7 +31,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 	
 		Promise.all([saveProjectPromise, delayPromise])
 			.then(([res]) => {
-				showEditingToast("Save successfully", "success")
+				showToast("success","Save successfully", {containerId:"EditingToast"})
 				return res;
 			})
 			.catch(error => {

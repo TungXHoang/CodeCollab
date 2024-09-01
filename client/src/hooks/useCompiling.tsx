@@ -1,5 +1,5 @@
 import { SubmissionAPI, CheckStatusAPI, SaveDocsAPI } from "../foundation/compileAPI/index.tsx"
-import { showErrorToast, showSuccessToast } from "../foundation/utils/ToastMessage.tsx"
+import {  showToast } from "../foundation/utils/ToastMessage.tsx"
 import { IProject } from "../components/ProjectsList/IProject.tsx";
 
 import { useState } from 'react';
@@ -21,16 +21,16 @@ const useCompiling = ({project, code}:IUseCompiling) => {
 			setProcessing(false)
 			setOutputDetails(response)
 			if (response.status_id == 3) {
-				showSuccessToast(`Compiled Successfully!`, {containerId: 'EditingToast'})
+				showToast("success", "Compiled Successfully!", {containerId: 'EditingToast'})
 			}
 			else {
-				showErrorToast(response.status.description, {containerId: 'EditingToast'});
+				showToast("error",response.status.description, {containerId: 'EditingToast'});
 			}
 			return;
 		}
 		catch (err) {
 			console.log("err", err);
-			showErrorToast(err as string, {containerId: 'EditingToast'});
+			showToast("error",err as string, {containerId: 'EditingToast'});
 		}
 		finally {
 			setProcessing(false);

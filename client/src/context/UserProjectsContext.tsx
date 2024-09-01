@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { IProject } from "../components/ProjectsList/IProject.tsx";
 import { useAuthContext } from "./AuthContext.tsx";
 import useGetProjects from "../hooks/useGetProjects";
-import { showDashboardToast } from "../foundation/utils/ToastMessage.tsx";
+import { showToast } from "../foundation/utils/ToastMessage.tsx";
 import DashboardSkeleton from "../routes/Dashboard/DashboardSkeleton.tsx";
 
 interface IUserProjectsContext {
@@ -55,7 +55,7 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 	
 	const handleDelete = (projectIds: string[]) => {
 		const msg = projectIds.length > 1 ? `${projectIds.length} projects have been deleted!` : "Project deleted successfully!"
-		showDashboardToast(msg, "success");
+		showToast("success", msg, {containerId:"DashboardToast"} )
     setProjectsList((prevProjectsList) => {
 			if (prevProjectsList) {
 				return {

@@ -10,7 +10,7 @@ import DashboardActionGroup from "../../components/DashboardActionGroup"
 import UndefinedQuery from "../../components/UndefinedQuery";
 
 //Toast
-import { ToastContainer,Slide } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];

@@ -37,15 +37,15 @@ export default function Editing(): JSX.Element {
 	return (
 		<>
 			<ToastContainer
-				position="top-right"
-				autoClose={1000}
-				hideProgressBar={false}
+				position="bottom-right"
+				hideProgressBar={true}
 				newestOnTop={false}
 				closeOnClick
-				rtl={false}
-				containerId = "EditingToast"
+				containerId="EditingToast"
+				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em' }}
+				limit={1}
+				// transition={Slide}
 			/>
-			
 			{/* Code window and output */}
 			<div className="flex flex-row space-x-4 items-start px-4 py-3 mt-8">
 				<div className="flex flex-col w-full h-full justify-start items-end">

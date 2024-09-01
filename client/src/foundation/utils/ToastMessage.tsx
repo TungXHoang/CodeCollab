@@ -1,4 +1,4 @@
-import { toast, ToastOptions,Slide} from "react-toastify";
+import { toast, ToastOptions,Slide, Id} from "react-toastify";
 
 type ToastType = "success" | "error" | "info" | "warning" | "default";
 
@@ -13,7 +13,7 @@ const CloseButton = ({ closeToast }: any) => (
 );
 
 const defaultToastOptions: ToastOptions = {
-	position: "top-right",
+	position: "bottom-center",
 	autoClose: 1000,
 	hideProgressBar: false,
 	closeOnClick: true,
@@ -32,12 +32,13 @@ export const showErrorToast = (msg: string, options: Partial<ToastOptions> = {})
 	toast.error(msg || `Something went wrong! Please try again.`, optionsToApply);
 };
 
-export const showShareToast = (statusCode: number, msg: string, options: Partial<ToastOptions>) => {
-	const isDashboard = options.containerId === "DashboardToast"
-	if (statusCode >= 400 && statusCode <= 500) {
-		return isDashboard ? showDashboardToast(msg, "error") : showErrorToast(msg, options)
-	}
-	return isDashboard ? showDashboardToast(msg, "success") : showSuccessToast(msg, options)
+export const showToast = (type:ToastType, msg: string, options: Partial<ToastOptions>) => {
+	// const isDashboard = options.containerId === "DashboardToast"
+	// if (statusCode >= 400 && statusCode <= 500) {
+	// 	return isDashboard ? showDashboardToast(msg, "error") : showErrorToast(msg, options)
+	// }
+	return showNotiToast(msg, type, options.containerId!);
+	// return isDashboard ? showDashboardToast(msg, type) : showSuccessToast(msg, options)
 }
 
 export const showSaveToast = (cb: any) => {
@@ -54,36 +55,39 @@ export const showSaveToast = (cb: any) => {
 
 
 
-export const showEditingToast = (msg: string, type: ToastType) => {
-	const dashboardOptions: ToastOptions = {
-		icon: false,
-		position: "top-right",
-		autoClose: 1500,
-		hideProgressBar: true,
-		closeOnClick: true,
-		closeButton: CloseButton,
-		containerId: "EditingToast",
-		style: {
-			color: "white",
-			maxHeight: `70px`,
-			minHeight: `auto`,
-			textAlign:`center`,
-			}
-		};
-		switch (type) {
-			case "success":
-				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
-				return toast.success(msg, dashboardOptions);
-			case "error":
-				dashboardOptions.style!.backgroundColor = `hsl(0, 79%, 57%)`;
-				return toast.error(msg, dashboardOptions);
-			default:
-				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
-				return toast(msg, dashboardOptions);
-		}
-}
+// export const showEditingToast = (msg: string, type: ToastType) => {
+// 	const dashboardOptions: ToastOptions = {
+// 		icon: false,
+// 		position: "bottom-center",
+// 		autoClose: 1500,
+// 		hideProgressBar: true,
+// 		closeOnClick: true,
+// 		closeButton: CloseButton,
+// 		containerId: "EditingToast",
+// 		style: {
+// 			fontSize:'13px',
+// 			maxHeight: `70px`,
+// 			maxWidth: `fit-content`,
+// 			minHeight: `auto`,
+// 			margin: `0`,
+// 			transform: `none`}
+// 		};
+// 		switch (type) {
+// 			case "success":
+// 				dashboardOptions.style!.backgroundColor = `#044A10`;
+// 				dashboardOptions.style!.color = `#BFFFCA`;
+// 				return toast.success(msg, dashboardOptions);
+// 			case "error":
+// 				dashboardOptions.style!.backgroundColor = `#660000`;
+// 				dashboardOptions.style!.color = `#FFCFCF`;
+// 				return toast.error(msg, dashboardOptions);
+// 			default:
+// 				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
+// 				return toast(msg, dashboardOptions);
+// 		}
+// }
 
-export const showDashboardToast = (msg: string, type: ToastType) => {
+export const showNotiToast = (msg: string, type: ToastType, containerId:Id,) => {
 	const dashboardOptions: ToastOptions = {
 		icon: false,
 		position: "bottom-center",
@@ -91,7 +95,7 @@ export const showDashboardToast = (msg: string, type: ToastType) => {
 		hideProgressBar: true,
 		closeOnClick: true,
 		closeButton: CloseButton,
-		containerId: "DashboardToast",
+		containerId: containerId,
 		style: {
 			fontSize:'13px',
 			maxHeight: `70px`,
