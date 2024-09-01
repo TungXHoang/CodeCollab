@@ -1,12 +1,12 @@
-import { toast, ToastOptions} from "react-toastify";
+import { toast, ToastOptions,Slide} from "react-toastify";
 
 type ToastType = "success" | "error" | "info" | "warning" | "default";
 
 const CloseButton = ({ closeToast }: any) => (
 	<button
-		className="text-white opacity-80 bg-transparent"
+		className="text-white text-center opacity-80 bg-transparent mx-[3px]"
 		onClick={closeToast} >
-		<svg aria-hidden="true" viewBox = "0 0 14 16" width="14px" height="16px"> 
+		<svg aria-hidden="true" viewBox = "0 0 14 16" width="13px" height="13px"> 
 			<path fill="currentColor" fillRule="evenodd" d="M7.71 8.23l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75L1 11.98l3.75-3.75L1 4.48 2.48 3l3.75 3.75L9.98 3l1.48 1.48-3.75 3.75z"></path>
 		</svg>
 	</button>
@@ -66,7 +66,8 @@ export const showEditingToast = (msg: string, type: ToastType) => {
 		style: {
 			color: "white",
 			maxHeight: `70px`,
-			minHeight: `auto`
+			minHeight: `auto`,
+			textAlign:`center`,
 			}
 		};
 		switch (type) {
@@ -92,17 +93,22 @@ export const showDashboardToast = (msg: string, type: ToastType) => {
 		closeButton: CloseButton,
 		containerId: "DashboardToast",
 		style: {
-			color: "white",
+			fontSize:'13px',
 			maxHeight: `70px`,
+			maxWidth: `fit-content`,
 			minHeight: `auto`,
+			margin: `0`,
+			transform: `none`,
 			}
 		};
 		switch (type) {
 			case "success":
-				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
+				dashboardOptions.style!.backgroundColor = `#044A10`;
+				dashboardOptions.style!.color = `#BFFFCA`;
 				return toast.success(msg, dashboardOptions);
 			case "error":
-				dashboardOptions.style!.backgroundColor = `hsl(0, 79%, 57%)`;
+				dashboardOptions.style!.backgroundColor = `#660000`;
+				dashboardOptions.style!.color = `#FFCFCF`;
 				return toast.error(msg, dashboardOptions);
 			default:
 				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;

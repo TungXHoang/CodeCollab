@@ -10,10 +10,10 @@ import DashboardActionGroup from "../../components/DashboardActionGroup"
 import UndefinedQuery from "../../components/UndefinedQuery";
 
 //Toast
-import { ToastContainer } from "react-toastify";
+import { ToastContainer,Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 
+type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 export default function Dashboard() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -52,15 +52,19 @@ export default function Dashboard() {
 		)
 	};
 	
+	
 
 	return (
 		<>
 			<ToastContainer
-				position="bottom-center"
+				position="bottom-right"
 				hideProgressBar={true}
 				newestOnTop={false}
 				closeOnClick
 				containerId="DashboardToast"
+				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em' }}
+				limit={1}
+				// transition={Slide}
 			/>
 			<div className="flex-auto overflow-y-auto">
 				<div className="flex h-full">
