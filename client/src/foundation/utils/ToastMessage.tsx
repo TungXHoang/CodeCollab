@@ -41,17 +41,17 @@ export const showToast = (type:ToastType, msg: string, options: Partial<ToastOpt
 	// return isDashboard ? showDashboardToast(msg, type) : showSuccessToast(msg, options)
 }
 
-export const showSaveToast = (cb: any) => {
-	toast.promise(
-    cb,
-		{
-      pending: 'Saving...', 
-      success: 'Saving successfully',
-			error: 'Saving unsuccessfully',
-		},
-		{containerId: 'EditingToast'}
-	)
-}
+// export const showSaveToast = (cb: any) => {
+// 	toast.promise(
+//     cb,
+// 		{
+//       pending: 'Saving...', 
+//       success: 'Saving successfully',
+// 			error: 'Saving unsuccessfully',
+// 		},
+// 		{containerId: 'EditingToast'}
+// 	)
+// }
 
 
 

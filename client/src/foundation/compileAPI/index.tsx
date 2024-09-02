@@ -11,6 +11,7 @@ async function CheckStatusAPI(token: string) {
 	return response.data;
 }
 
+// only use to update Last Update field, actually docs is updated by YJS
 async function SaveDocsAPI(projectId: string) {
 	const response = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/docs/save`, { projectId });
 	return response.data;

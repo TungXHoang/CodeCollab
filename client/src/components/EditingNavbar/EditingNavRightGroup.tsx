@@ -31,11 +31,12 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 	
 		Promise.all([saveProjectPromise, delayPromise])
 			.then(([res]) => {
-				showToast("success","Save successfully", {containerId:"EditingToast"})
+				showToast("success","Save successfully!", {containerId:"EditingToast"})
 				return res;
 			})
 			.catch(error => {
 				console.error('Error saving project:', error);
+				showToast("error","Save fail!", {containerId:"EditingToast"})
 			})
 			.finally(() => {
 				setIsSpinning(false);

@@ -1,6 +1,5 @@
 // Toast Noti
 import { ToastContainer } from "react-toastify";
-import {showSaveToast } from "../../foundation/utils/ToastMessage.tsx"
 import "react-toastify/dist/ReactToastify.css";
 
 
@@ -25,7 +24,8 @@ export default function Editing(): JSX.Element {
 
 	
 	const debouncedRequest = useDebounce(async () => {
-		showSaveToast(SaveDocsAPI(project._id));
+		await SaveDocsAPI(project._id);
+		// showSaveToast(SaveDocsAPI(project._id));
 	});
 	
 	const onChange = (data: string) => {
