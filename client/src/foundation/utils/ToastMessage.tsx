@@ -1,4 +1,4 @@
-import { toast, ToastOptions,Slide, Id} from "react-toastify";
+import { toast, ToastOptions, Id} from "react-toastify";
 
 type ToastType = "success" | "error" | "info" | "warning" | "default";
 
@@ -54,38 +54,6 @@ export const showSaveToast = (cb: any) => {
 }
 
 
-
-// export const showEditingToast = (msg: string, type: ToastType) => {
-// 	const dashboardOptions: ToastOptions = {
-// 		icon: false,
-// 		position: "bottom-center",
-// 		autoClose: 1500,
-// 		hideProgressBar: true,
-// 		closeOnClick: true,
-// 		closeButton: CloseButton,
-// 		containerId: "EditingToast",
-// 		style: {
-// 			fontSize:'13px',
-// 			maxHeight: `70px`,
-// 			maxWidth: `fit-content`,
-// 			minHeight: `auto`,
-// 			margin: `0`,
-// 			transform: `none`}
-// 		};
-// 		switch (type) {
-// 			case "success":
-// 				dashboardOptions.style!.backgroundColor = `#044A10`;
-// 				dashboardOptions.style!.color = `#BFFFCA`;
-// 				return toast.success(msg, dashboardOptions);
-// 			case "error":
-// 				dashboardOptions.style!.backgroundColor = `#660000`;
-// 				dashboardOptions.style!.color = `#FFCFCF`;
-// 				return toast.error(msg, dashboardOptions);
-// 			default:
-// 				dashboardOptions.style!.backgroundColor = `hsl(225, 60%, 35%)`;
-// 				return toast(msg, dashboardOptions);
-// 		}
-// }
 
 export const showNotiToast = (msg: string, type: ToastType, containerId:Id,) => {
 	const dashboardOptions: ToastOptions = {
