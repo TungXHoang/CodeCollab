@@ -65,20 +65,17 @@ export default function Editing(): JSX.Element {
 						height: `100%`,
 						width: "45%"
 					}}
-
 					handleComponent={{ right: <ResizableHandle /> }}
-					handleStyles={{ right: { right: "-10px"} }}
+					handleStyles={{ right: { right: "-12px"} }}
 					style={{ marginRight: "6px", userSelect:"none" }}
-					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
-				>
+					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}>
 					<CodeEditorWindow
 						onEdit={onChange}
 						language={project.language}
 					/>
-		
 				</Resizable>
 				
-				<div className="flex flex-col w-[35%]">
+				<div className="flex flex-col w-[35%] ml-1">
 					<OutputWindow outputDetails={outputDetails} />
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>

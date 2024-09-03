@@ -1,5 +1,5 @@
 import { DiCss3, DiJavascript, DiNpm } from "react-icons/di";
-import { FaList, FaRegFolder, FaRegFolderOpen } from "react-icons/fa";
+import { FaList } from "react-icons/fa";
 import { AiFillFolderOpen,AiFillFolder } from "react-icons/ai";
 import TreeView, { flattenTree } from "react-accessible-treeview";
 import "./styles.css";
@@ -36,7 +36,14 @@ const folder = {
 const data = flattenTree(folder);
 function MultiSelectDirectoryTreeView() {
   return (
-    <div>
+		<div className="flex flex-col justify-center items-start">
+			<div className="mx-[20px] mt-[5px] w-[90%] rounded-[6px] h-[2.3em] flex text-[hsl(0,0,80%)] items-center hover:bg-[#2B3245] bg-[#1C2333]">
+				<input className="text-[13px] outline-none border-0  focus:ring-offset-0 focus:ring-0 focus:outline-offset-0 focus:ring-offset-0 rounded-[4px] px-2 py-1 w-full bg-transparent border-0" type="search" placeholder="Search" autoComplete="off" autoCorrect="off" autoCapitalize="off" />
+
+			</div>
+			<div className="flex text-[hsl(0,0,80%)] items-center">
+										
+			</div>
       <div className="ide">
         <TreeView
           data={data}
