@@ -7,9 +7,11 @@ import { useAuthContext } from "../../context/AuthContext";
 import {useYjs} from "../../hooks/useYjs"
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
+type Monaco = typeof monaco 
 
-const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
+const CodeEditorWindow = ({ onEdit, language }: ICodeEditorWindow) => {
 	const {project} = useProjectContext();
 	const user = useAuthContext();
 	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor | null>(null);
@@ -19,6 +21,21 @@ const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
 		setEditorRef(editor);
 		setIsEditorMounted(true); // Editor has mounted, stop showing loader
 	};
+
+
+	const handleBeforeMount = (monaco: Monaco) => {
+		monaco.editor.defineTheme("myTheme", {
+			base: "vs-dark",
+			inherit: true,
+			rules: [],
+			colors: {
+				"editor.foreground": "#D4D4D4",
+				"editor.background": "#1C2333",
+				"editorCursor.foreground": "#0079F2",
+				"editor.lineHighlightBackground": "#2B3245",
+			},
+		});
+	}
 	
 	useYjs(editorRef, project._id, user)
 	
@@ -33,7 +50,7 @@ const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
       {!isEditorMounted && (
         <div className="absolute inset-0 z-10">
 					<Skeleton
-						height="85vh"
+						height="100vh"
 						width="100%"
 						baseColor="#1e1e1e"
 						borderRadius="0.5rem"
@@ -41,12 +58,13 @@ const CodeEditorWindow = ({ onEdit, language}:ICodeEditorWindow) => {
         </div>
       )}
       <Editor
-        height="85vh"
-        width="100%"
+				height="100vh"
+				width="auto"
         language={language}
-        theme="vs-dark"
+        theme="myTheme"
         onChange={handleEditorChange}
-        onMount={handleEditorDidMount}
+				onMount={handleEditorDidMount}
+				beforeMount={handleBeforeMount}
         loading={null}
       />
     </div>

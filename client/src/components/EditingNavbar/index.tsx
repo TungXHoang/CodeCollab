@@ -8,6 +8,8 @@ import { useProjectContext } from "../../context/ProjectContext";
 // Subcomponent
 import EditingNavRightGroup from "./EditingNavRightGroup.tsx";
 import ProjectInfo from "./ProjectInfo.tsx";
+
+
 type ContextType = { outputDetails: string | null, processing: boolean, setCode: (code:string)=>void };
 
 
@@ -39,7 +41,7 @@ const EditingNavbar = () => {
 
 	return (
 		<>
-			<nav className="nav-shadow grid grid-cols-[1fr_max-content_1fr] z-20 relative justify-between justify-center items-center h-[48px] px-[6px] pl-0 bg-[#0E1525]">
+			<nav className="nav-shadow grid grid-cols-[1fr_max-content_1fr] z-50 relative justify-between justify-center items-center h-[48px] px-[6px] pl-0 bg-[#0E1525]">
 				{/* Header Left */}
 				<div className="flex flex-row items-center">
 					<div className="flex-none h-full">

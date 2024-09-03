@@ -10,12 +10,13 @@ import useDebounce from "../../hooks/useDebounce.tsx";
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import OutputWindow from "../../components/OutputWindow";
 import OutputDetails from "../../components/OutputDetails";
-
+import FileTree from "../../components/FileTree";
+import ResizableHandle from "./ResizableHandle.tsx"
 // Utils & Apis
 import { useProjectContext } from "../../context/ProjectContext.tsx"
 import {SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 import { useEditNavbar } from "../../components/EditingNavbar";
-
+import { Resizable } from 're-resizable';
 
 export default function Editing(): JSX.Element {
 	const {project} = useProjectContext();
@@ -33,7 +34,6 @@ export default function Editing(): JSX.Element {
 		debouncedRequest();
 	};
 
-	
 	return (
 		<>
 			<ToastContainer
@@ -44,31 +44,45 @@ export default function Editing(): JSX.Element {
 				containerId="EditingToast"
 				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em' }}
 				limit={1}
-				// transition={Slide}
 			/>
 			{/* Code window and output */}
-			<div className="flex flex-row space-x-4 items-start px-4 py-3 mt-8">
-				<div className="flex flex-col w-full h-full justify-start items-end">
+			<div className="flex z-20 relative h-full bg-[#0e1525] pb-[4%]">
+				<Resizable
+					defaultSize={{
+						height: `100%`,
+						width: "20%"
+					}}
+					// minWidth={180}
+					handleStyles={{ right: { right: "-2px"}}}
+					style={{}}
+					handleComponent={{right: <ResizableHandle/>}}
+					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
+				>
+					<FileTree/>
+				</Resizable>
+				<Resizable
+					defaultSize={{
+						height: `100%`,
+						width: "45%"
+					}}
+
+					handleComponent={{ right: <ResizableHandle /> }}
+					handleStyles={{ right: { right: "-10px"} }}
+					style={{ marginRight: "6px", userSelect:"none" }}
+					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
+				>
 					<CodeEditorWindow
 						onEdit={onChange}
 						language={project.language}
 					/>
-				</div>
-
-				<div className="right-container flex flex-shrink-0 w-[30%] flex-col">
+		
+				</Resizable>
+				
+				<div className="flex flex-col w-[35%]">
 					<OutputWindow outputDetails={outputDetails} />
-					{/* <button
-						onClick={handleSubmission}
-						disabled={processing}
-						className={ClassNames(
-							"mt-4 border-2 border-black text-black font-normal rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-							!code ? "opacity-50" : ""
-						)}
-					>
-						{processing ? "Processing..." : "Compile and Execute"}
-					</button> */}
 					{outputDetails && <OutputDetails outputDetails={outputDetails} />}
 				</div>
+				
 			</div>
 		</>
 	);

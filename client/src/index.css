@@ -94,6 +94,20 @@
 		outline: solid 2px hsl(205 100% 50%);
 		outline-offset: 0;
 	}
+
+	.resizable-handle {
+		display: flex;
+		background-color: #fff;
+	}
+
+	.handle-focus {
+		background-color: radial-gradient(
+			circle,
+			#0079f2,
+			transparent,
+			calc(100%-48px)
+		);
+	}
 }
 
 @layer utilities {
