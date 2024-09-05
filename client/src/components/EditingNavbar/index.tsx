@@ -37,7 +37,7 @@ const EditingNavbar = () => {
 		}
 	}, [ctrlPress, enterPress]);
 
-
+	console.log("Navbar rerender")
 
 	return (
 		<>

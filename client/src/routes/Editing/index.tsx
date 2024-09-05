@@ -1,11 +1,11 @@
 // Toast Noti
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
 // Custom Hooks 
-import useDebounce from "../../hooks/useDebounce.tsx";
 
+//Reacthook
+import { useState } from 'react';
+import { editor } from "monaco-editor";
 // Components
 import CodeEditorWindow from "../../components/CodeEditorWindow";
 import OutputWindow from "../../components/OutputWindow";
@@ -14,25 +14,15 @@ import FileTree from "../../components/FileTree";
 import ResizableHandle from "./ResizableHandle.tsx"
 // Utils & Apis
 import { useProjectContext } from "../../context/ProjectContext.tsx"
-import {SaveDocsAPI} from "../../foundation/compileAPI/index.tsx"
 import { useEditNavbar } from "../../components/EditingNavbar";
 import { Resizable } from 're-resizable';
 
+
 export default function Editing(): JSX.Element {
-	const {project} = useProjectContext();
+	const { project } = useProjectContext();
+	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor | null>(null);
+	const { outputDetails } = useEditNavbar();
 
-	const { outputDetails, setCode } = useEditNavbar();
-
-	
-	const debouncedRequest = useDebounce(async () => {
-		await SaveDocsAPI(project._id);
-		// showSaveToast(SaveDocsAPI(project._id));
-	});
-	
-	const onChange = (data: string) => {
-		setCode(data);
-		debouncedRequest();
-	};
 
 	return (
 		<>
@@ -54,11 +44,10 @@ export default function Editing(): JSX.Element {
 					}}
 					// minWidth={180}
 					handleStyles={{ right: { right: "-2px"}}}
-					style={{}}
 					handleComponent={{right: <ResizableHandle/>}}
 					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
 				>
-					<FileTree/>
+					<FileTree project={project} editorRef={editorRef}/>
 				</Resizable>
 				<Resizable
 					defaultSize={{
@@ -70,7 +59,9 @@ export default function Editing(): JSX.Element {
 					style={{ marginRight: "6px", userSelect:"none" }}
 					enable={{ top: false, right: true, bottom: false, left: false, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}>
 					<CodeEditorWindow
-						onEdit={onChange}
+						project={project}
+						editorRef={editorRef}
+						setEditorRef={setEditorRef}
 						language={project.language}
 					/>
 				</Resizable>

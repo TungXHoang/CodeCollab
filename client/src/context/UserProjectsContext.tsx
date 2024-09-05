@@ -30,7 +30,6 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 
   useEffect(() => {
 		if (!loading && projects) {
-			console.log(projects);
       setProjectsList(projects);
     }
   }, [loading, projects]);
