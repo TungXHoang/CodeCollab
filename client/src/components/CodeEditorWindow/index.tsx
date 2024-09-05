@@ -9,10 +9,11 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { useEditNavbar } from "../../components/EditingNavbar";
 import useDebounce from "../../hooks/useDebounce.tsx";
 import { SaveDocsAPI } from "../../foundation/compileAPI/index.tsx"
+import { useYjs } from "../../hooks/useYjs";
 
 type Monaco = typeof monaco 
 
-const CodeEditorWindow = ({ project,language,editorRef,setEditorRef }: ICodeEditorWindow) => {
+const CodeEditorWindow = ({ user, project,language,editorRef,setEditorRef }: ICodeEditorWindow) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 	const { setCode } = useEditNavbar();
 	const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor) => {
@@ -25,6 +26,7 @@ const CodeEditorWindow = ({ project,language,editorRef,setEditorRef }: ICodeEdit
 		await SaveDocsAPI(project._id);
 	});
 
+	useYjs(editorRef, project._id, user);
 
 	const handleBeforeMount = (monaco: Monaco) => {
 		monaco.editor.defineTheme("myTheme", {
