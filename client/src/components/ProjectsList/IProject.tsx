@@ -1,10 +1,14 @@
 
 export interface IOwner {
-	email: string;
-	firstName: string;
-	lastName: string;
-	__v: number;
 	_id: string;
+	lastName: string;
+	firstName: string;
+	email: string;
+	avatar: {
+		url: string,
+		filename: string,
+	}
+	thumbnailUrl:string,
 }
 
 export interface IProject {

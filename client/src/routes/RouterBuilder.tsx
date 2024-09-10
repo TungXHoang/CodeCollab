@@ -1,6 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css"; //use .min for production
-import "bootstrap/dist/js/bootstrap.bundle";
-import '../assets/HomePage.css';
 import { RouteObject,Outlet } from 'react-router-dom';
 
 // Route Import 
@@ -12,7 +9,6 @@ import EditingNavbar from "../components/EditingNavbar";
 import AuthLayout from "../foundation/ui/AuthLayout";
 import Editing from "./Editing";
 import Dashboard from "./Dashboard";
-// import DashboardSkeleton from "./Dashboard/DashboardSkeleton"
 // Route wrapper
 import PrivateRoutes from "../foundation/routeWrapper/PrivateRoutes";
 import ProjectRoutes from "../foundation/routeWrapper/ProjectRoutes";

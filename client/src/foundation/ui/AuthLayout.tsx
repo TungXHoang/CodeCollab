@@ -1,28 +1,18 @@
-import "../../assets/AuthLayout.css";
 import { useAuth } from "../../hooks/useAuth";
-import { Navigate } from "react-router-dom";
-import React, {useState,useEffect} from 'react';
-import { IAuthUser } from "../../types/auth";
+import { Navigate,useNavigate } from "react-router-dom";
 
-interface AuthLayoutProps {
-  children?: React.ReactNode;
-}
-
-
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }): React.JSX.Element=> {
-	const [user, setUser] = useState<IAuthUser | undefined>(undefined)
+const AuthLayout = ({ children }: {children:React.ReactNode})=> {
 	const { loadingAuthUser, authUser } = useAuth()
-	useEffect(() => {
-		if (!loadingAuthUser) {
-			setUser(authUser);
-		}
-	}, [loadingAuthUser, authUser]);
-
-	if (user === undefined) {
+	const navigate = useNavigate();
+	if (authUser === undefined || loadingAuthUser) {
     return <></>; // or loading indicator/spinner/etc
 	}
-	return !user.auth ?
-		<div className="auth-wrapper">
+	return !authUser.auth ?
+		<div className="flex h-full justify-center items-center w-full bg-[#0e1525]">
+			<span onClick={()=>navigate(`${import.meta.env.BASE_URL}`)} className="absolute flex items-center justify-center text-white top-[24px] left-[28px] space-x-2 cursor-pointer">
+				<img className="w-[32px] h-[32px] text-center" src={`${import.meta.env.VITE_APP_LOGO}`} alt="CodeCollab Logo" />
+				<h2 className="text-[20px] font-semibold">CodeCollab</h2>
+			</span>
 			{children}
 		</div>
 		:

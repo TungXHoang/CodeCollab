@@ -88,7 +88,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 			<div className=""> 
 				<button ref={toggleButtonRef} onClick={handleToggleDropdown} className="flex items-center gap-[3px] p-[6px] px-[8px] hover:bg-[#1C2333] rounded-[4px]"> 
 					<div className="w-[21px] h-[21px] hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">
-						<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
+						<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src={user.thumbnailUrl} alt="avatar"/>
 					</div>
 					<svg width="12px" height="12px" viewBox="0 0 24 24" fill="#9DA2A6">
 						<path fillRule="evenodd" clipRule="evenodd" d="M12.53 15.53a.75.75 0 0 1-1.06 0l-6-6a.75.75 0 0 1 1.06-1.06L12 13.94l5.47-5.47a.75.75 0 1 1 1.06 1.06l-6 6Z"></path>

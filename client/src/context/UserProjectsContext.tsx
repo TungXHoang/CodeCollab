@@ -3,7 +3,7 @@ import { IProject } from "../components/ProjectsList/IProject.tsx";
 import { useAuthContext } from "./AuthContext.tsx";
 import useGetProjects from "../hooks/useGetProjects";
 import { showToast } from "../foundation/utils/ToastMessage.tsx";
-import DashboardSkeleton from "../routes/Dashboard/DashboardSkeleton.tsx";
+import DashboardSkeleton from "../components/SkeletonComponent/DashboardSkeleton.tsx";
 
 interface IUserProjectsContext {
   projectsList: { owner: IProject[], guest: IProject[] };

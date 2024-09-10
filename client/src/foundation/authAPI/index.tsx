@@ -57,7 +57,7 @@ async function isLoggedIn() {
 	if (response.data.auth) {
 		return response.data;
 	}
-	return { auth: response.data.auth, username: "", id: "" };
+	return { auth: response.data.auth, id: "", lastName:"", firstName:"",email:"" };
 }
 
 async function GetAllUsers() {

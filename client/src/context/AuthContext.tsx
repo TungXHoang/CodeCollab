@@ -5,7 +5,6 @@ import { Navigate } from "react-router-dom";
 
 // Define the interface for the context
 
-
 export const AuthContext = createContext<IAuthUser | undefined>(undefined);
 
 export const useAuthContext = () => {
@@ -28,7 +27,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode})  => {
 
   if (user === undefined) {
     return <></>; // or loading indicator/spinner/etc
-  }
+	}
 
 	return user.auth ?
 		<AuthContext.Provider value={user}>

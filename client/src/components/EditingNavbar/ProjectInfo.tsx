@@ -57,9 +57,9 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 					<div className="flex p-[8px] pt-[12px] items-center shrink-0">
 						<a className="transition-[background-color] duration-150 ease-in-out text-[#F5F9FC] font-[400] cursor-pointer h-[32px] p-[8px] px-[10px] flex gap-[10px] justify-center items-center bg-[#2B3245] hover:bg-[#3C445C] rounded-[4px]">
 							<div className="w-[21px] h-[21px] hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">
-								<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
+								<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src={project.owner.thumbnailUrl} alt="avatar"/>
 							</div>
-							<span className="text-[14px]">{user.firstName}{user.lastName}</span>
+							<span className="text-[14px]">{project.owner.firstName}{project.owner.lastName}</span>
 						</a>
 						{project.owner._id === user._id &&
 							<div className="ml-auto flex gap-[10px]">
