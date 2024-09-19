@@ -19,7 +19,7 @@ import { Resizable } from 're-resizable';
 
 
 export default function Editing(): JSX.Element {
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	const { project } = useProjectContext();
 	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor | null>(null);
 	const { outputDetails } = useEditNavbar();

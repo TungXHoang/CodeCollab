@@ -23,7 +23,7 @@ export const useUserProjectsContext = () => {
 };
 
 export const UserProjectsContextProvider = ({ children }: { children: ReactNode }) => {
-  const user = useAuthContext();
+  const {user} = useAuthContext();
   const { loading, projects } = useGetProjects(user._id);
   const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] } | undefined>(undefined);
 	

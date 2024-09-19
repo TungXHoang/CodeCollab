@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 // Define the interface for the context
 
-export const AuthContext = createContext<IAuthUser | undefined>(undefined);
+export const AuthContext = createContext<{ user: IAuthUser,setUser:React.Dispatch<React.SetStateAction<IAuthUser | undefined>> } | undefined>(undefined);
 
 export const useAuthContext = () => {
 	const context = useContext(AuthContext);
@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode})  => {
 	}
 
 	return user.auth ?
-		<AuthContext.Provider value={user}>
+		<AuthContext.Provider value={{user,setUser}}>
 			{children}
 		</AuthContext.Provider> :
 		<Navigate to="/auth/login" replace />;

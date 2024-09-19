@@ -17,7 +17,7 @@ export const useProjectContext = () => {
 };
 
 export const ProjectContextProvider = ({ children }: { children: ReactNode}) => {
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	const { projectId } = useParams<{ projectId: string }>();
 	const [guestsId, setGuestsId] = useState<string[] | undefined>(undefined)
 	const [project, setProject] = useState<IProject | undefined>(undefined);

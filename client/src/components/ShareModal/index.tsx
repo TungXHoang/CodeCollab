@@ -18,7 +18,7 @@ interface IShareModalProps {
 }
 
 const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId }: IShareModalProps) => {	
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [filterQuery, setFilterQuery] = useState("")
 	

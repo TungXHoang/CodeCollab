@@ -7,11 +7,16 @@ interface IAllProjects {
 	guest: IProject[],
 } 
 
-const useGetProjects = (userId: string) => {
+const useGetProjects = (userId: string | undefined) => {
 	const [loading, setLoading] = useState(false);
-	const [projects, setProjects] = useState<IAllProjects>({ owner: [], guest: [] });
+	const [projects, setProjects] = useState<IAllProjects | undefined>(undefined);
 
 	useEffect(() => {
+		if (!userId) {
+      setLoading(false);
+      setProjects(undefined);
+      return; 
+    }
 		const getProjects = async () => {
 			setLoading(true);
 			try {
@@ -24,7 +29,7 @@ const useGetProjects = (userId: string) => {
 			}
 		};
 		getProjects();
-	}, []);
+	}, [userId]);
 	
 	return { loading, projects };
 };

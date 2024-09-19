@@ -17,14 +17,14 @@ const Navbar = () => {
 	const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	//utility
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	const navigate = useNavigate();
 
 	const { loading, projects } = useGetProjects(user._id);
 	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
 
 	useEffect(() => {
-		if (!loading) {
+		if (!loading && projects) {
 			setProjectsList(projects);
     }
 	}, [loading, projects]);

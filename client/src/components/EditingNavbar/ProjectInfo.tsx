@@ -74,11 +74,11 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 						
 					</div>
 					<form onSubmit={(e) => e.preventDefault()} className="flex flex-col text-[13px] font-[400] gap-[20px] leading-[1.2] p-[16px]">
-						<div>	
-							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Title</label>	
+						<div className="flex flex-col gap-[4px]">	
+							<label className="font-[600] text-[12px] text-[#C2C8CC]">Title</label>	
 							<input disabled={project.owner._id !== user._id } onKeyDown={(e) => { if(e.key === 'Enter') e.preventDefault()}}  onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-[0px]" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
 						</div>
-						<div>	
+						<div className="flex flex-col gap-[4px]">	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Description</label>
 							<textarea disabled={project.owner._id !== user._id } onChange={(e)=>setProjectDescription(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] min-h-[96px] max-h-[150px] w-full outline-none px-[7px] py-[7px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-0" value={projectDescription} autoCorrect="off" spellCheck="false"></textarea>			
 						</div>

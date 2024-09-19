@@ -36,6 +36,8 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 									</span>
 								</th>
 								<th className="headerCell">
+								</th>
+								<th className="headerCell">
 									<span className="headerCellWrapper">Title</span>
 								</th>
 								<th className="headerCell">
