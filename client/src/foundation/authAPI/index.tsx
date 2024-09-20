@@ -1,5 +1,5 @@
 import Axios, {AxiosResponse} from "axios";
-import { IRegisterCrendential, IGetSingleUser,IUpdateUserProfile,IUpdateUserProfileResponse} from "./IAuthAPI";
+import { IRegisterCrendential, IGetSingleUser,IUpdateUserProfile,IUpdateUserProfileResponse,IUpdateUserAvatarResponse} from "./IAuthAPI";
 import { IUser } from "../../types/auth";
 import { showToast } from "../../foundation/utils/ToastMessage.tsx"
 
@@ -108,4 +108,23 @@ async function UpdateUserProfile(updateCredential: IUpdateUserProfile) {
 	
 }
 
-export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI, GetAllUsers, GetUserProfile,UpdateUserProfile };
+async function UpdateUserAvatar(updateCredential: FormData) {
+	try {
+		const res:AxiosResponse<IUpdateUserAvatarResponse,FormData> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/update-avatar`, updateCredential )
+		showToast("success", res.data.message, { containerId: "UserProfileToast" })
+		const result = res.data;
+		return result
+	}
+	catch (err) {
+		if (Axios.isAxiosError(err)) {
+			showToast("error", err.response!.data.message, { containerId: "UserProfileToast" })
+			console.log('err');
+		}
+		else {
+			throw new Error("An unexpected error occurred")
+		}
+	}
+	
+}
+
+export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI, GetAllUsers, GetUserProfile,UpdateUserProfile,UpdateUserAvatar };

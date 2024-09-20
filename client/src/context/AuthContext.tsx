@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 
 export const AuthContext = createContext<{ user: IAuthUser,setUser:React.Dispatch<React.SetStateAction<IAuthUser | undefined>> } | undefined>(undefined);
 
+// export const AuthContext = createContext<{ user: IAuthUser, handleUpdate: (updatedOwner: IUser) => void } | undefined>(undefined);
 export const useAuthContext = () => {
 	const context = useContext(AuthContext);
 	if (context === undefined) {
@@ -24,6 +25,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode})  => {
 			setUser(authUser);
 		}
 	}, [loadingAuthUser, authUser]);
+
 
   if (user === undefined) {
     return <></>; // or loading indicator/spinner/etc

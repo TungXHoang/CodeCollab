@@ -21,5 +21,7 @@ export interface IUpdateUserProfile {
 
 export interface IUpdateUserProfileResponse{
 	message: string;
-	updatedUser?: IUser;
+	updatedUser: IUser;
 }
+
+export interface IUpdateUserAvatarResponse extends IUpdateUserProfileResponse { }

@@ -2,12 +2,12 @@ import {useState} from "react"
 import { IEditProfileModal, IUpdateInfo } from "./IEditProfileModal";
 import { UpdateUserProfile } from "../../foundation/authAPI";
 
-const EditProfileModal = ({ user, userProfile, onClose }: IEditProfileModal) => {
+
+const EditProfileModal = ({ user, setUser, userProfile, onClose }: IEditProfileModal) => {
 	const [updateInfo, setUpdateInfo] = useState<IUpdateInfo>({
 		newFirstName: userProfile.firstName,
 		newLastName: userProfile.lastName,
 		newEmail: userProfile.email,
-	
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,11 +21,19 @@ const EditProfileModal = ({ user, userProfile, onClose }: IEditProfileModal) => 
 
 	const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const updateCredential = { requestId: user._id, changeId: userProfile._id }
-		const updateParams = Object.assign(updateCredential,updateInfo);
-		const res = await UpdateUserProfile(updateParams);
-		if (res) { // update context
-			console.log(res);
+		const res = await UpdateUserProfile({ requestId: user._id, changeId: userProfile._id, ...updateInfo });
+		if (res) {
+			setUser(user => {
+				if (user) {
+					return {
+						...user,
+						email: res.updatedUser.email,
+						lastName: res.updatedUser.lastName,
+						firstName: res.updatedUser.firstName
+					};
+				} 
+				return user;
+			});
 		}
 	}
 	return (

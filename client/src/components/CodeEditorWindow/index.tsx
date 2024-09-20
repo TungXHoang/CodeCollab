@@ -56,7 +56,7 @@ const CodeEditorWindow = ({ user, project,language,editorRef,setEditorRef }: ICo
 					<Skeleton
 						height="100vh"
 						width="100%"
-						baseColor="#1e1e1e"
+						baseColor="#1C2333"
 						borderRadius="0.5rem"
 						duration={0} />
         </div>
