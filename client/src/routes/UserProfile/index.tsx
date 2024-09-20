@@ -3,30 +3,27 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Avatar } from "@files-ui/react";
 
+//Hooks & Context
+import { useState } from 'react';
 import { useAuthContext } from "../../context/AuthContext";
-import { useParams,useNavigate } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import { GetUserProfile } from "../../foundation/authAPI";
-import ErrorPage from "../ErrorPage/index"
-import { IUser } from "../../types/auth";
-import { IProject } from "../../components/ProjectsList/IProject.tsx";
-import useGetProjects from "../../hooks/useGetProjects";
-import { ResizeImgKit } from "../../foundation/utils/UtilsFunction.tsx";
-import { LogoutAPI } from "../../foundation/authAPI";
+import { useParams, useNavigate } from "react-router-dom";
 import { useGetGuests } from "../../hooks/useGetGuests"
-import EditProfileModal from "../../components/EditProfileModal";
-import { UpdateUserAvatar } from "../../foundation/authAPI";
+import useGetProjects from "../../hooks/useGetProjects";
+import useGetUserProfile from "../../hooks/useGetUserProfile.tsx"
 
-const LoadingAnimation = () => {
-	return (
-		<div className="flex justify-center pt-[10em]">
-			<div className="loader margin-auto"></div>
-		</div>
-	)
-}
+//API
+import { LogoutAPI } from "../../foundation/authAPI";
+
+//Component
+import ErrorPage from "../ErrorPage/index.tsx"
+import LoadingAnimation from "../../foundation/ui/LoadingAnimation.tsx"
+import { UpdateUserAvatar } from "../../foundation/authAPI";
+import EditProfileModal from "../../components/EditProfileModal";
+
+//Typing and Utils functions
+import { IProject } from "../../types/project";
 
 const ProfileProject = ({ project }: { project: IProject }) => {
-
 	const { guestsList } = useGetGuests(project._id);
 	return (
 		<li className="mb-[12px] relative px-[16px] py-[12px] rounded-[4px] bg-[#1C2333] text-[#C2C8CC] cursor-pointer">
@@ -54,35 +51,15 @@ const ProfileProject = ({ project }: { project: IProject }) => {
 const UserProfile = () => {
 	const navigate = useNavigate();
 	const { user, setUser } = useAuthContext();
-	const [userProfile, setUserProfile] = useState<IUser | undefined>(undefined);
-	const [error, setError] = useState(false);
 	const { userEmail } = useParams<{ userEmail: string }>()
-	
-	const { loading, projects } = useGetProjects(userProfile ? userProfile._id : undefined);
-	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] } | undefined>(undefined);
+	const { userProfile, error } = useGetUserProfile(userEmail!);
+
+	const { projects } = useGetProjects(userProfile ? userProfile._id : undefined);
 	const [showModal, setShowModal] = useState(false);
 	const isOwner: boolean = userProfile ? userProfile._id === user._id : false
 	
-	useEffect(() => {
-		if (!loading && userProfile && projects) {
-			setProjectsList(projects);
-    }
-  }, [loading,projects,userProfile]);
 
-	useEffect(() => { // move to seperate hook
-		async function GetUser () {
-			const response = await GetUserProfile({ userEmail: userEmail! })
-			if (response) {
-				response.thumbnailUrl = ResizeImgKit({ baseUrl: response.thumbnailUrl, newWidth:200, newHeight:200 })
-				setUserProfile(response);
-				setError(false);
-			}
-			else {
-				setError(true)
-			}
-		}
-		GetUser();
-	},[userEmail])
+
 
 	const handleUpdateAvatar = async (selectedFile: File) => {
 		const formData = new FormData();
@@ -120,16 +97,17 @@ const UserProfile = () => {
 				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em' }}
 				limit={1}
 			/>
-			{userProfile && <div className="flex-auto overflow-y-auto">		
+			<div className="flex-auto overflow-y-auto">		
 				<div className="flex h-full">
 					<div className="grow overflow-auto bg-[#0E1525] flex h-full">
 						<div className="w-[240px] bg-[#0E1525] border-r-[1px] border-[#2B3245]">	
 							<section className="text-[13px] font-[400] leading-[1.3] p-[24px]">
-								<header className="mb-[16px] pb-[16px] border-b-[1px] border-[#2B3245]">
+								{userProfile && <header className="mb-[16px] pb-[16px] border-b-[1px] border-[#2B3245]">
 									<Avatar readOnly={!isOwner} src={isOwner ? user.thumbnailUrl : userProfile.thumbnailUrl} alt="Avatar" changeLabel={"Upload picture"} onChange={handleUpdateAvatar} accept=".jpg, .jpeg, .png" />		
 									<h2 className="text-[18px] font-[600] leading-[1.3] mt-[16px] text-[hsl(0,0%,95%)]">{isOwner ? user.firstName : userProfile.firstName}{isOwner ? user.lastName : userProfile.lastName}</h2>
 									<p className="text-[16px] font-[400] mt-[8px] text-[hsl(0,0%,80%)]">{isOwner ? user.email :userProfile.email}</p>
-							</header>
+								</header>}
+								
 								{isOwner &&
 									<ul className="flex flex-col mt-[40px] gap-[12px] text-[14px]">								
 										<li>
@@ -140,25 +118,24 @@ const UserProfile = () => {
 										</li>
 									</ul>	}
 							</section>
-
 						</div>
 						<div className="flex-auto">
 							<div className="max-w-[1200px] px-[16px] ">
 								<div className="flex items-center w-full mb-[10px] py-[10px] pt-[18px] px-[12px] gap-[5px]">
 									<h2 className="text-[hsl(0,0%,80%)] uppercase font-[500]">Projects</h2>
-									{projectsList && <div className="bg-[hsl(220,12%,20%)] flex items-center justify-center text-center rounded-[2px]">
+									{projects && <div className="bg-[hsl(220,12%,20%)] flex items-center justify-center text-center rounded-[2px]">
 										<div className="m-[4px]">
-											<div className="w-[24px] h-[24px] bg-[#0E1525]  flex items-center justify-center text-[hsl(0,0%,80%)] p-[4px]">{projectsList.owner.length}</div>
+											<div className="w-[24px] h-[24px] bg-[#0E1525]  flex items-center justify-center text-[hsl(0,0%,80%)] p-[4px]">{projects.owner.length}</div>
 										</div>
 									</div>
 									}
 								</div>
 								<div className="mx-3">
-									{projectsList ?							
+									{projects ?							
 										<>
-											{projectsList.owner.length > 0 ? (						
+											{projects.owner.length > 0 ? (						
 												<ul>
-													{projectsList.owner.map((project: IProject) => (
+													{projects.owner.map((project: IProject) => (
 														<ProfileProject project={project} key={project._id} />
 													))}
 												</ul>
@@ -179,11 +156,10 @@ const UserProfile = () => {
 							</div>
 						</div>
 					</div>
-					
-					</div>
-				{showModal && <EditProfileModal setUser={setUser} user={user} userProfile={userProfile} onClose={()=>setShowModal(false)} /> }
-					</div>
-			}
+				</div>
+				{showModal && userProfile && <EditProfileModal setUser={setUser} user={user} userProfile={userProfile} onClose={()=>setShowModal(false)} /> }
+			</div>
+			
 		</>
 		
 	)

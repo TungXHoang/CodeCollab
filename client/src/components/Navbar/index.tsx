@@ -1,6 +1,6 @@
 import { useNavigate, Outlet, } from 'react-router-dom';
 import React, {useState,useRef, useEffect} from 'react';
-import {IProject} from "../ProjectsList/IProject"
+import {IProject} from "../../types/project"
 import { useAuthContext } from "../../context/AuthContext"
 import useGetProjects from '../../hooks/useGetProjects';
 

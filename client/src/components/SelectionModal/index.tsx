@@ -1,7 +1,7 @@
 import { languageOptions } from "../../foundation/constants/languageOptions"
 import { createProject } from "../../foundation/projectsAPI"
 import { useAuthContext } from '../../context/AuthContext';
-import { IProject } from "../../components/ProjectsList/IProject"
+import { IProject } from "../../types/project";
 
 interface ISelectionModalProps {
 	onSelect: (param: boolean) => void,

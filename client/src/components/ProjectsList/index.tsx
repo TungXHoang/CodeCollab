@@ -1,5 +1,6 @@
 import Project from "./Project";
-import { IProject, IProjectsListProps } from "./IProject";
+import { IProjectsListProps } from "./IProject";
+import { IProject } from "../../types/project";
 import { useState, useRef, useEffect} from "react";
 import SelectionModal from "../SelectionModal"
 import useCheckbox from "../../hooks/useCheckbox";

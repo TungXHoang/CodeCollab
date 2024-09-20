@@ -1,11 +1,4 @@
-
-export interface IOwner {
-	email: string;
-	firstName: string;
-	lastName: string;
-	__v: number;
-	_id: string;
-}
+import { IUser } from "./auth";
 
 export interface IProject {
   _id: string;
@@ -13,22 +6,9 @@ export interface IProject {
 	language: string;
 	languageId: number;
 	description: string;
-	owner: IOwner
+	owner: IUser;
   createdAt: string;
   updatedAt: string;
   __v: number;
 }
 
-export interface IProjectProps {
-	project: IProject;
-	onDelete: (id: string[]) => void;
-	onCheck: (project:IProject,checked:boolean)=>void;
-	isChecked: boolean;
-}
-
-export interface IProjectsListProps { 
-	onCreate: (project: IProject)=>void;
-	onDelete: (id:string[]) => void;
-	projectsList : IProject[]
-	isOwner: boolean
-}

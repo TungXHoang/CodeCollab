@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { IProject } from "../components/ProjectsList/IProject.tsx";
+import { IProject } from "../types/project";
 import { useAuthContext } from "./AuthContext.tsx";
 import useGetProjects from "../hooks/useGetProjects";
 import { showToast } from "../foundation/utils/ToastMessage.tsx";

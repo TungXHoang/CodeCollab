@@ -1,27 +1,4 @@
-
-export interface IOwner {
-	_id: string;
-	lastName: string;
-	firstName: string;
-	email: string;
-	avatar: {
-		url: string,
-		filename: string,
-	}
-	thumbnailUrl:string,
-}
-
-export interface IProject {
-  _id: string;
-  title: string;
-	language: string;
-	languageId: number;
-	description: string;
-	owner: IOwner
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import { IProject } from "../../types/project";
 
 export interface IProjectProps {
 	project: IProject;

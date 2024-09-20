@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "axios"
-import {IProject } from "../components/ProjectsList/IProject"
+import { IProject } from "../types/project";
 
 interface IAllProjects {
 	owner: IProject[],

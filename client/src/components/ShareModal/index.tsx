@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
-import {IProject} from "../ProjectsList/IProject.tsx"
+import { IProject } from "../../types/project";
 //Subcomponent
 import SearchSuggest from "./SearchSuggest.tsx";
 import InviteesList from "./InviteesList.tsx";

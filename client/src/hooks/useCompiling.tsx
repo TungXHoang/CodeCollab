@@ -1,6 +1,6 @@
 import { SubmissionAPI, CheckStatusAPI, SaveDocsAPI } from "../foundation/compileAPI/index.tsx"
 import {  showToast } from "../foundation/utils/ToastMessage.tsx"
-import { IProject } from "../components/ProjectsList/IProject.tsx";
+import { IProject } from "../types/project";
 
 import { useState } from 'react';
 

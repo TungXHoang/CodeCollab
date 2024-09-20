@@ -1,4 +1,4 @@
-import { IProject } from "../ProjectsList/IProject";
+import { IProject } from "../../types/project";
 import { useState, useRef } from 'react';
 
 import useClickOutside from "../../hooks/useClickOutside";

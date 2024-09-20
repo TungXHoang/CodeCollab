@@ -1,4 +1,4 @@
-import { IProject } from "../ProjectsList/IProject";
+import { IProject } from "../../types/project";
 import { useState } from "react";
 import {createSearchParams, useNavigate} from 'react-router-dom';
 

@@ -7,7 +7,7 @@ import ShareModal from "../../components/ShareModal";
 import { useGetGuests } from "../../hooks/useGetGuests"
 // Interface
 import { IAuthUser } from "../../types/auth";
-import { IProject } from "../../components/ProjectsList/IProject";
+import { IProject } from "../../types/project";
 
 interface IEditingNavRightGroup {
 	project: IProject;

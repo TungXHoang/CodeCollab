@@ -2,7 +2,8 @@ import { createContext,useContext, useState, useEffect, ReactNode } from 'react'
 import { IAuthUser } from "../types/auth";
 import { useAuth  } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
-
+import AuthContextSkeleton from "../components/SkeletonComponent/AuthContextSkeleton" 
+	
 // Define the interface for the context
 
 export const AuthContext = createContext<{ user: IAuthUser,setUser:React.Dispatch<React.SetStateAction<IAuthUser | undefined>> } | undefined>(undefined);
@@ -27,8 +28,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode})  => {
 	}, [loadingAuthUser, authUser]);
 
 
-  if (user === undefined) {
-    return <></>; // or loading indicator/spinner/etc
+  if (user === undefined || loadingAuthUser) {
+		return <AuthContextSkeleton />;
 	}
 
 	return user.auth ?

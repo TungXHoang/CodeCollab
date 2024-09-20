@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react';
 import { useUserProjectsContext } from "../../context/UserProjectsContext.tsx";
 
 import ProjectsList from "../../components/ProjectsList";
-import { IProject } from "../../components/ProjectsList/IProject"
+import { IProject } from "../../types/project";
 import SelectionModal from "../../components/SelectionModal"
 import SwitchViewGroup from "../../components/SwitchViewGroup";
 import DashboardActionGroup from "../../components/DashboardActionGroup"

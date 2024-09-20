@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import Axios from "axios";
-import { IOwner } from "../components/ProjectsList/IProject"
+import { IUser } from "../types/auth"
 
 export interface IGuestList {
 	_id?: string,
 	project: string,
-	guest: IOwner
+	guest: IUser,
 }
 
 function useGetGuests(projectId: string) {

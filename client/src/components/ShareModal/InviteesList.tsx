@@ -1,4 +1,4 @@
-import { IProject } from "../ProjectsList/IProject.tsx"
+import { IProject } from "../../types/project";
 import { deleteGuest } from "../../foundation/projectsAPI";
 import { useAuthContext } from "../../context/AuthContext.tsx";
 import { IGuestList } from "../../hooks/useGetGuests";

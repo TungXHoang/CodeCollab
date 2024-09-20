@@ -5,7 +5,7 @@
 // import "./styles.css";
 // // import { useYjs } from "../../hooks/useYjs";
 // import { editor } from "monaco-editor";
-// import { IProject } from "../ProjectsList/IProject";
+// import { IProject } from "../../types/project";
 // import React,{ useState,useEffect, useMemo } from 'react';
 // // import { useAuthContext } from "../../context/AuthContext";
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {IProject} from "../components/ProjectsList/IProject"
+import { IProject } from "../types/project";
 
 
 const useCheckbox = (projectsList: IProject[], selectAllRef:React.RefObject<HTMLInputElement>) => {

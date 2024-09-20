@@ -1,6 +1,6 @@
 import { useRef, useState} from 'react'
 import ShareModal from "../ShareModal"
-import { IProject } from "../ProjectsList/IProject"
+import { IProject } from "../../types/project";
 import useClickOutside from '../../hooks/useClickOutside';
 import DeletionAlertModal from "../DeletionAlertModal";
 import { IGuestList } from "../../hooks/useGetGuests";
