@@ -12,7 +12,6 @@
   "license": "0BSD",
   "devDependencies": {
     "@types/multer": "^1.4.11",
-    "@types/react-bootstrap": "^0.32.36",
     "nodemon": "^3.1.0"
   },
   "dependencies": {

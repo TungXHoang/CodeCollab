@@ -1,4 +1,4 @@
-import { IProject } from "../ProjectsList/IProject";
+import { IProject } from "../../types/project";
 import DeletionAlertModal from "../DeletionAlertModal";
 import { useState } from 'react';
 

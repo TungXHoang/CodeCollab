@@ -1,54 +1,49 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction,RequestHandler } from "express";
+
 import { User, IUser } from "../models/users";
+import { deleteS3Object } from "../aws-s3";
+
+import { MongoError } from 'mongodb';
 import passport from "passport";
+import dotenv from "dotenv"
+dotenv.config();
 
-// dotenv.config();
-
-// const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/mernStack";
-
-
-// interface ExtendedFile {
-//     location: string;
-//     key: string; // Make 'key' optional
-// }
+interface ExtendedFile {
+	location: string;
+	key: string;
+}
 
 interface AuthenticatedRequest extends Request { //for TS
 	// isAuthenticated(): boolean;
 	login(user: IUser, done: (err: any) => void): void;
 	login(
-			user: IUser,
-			options: passport.AuthenticateOptions,
-			done: (err: any) => void
+		user: IUser,
+		options: passport.AuthenticateOptions,
+		done: (err: any) => void
 	): void;
 	logout(callback: (err: any) => void): void;
 	logout(options: passport.LogOutOptions, done: (err: any) => void): void;
 	user?: IUser;
+	
 }
 
-export const authenticateUser = async (
-	req: AuthenticatedRequest,
-	res: Response
-) => {
-    try {
-			if (req.user) { // req.user create by pasportJS 
-				const userObj = req.user.toObject();
-				// delete userObj.__v;
-				return res.json({
-					...userObj,
-					auth: true
-				});
-			}
-      return res.json({ auth: false, _id: "", lastName: "", firstName : "" });
-    } catch (e) {
-			console.log(e);
-    }
+
+export const authenticateUser = async ( req: AuthenticatedRequest, res: Response) => {
+	try {
+		if (req.user) { // req.user create by pasportJS 
+			const userObj = req.user.toObject();
+			return res.json({
+				...userObj,
+				auth: true
+			});
+		};
+		return res.json({ auth: false, _id: "", lastName: "", firstName : "", email:"" });
+	} catch (e) {
+		console.log(e);
+	}
 };
 
-export const logoutUser = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
+export const logoutUser = ( req: Request, res: Response, next: NextFunction) => {
   req.logout(function (err) {
     req.session.destroy(err => {
       if (err) {
@@ -63,17 +58,22 @@ export const logoutUser = (
 };
 
 
-export const registerUser = async ( 
-	req: AuthenticatedRequest, res: Response
-) => { 
+export const registerUser = async ( req: AuthenticatedRequest, res: Response) => { 
   try {
-    const { email, lastName, firstName, password } = req.body;
-    const user = new User({email, lastName, firstName });
+		const { email, lastName, firstName, password } = req.body;
+		// const uploadedFile = req.file as unknown as ExtendedFile;
+		const avatar =
+			{ //default image
+				url: process.env.AWS_DEFAULT_URL,
+				filename: process.env.AWS_DEFAULT_FILENAME,
+			};
+		const thumbnailUrl = process.env.ImageKit_Endpoint! + avatar.filename + `?tr=w-${200},h-${200},f-png,lo-true` || "";
+		const user = new User({ email, lastName, firstName, avatar, thumbnailUrl});
     await User.register(user, password, function (err, registeredUser) {
 			if (err) {
 				return res.send({err });
 			} else {
-					// Registration successful, proceed with login
+					// proceed with login
 				req.login(registeredUser, (err) => {
 					if (err) {
 						return res.send(err);
@@ -90,9 +90,7 @@ export const registerUser = async (
 	}
 }
 
-export const loginUser = (
-    req: Request, res: Response, next: NextFunction
-) => {
+export const loginUser = ( req: Request, res: Response, next: NextFunction) => {
 	passport.authenticate("local", (_err: Error, user: IUser) => {
 		try {
 			if (!user)
@@ -102,17 +100,16 @@ export const loginUser = (
 					msg: "Username or Password is incorrect",
 				});
 			else {
-				req.login(user, (err) => {
+				req.login(user, (err) => {			
 					if (err) throw err;
 					return res.status(200).json({
 						auth: req.isAuthenticated(),
 						msg: "login success",
 					});
-					// console.log("login sucess");
 				});
 			}
 			} catch (err) {
-					console.log(err);
+				console.log(err);
 			}
 	})(req, res, next);
 };
@@ -124,6 +121,80 @@ export const getAllUser = async (req: Request, res: Response) => {
 	}
 	catch (err) {
 		console.log(err)
+		return res.status(500).json({ msg: "Internal server erorr" });
+	}
+	
+}
+
+export const getSingleUser = async (req: Request, res: Response) => {
+	try {
+		const userEmail = req.params.userEmail;
+		const user = await User.findOne({ email: new RegExp(`^${userEmail}@`, 'i') });
+		if (!user) {
+			return res.status(404).json({message:"User not found"})
+		}
+		return res.status(200).json(user)
+	}
+	catch (err) {
+		console.log(err);
+		return res.status(500).json({ msg: "Internal server erorr" });
+	}
+}
+
+export const updateUserInfo: RequestHandler = async (req: Request, res: Response) => {
+	try {
+		const { requestId, changeId, newEmail, newFirstName, newLastName } = req.body;
+		if (requestId !== changeId){
+			return res.status(404).json({ message: "Unauthorized action" });
+		}
+
+		const updatedUser = await User.findOneAndUpdate(
+			{ _id: changeId },
+			{ email: newEmail, firstName: newFirstName, lastName: newLastName },
+			{ new: true });
+		
+		if (!updatedUser) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		req.session.passport.user = newEmail; //update session to prevent auto logouts
+		return res.status(201).json({updatedUser:updatedUser, message:"Updated successfully"})
+
+
+	} catch(err){
+		if ((err as MongoError).code === 11000) {
+      return res.status(405).json({ message:'A user with the given email is already registered'});
+    }
+		return res.status(500).json({ msg: "Internal server erorr" });
+	}
+}
+
+export const updateUserAvatar = async (req: AuthenticatedRequest, res: Response) => {
+	try {
+		const { requestId, changeId, currentFileName } = req.body;
+		if (requestId !== changeId) {
+			return res.status(404).json({ message: "Unauthorized action" });
+		}
+		
+		if (currentFileName !== process.env.AWS_DEFAULT_FILENAME) {
+			await deleteS3Object(currentFileName);
+		}
+		const uploadedFile = req.file as unknown as ExtendedFile;
+		const newAvatar = {url: uploadedFile.location, filename: uploadedFile.key};
+		const thumbnailUrl = process.env.ImageKit_Endpoint! + newAvatar.filename + `?tr=w-${200},h-${200},f-png,lo-true`;
+		const updatedUser = await User.findOneAndUpdate(
+			{ _id: changeId },
+			{ avatar: newAvatar, thumbnailUrl: thumbnailUrl},
+			{ new: true });
+		
+		if (!updatedUser) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		return res.status(201).json({updatedUser:updatedUser, message:"Updated successfully"})
+
+
+	} catch (err) {
+		console.log(err);
 		return res.status(500).json({ msg: "Internal server erorr" });
 	}
 	

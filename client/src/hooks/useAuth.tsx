@@ -1,21 +1,15 @@
 import { useState, useEffect } from 'react';
 import { isLoggedIn } from "../foundation/authAPI";
-
-interface AuthResponse {
-	auth: boolean;
-	_id: string;
-	lastName: string;
-	firstName: string;
-}
+import { IAuthUser } from "../types/auth";
 
 function useAuth() {
-	const [authUser, setAuthUser] = useState<AuthResponse | undefined>(undefined);
+	const [authUser, setAuthUser] = useState<IAuthUser | undefined>(undefined);
 	const [loadingAuthUser, setLoadingAuthUser] = useState(false);
 	useEffect(() => {
 		async function checkAuth() {
 			setLoadingAuthUser(true)
 			try {
-				const res: AuthResponse = await isLoggedIn();
+				const res: IAuthUser = await isLoggedIn();
 				setAuthUser(res);
 			}
 			catch (err) {

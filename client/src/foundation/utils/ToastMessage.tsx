@@ -65,7 +65,7 @@ export const showNotiToast = (msg: string, type: ToastType, containerId:Id,) => 
 		closeButton: CloseButton,
 		containerId: containerId,
 		style: {
-			fontSize:'13px',
+			fontSize: '13px',
 			maxHeight: `70px`,
 			maxWidth: `fit-content`,
 			minHeight: `auto`,

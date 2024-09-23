@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuthContext } from "../../context/AuthContext.tsx"
 import { shareProject } from "../../foundation/projectsAPI";
-import {IProject} from "../ProjectsList/IProject.tsx"
+import { IProject } from "../../types/project";
 //Subcomponent
 import SearchSuggest from "./SearchSuggest.tsx";
 import InviteesList from "./InviteesList.tsx";
@@ -14,11 +14,10 @@ interface IShareModalProps {
 	onEditGuest: React.Dispatch<React.SetStateAction<IGuestList[] | undefined>>
 	guestsList: IGuestList[] | undefined,
 	project: IProject,
-	toastContainerId: string,
 }
 
-const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId }: IShareModalProps) => {	
-	const user = useAuthContext();
+const ShareModal = ({ guestsList,onEditGuest,onClose, project }: IShareModalProps) => {	
+	const {user} = useAuthContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [filterQuery, setFilterQuery] = useState("")
 	
@@ -31,7 +30,7 @@ const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId 
 	const handleShare = async (e?: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {3
 		if (e) e.preventDefault();
 		setFilterQuery("");
-		const shareParams = { guestEmail: filterQuery, ownerId: user._id, projectId: project._id, toastContainer: toastContainerId }
+		const shareParams = { guestEmail: filterQuery, ownerId: user._id, projectId: project._id}
 		const result = await shareProject(shareParams);
 		if (result) {
 			const newGuest = { project: project._id, guest:result.guest}
@@ -93,7 +92,7 @@ const ShareModal = ({ guestsList,onEditGuest,onClose, project, toastContainerId 
 										</button>
 									</div>
 								</div>
-								<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guestsList={guestsList} containerId={toastContainerId} />
+								<InviteesList onDelete={(guestId)=>handleDeleteGuest(guestId)} project={project} guestsList={guestsList} />
 							</div>
 						</div>
 					</div>

@@ -24,22 +24,10 @@ export const languageOptions = [
     value: "csharp",
   },
   {
-    id: 57,
-    name: "Elixir (1.9.4)",
-    label: "Elixir (1.9.4)",
-    value: "elixir",
-  },
-  {
     id: 87,
     name: "F# (.NET Core SDK 3.1.202)",
     label: "F# (.NET Core SDK 3.1.202)",
     value: "fsharp",
-  },
-  {
-    id: 59,
-    name: "Fortran (GFortran 9.2.0)",
-    label: "Fortran (GFortran 9.2.0)",
-    value: "fortran",
   },
   {
     id: 60,
@@ -66,24 +54,6 @@ export const languageOptions = [
     value: "kotlin",
   },
   {
-    id: 79,
-    name: "Objective-C (Clang 7.0.1)",
-    label: "Objective-C (Clang 7.0.1)",
-    value: "objectivec",
-  },
-  {
-    id: 67,
-    name: "Pascal (FPC 3.0.4)",
-    label: "Pascal (FPC 3.0.4)",
-    value: "pascal",
-  },
-  {
-    id: 85,
-    name: "Perl (5.28.1)",
-    label: "Perl (5.28.1)",
-    value: "perl",
-  },
-  {
     id: 68,
     name: "PHP (7.4.1)",
     label: "PHP (7.4.1)",
@@ -93,7 +63,7 @@ export const languageOptions = [
     id: 71,
     name: "Python (3.8.1)",
     label: "Python (3.8.1)",
-    value: "python",
+		value: "python",
   },
   {
     id: 80,
@@ -118,12 +88,6 @@ export const languageOptions = [
     name: "Scala (2.13.2)",
     label: "Scala (2.13.2)",
     value: "scala",
-  },
-  {
-    id: 82,
-    name: "SQL (SQLite 3.27.2)",
-    label: "SQL (SQLite 3.27.2)",
-    value: "sql",
   },
   {
     id: 83,

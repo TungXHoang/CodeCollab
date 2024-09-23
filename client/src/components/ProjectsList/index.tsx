@@ -1,5 +1,6 @@
-import Project from "./Project";
-import { IProject, IProjectsListProps } from "./IProject";
+import {Project} from "./Project";
+import { IProjectsListProps } from "./IProject";
+import { IProject } from "../../types/project";
 import { useState, useRef, useEffect} from "react";
 import SelectionModal from "../SelectionModal"
 import useCheckbox from "../../hooks/useCheckbox";
@@ -34,6 +35,8 @@ const ProjectsList = ({ projectsList, isOwner, onCreate, onDelete }: IProjectsLi
 											<input ref={selectAllRef} checked={isCheckedAll} onChange={handleCheckedAll} type="checkbox" className="_input_custom hover:!bg-transparent checked:!border-[hsl(220,10%,80%)] focus:text-primary focus:ring-offset-0 focus:ring-0 focus:!bg-transparent" ></input>
 										</label>
 									</span>
+								</th>
+								<th className="headerCell">
 								</th>
 								<th className="headerCell">
 									<span className="headerCellWrapper">Title</span>

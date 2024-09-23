@@ -1,10 +1,9 @@
-import { useOutletContext, useSearchParams,useLocation,useNavigate} from "react-router-dom";
+import { useSearchParams,useLocation,useNavigate} from "react-router-dom";
 import { useState,useEffect } from 'react';
 import { useUserProjectsContext } from "../../context/UserProjectsContext.tsx";
 
 import ProjectsList from "../../components/ProjectsList";
-import { IProject } from "../../components/ProjectsList/IProject"
-import SelectionModal from "../../components/SelectionModal"
+import { IProject } from "../../types/project";
 import SwitchViewGroup from "../../components/SwitchViewGroup";
 import DashboardActionGroup from "../../components/DashboardActionGroup"
 import UndefinedQuery from "../../components/UndefinedQuery";
@@ -13,12 +12,10 @@ import UndefinedQuery from "../../components/UndefinedQuery";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-type ModalContextType = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 export default function Dashboard() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	
-	const [showModal, setShowModal]: ModalContextType = useOutletContext();
 	const [isOwner, setIsOwner] = useState(true)
 	let [searchParams, setSearchParams] = useSearchParams();
 	const query = searchParams.get('q');
@@ -59,12 +56,11 @@ export default function Dashboard() {
 			<ToastContainer
 				position="bottom-right"
 				hideProgressBar={true}
-				newestOnTop={false}
+				newestOnTop={false}		
 				closeOnClick
 				containerId="DashboardToast"
-				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em' }}
+				style={{ width: 'fit-content', height: 'auto', transform: 'none', left:'auto', right: '1em', bottom:'1em'}}
 				limit={1}
-				// transition={Slide}
 			/>
 			<div className="flex-auto overflow-y-auto">
 				<div className="flex h-full">
@@ -85,17 +81,11 @@ export default function Dashboard() {
 									<UndefinedQuery query={searchField} /> :
 									<ProjectsList projectsList={isOwner ? filteredProject.owner : filteredProject.guest} isOwner={isOwner} onDelete={handleDelete} onCreate={handleCreate} />
 								}
-
-							</div>
-							
+							</div>		
 						</main>
 					</div>
 				</div>
 			</div>
-			{showModal &&
-				<SelectionModal onSelect={setShowModal}
-					onCreate={(newProject:IProject) => handleCreate(newProject)} />
-			}
 		</>
 	)
 }

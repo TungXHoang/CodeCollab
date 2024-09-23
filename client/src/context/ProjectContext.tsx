@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { IProject } from "../components/ProjectsList/IProject"
+import { IProject } from "../types/project";
 import { useGetGuests } from "../hooks/useGetGuests.tsx"
 import { useGetEditProject } from "../hooks/useGetEditProject.tsx";
 import { useAuthContext } from "./AuthContext";
@@ -17,7 +17,7 @@ export const useProjectContext = () => {
 };
 
 export const ProjectContextProvider = ({ children }: { children: ReactNode}) => {
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	const { projectId } = useParams<{ projectId: string }>();
 	const [guestsId, setGuestsId] = useState<string[] | undefined>(undefined)
 	const [project, setProject] = useState<IProject | undefined>(undefined);
@@ -42,7 +42,7 @@ export const ProjectContextProvider = ({ children }: { children: ReactNode}) => 
 
 
 	if (guestsId === undefined || loadingEditProject || loadingGuests || project === undefined) {
-		return <></>
+		return <></>;
 	}
 	else {
 		return (user.auth && ( (user._id === project.owner._id) || (guestsId.includes(user._id)))) ?

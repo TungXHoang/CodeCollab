@@ -1,4 +1,5 @@
-import { IOwner,IProject} from "../../components/ProjectsList/IProject"
+import { IUser } from "../../types/auth";
+import { IProject } from "../../types/project";
 
 //Create Project
 export interface ICreateProjectParams {
@@ -18,11 +19,10 @@ export interface IShareProjectParams {
 	projectId: string,
 	ownerId: string,
 	guestEmail: string,
-	toastContainer: string,
 }
 
 export interface IShareProjectResponse {
-	guest: IOwner
+	guest: IUser
 	message: string
 }
 
@@ -32,7 +32,6 @@ export interface IDeleteGuestParams {
 	userId: string,
 	guestId: string,
 	projectId: string,
-	containerId: string,
 }
 
 export interface IDeleteGuestResponse {

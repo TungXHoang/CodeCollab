@@ -1,10 +1,4 @@
-export interface IAuthUser {
-	auth: boolean;
-	_id: string;
-	lastName: string;
-	firstName: string;
-	email: string;
-}
+import { IUser } from "../../types/auth";
 
 export interface IRegisterCrendential{
 	firstName: string;
@@ -12,3 +6,22 @@ export interface IRegisterCrendential{
 	password: string;
 	email: string;
 }
+
+export interface IGetSingleUser {
+	userEmail: string;
+}
+
+export interface IUpdateUserProfile {
+	requestId: string;
+	changeId: string;
+	newFirstName: string;
+	newLastName: string;
+	newEmail: string;
+}
+
+export interface IUpdateUserProfileResponse{
+	message: string;
+	updatedUser: IUser;
+}
+
+export interface IUpdateUserAvatarResponse extends IUpdateUserProfileResponse { }

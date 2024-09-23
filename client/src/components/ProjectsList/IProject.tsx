@@ -1,23 +1,4 @@
-
-export interface IOwner {
-	email: string;
-	firstName: string;
-	lastName: string;
-	__v: number;
-	_id: string;
-}
-
-export interface IProject {
-  _id: string;
-  title: string;
-	language: string;
-	languageId: number;
-	description: string;
-	owner: IOwner
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import { IProject } from "../../types/project";
 
 export interface IProjectProps {
 	project: IProject;
@@ -31,4 +12,10 @@ export interface IProjectsListProps {
 	onDelete: (id:string[]) => void;
 	projectsList : IProject[]
 	isOwner: boolean
+}
+
+export interface IProfileProjectProps {
+	project: IProject;
+	onDelete: (id: string[]) => void;
+	isOwner: boolean;
 }

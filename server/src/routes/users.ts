@@ -1,25 +1,25 @@
 
 import express, { Router } from "express";
 import { RequestHandler } from "express-serve-static-core";
-import { getAllUser, registerUser, loginUser, logoutUser, authenticateUser } from "../controllers/users";
+import { getAllUser, getSingleUser, registerUser, loginUser, logoutUser, authenticateUser,updateUserInfo,updateUserAvatar } from "../controllers/users";
+import { uploadImage } from "../aws-s3"
 
-// multer for multipart/formdata
-import multer from "multer";
 
 const router: Router = express.Router();
  
 router
 	.route("/register")
 	.post(
-		multer().none(),
-		registerUser as RequestHandler
-	);
+		//validateRegister, // JOI valiation later
+		registerUser as unknown as RequestHandler
+);
 
 
 router.route("/login").post(loginUser as RequestHandler);
 router.route("/logout").post(logoutUser as RequestHandler);
 router.route("/auth").post(authenticateUser as RequestHandler);
 router.route("/getall").get(getAllUser);
-// router.route("/api/users/:userId/:thumbnailDim").get(fetchUser as RequestHandler);
-
+router.route("/single/:userEmail").get(getSingleUser)
+router.route("/update").post(updateUserInfo);
+router.route("/update-avatar").post(uploadImage.single("image"), updateUserAvatar as unknown as RequestHandler);
 export = router;

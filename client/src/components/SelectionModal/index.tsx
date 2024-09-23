@@ -1,7 +1,7 @@
 import { languageOptions } from "../../foundation/constants/languageOptions"
 import { createProject } from "../../foundation/projectsAPI"
 import { useAuthContext } from '../../context/AuthContext';
-import { IProject } from "../../components/ProjectsList/IProject"
+import { IProject } from "../../types/project";
 
 interface ISelectionModalProps {
 	onSelect: (param: boolean) => void,
@@ -16,19 +16,19 @@ const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 		}
 		return;
 	}
-	const user = useAuthContext();
+	const {user} = useAuthContext();
 	return (
 		<>
 			<div
 				className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
 				onClick={() => onSelect(false)}
 			>
-				<div className="relative w-auto my-6 mx-auto w-3/4 text-slate-100"  onClick={(e) => e.stopPropagation()}>
+				<div className="relative w-auto mx-auto mb-10 w-3/4 text-slate-100"  onClick={(e) => e.stopPropagation()}>
 					{/*content*/}
-					<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-600 outline-none focus:outline-none">
+					<div className="border-[1px] border-[#3C445C] rounded-lg shadow-lg relative flex flex-col w-full bg-[#1C2333] outline-none focus:outline-none">
 						{/*header*/}
-						<div className="flex items-start justify-between px-4 py-4 border-b border-solid border-blueGray-200 rounded-t">
-							<h2 className="text-xl font-semibold">
+						<div className="flex items-start justify-between px-4 py-4 border-b border-solid border-[#2B3245] rounded-t">
+							<h2 className="text-xl font-[500] text-[#F5F9FC]">
 								Choose your language
 							</h2>
 							<button
@@ -41,18 +41,22 @@ const SelectionModal = ({ onSelect, onCreate }: ISelectionModalProps) => {
 							</button>
 						</div>
 						{/*body*/}
-						<div className="grid grid-cols-4 gap-4 mx-5 my-10">
+						<div className="grid grid-cols-4 gap-6 mx-5 my-10">
 							{languageOptions.map((elt,i) => {
 								return (
-									<button
-										className="hover:bg-gray-500 rounded-md py-3 px-2z"
-										key={i}
+									<div className="hover:bg-[#2B3245] rounded-md flex items-center py-[10px] px-[7px] cursor-pointer" key={i}
 										onClick={() => {
 											handleCreate({ language: elt.value, languageId:elt.id, owner: user._id, title: elt.label })
 											onSelect(false);
 										}}>
-									 {elt.name}
-									</button>
+										<span className="mr-[16px]">
+											<img className="w-[32px]" src={`${import.meta.env.VITE_IMAGEKIT_ENDPOINT}${elt.value}.png?tr=w-100,h-100,f-png,lo-true`} />
+										</span>
+										<div className="flex flex-col">
+											<span>{elt.value.charAt(0).toUpperCase() + elt.value.slice(1)}</span>
+											<span className="text-[11px] opacity-65">{elt.label}</span>
+										</div>
+									</div>
 								)
 							})}
 						</div>

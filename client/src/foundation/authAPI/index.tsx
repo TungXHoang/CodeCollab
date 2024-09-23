@@ -1,5 +1,7 @@
-import Axios from "axios";
-import { IRegisterCrendential } from "./IAuthAPI";
+import Axios, {AxiosResponse} from "axios";
+import { IRegisterCrendential, IGetSingleUser,IUpdateUserProfile,IUpdateUserProfileResponse,IUpdateUserAvatarResponse} from "./IAuthAPI";
+import { IUser } from "../../types/auth";
+import { showToast } from "../../foundation/utils/ToastMessage.tsx"
 
 interface LoginCredential {
 	password: string;
@@ -57,7 +59,7 @@ async function isLoggedIn() {
 	if (response.data.auth) {
 		return response.data;
 	}
-	return { auth: response.data.auth, username: "", id: "" };
+	return { auth: response.data.auth, id: "", lastName:"", firstName:"",email:"" };
 }
 
 async function GetAllUsers() {
@@ -71,17 +73,58 @@ async function GetAllUsers() {
 	}
 }
 
-// async function fetchUserData(id: string, thumbnailDim: number) {
-// 	const response = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/${id}/${thumbnailDim}`);
-// 	if (response) {
-// 		const { username, _id, avatar, thumbnail } = response.data.user;
-// 		return {
-// 				auth: true,
-// 				username: username,
-// 				id: _id,
-// 				avatar: avatar,
-// 				thumbnail: thumbnail,
-// 		};
-// 	}
-// }
-export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI, GetAllUsers };
+async function GetUserProfile({userEmail}: IGetSingleUser) {
+	try {
+		const res: AxiosResponse<IUser,IGetSingleUser> = await Axios.get(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/single/${userEmail}`);
+		const result = res.data;
+		return result;
+	} catch (err) {
+		if (Axios.isAxiosError(err)) {
+			// showToast("error", err.response!.data.message, { containerId: shareProjectParams.toastContainer })
+			console.log('err');
+		}
+		else {
+			throw new Error("An unexpected error occurred")
+		}
+	}
+}
+
+async function UpdateUserProfile(updateCredential: IUpdateUserProfile) {
+	try {
+		const res:AxiosResponse<IUpdateUserProfileResponse,IUpdateUserProfile> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/update`, updateCredential )
+		showToast("success", res.data.message, { containerId: "UserProfileToast" })
+		const result = res.data;
+		return result
+	}
+	catch (err) {
+		if (Axios.isAxiosError(err)) {
+			showToast("error", err.response!.data.message, { containerId: "UserProfileToast" })
+			console.log('err');
+		}
+		else {
+			throw new Error("An unexpected error occurred")
+		}
+	}
+	
+}
+
+async function UpdateUserAvatar(updateCredential: FormData) {
+	try {
+		const res:AxiosResponse<IUpdateUserAvatarResponse,FormData> = await Axios.post(`${import.meta.env.VITE_CLIENT_BASEURL}/api/users/update-avatar`, updateCredential )
+		showToast("success", res.data.message, { containerId: "UserProfileToast" })
+		const result = res.data;
+		return result
+	}
+	catch (err) {
+		if (Axios.isAxiosError(err)) {
+			showToast("error", err.response!.data.message, { containerId: "UserProfileToast" })
+			console.log('err');
+		}
+		else {
+			throw new Error("An unexpected error occurred")
+		}
+	}
+	
+}
+
+export { LogoutAPI, LoginAPI, isLoggedIn, RegisterAPI, GetAllUsers, GetUserProfile,UpdateUserProfile,UpdateUserAvatar };

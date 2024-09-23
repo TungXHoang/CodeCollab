@@ -1,4 +1,4 @@
-import { IProject } from "../ProjectsList/IProject";
+import { IProject } from "../../types/project";
 import { useState, useRef } from 'react';
 
 import useClickOutside from "../../hooks/useClickOutside";
@@ -57,9 +57,9 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 					<div className="flex p-[8px] pt-[12px] items-center shrink-0">
 						<a className="transition-[background-color] duration-150 ease-in-out text-[#F5F9FC] font-[400] cursor-pointer h-[32px] p-[8px] px-[10px] flex gap-[10px] justify-center items-center bg-[#2B3245] hover:bg-[#3C445C] rounded-[4px]">
 							<div className="w-[21px] h-[21px] hover:border-[hsl(220,10%,16.5%)] focus-visible:border-[hsl(220,10%,16.5%)] rounded-full">
-								<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src="https://api.dicebear.com/9.x/identicon/svg?radius=50&backgroundColor=ffffff,ffffff,ffffff&rowColor=c68ce4" alt="avatar"/>
+								<img className="bg-[hsl(0,0%,100%)]/[0.9] rounded-full" src={project.owner.thumbnailUrl} alt="avatar"/>
 							</div>
-							<span className="text-[14px]">{user.firstName}{user.lastName}</span>
+							<span className="text-[14px]">{project.owner.firstName}{project.owner.lastName}</span>
 						</a>
 						{project.owner._id === user._id &&
 							<div className="ml-auto flex gap-[10px]">
@@ -74,11 +74,11 @@ const ProjectInfo = ({ setProject,project,user,onDelete }: IProjectInfo) => {
 						
 					</div>
 					<form onSubmit={(e) => e.preventDefault()} className="flex flex-col text-[13px] font-[400] gap-[20px] leading-[1.2] p-[16px]">
-						<div>	
-							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Title</label>	
+						<div className="flex flex-col gap-[4px]">	
+							<label className="font-[600] text-[12px] text-[#C2C8CC]">Title</label>	
 							<input disabled={project.owner._id !== user._id } onKeyDown={(e) => { if(e.key === 'Enter') e.preventDefault()}}  onChange={(e)=>setProjectTitle(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] w-full outline-none px-[7px] py-[7px] h-[30px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-[0px]" type="text" value={projectTitle} autoCorrect="off" spellCheck="false"></input>
 						</div>
-						<div>	
+						<div className="flex flex-col gap-[4px]">	
 							<label className="font-[600] pb-[8px] text-[12px] text-[#C2C8CC]">Description</label>
 							<textarea disabled={project.owner._id !== user._id } onChange={(e)=>setProjectDescription(e.target.value)} className="transition-[border-color] duration-150 ease-in-out text-[#F5F9FC] text-[13px] font-[400] min-h-[96px] max-h-[150px] w-full outline-none px-[7px] py-[7px] border-[#3C445C] border-[1px] rounded-[4px] bg-[#2B3245] hover:border-[#5F677A] focus:outline-[2px] focus:outline-[#0079F2] focus:border-none !outline-offset-0" value={projectDescription} autoCorrect="off" spellCheck="false"></textarea>			
 						</div>
