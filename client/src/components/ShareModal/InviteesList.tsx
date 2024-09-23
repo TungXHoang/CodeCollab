@@ -7,14 +7,13 @@ interface IInviteesList {
 	project: IProject,
 	guestsList: IGuestList[] | undefined,
 	onDelete: (guestId: string) => void,
-	containerId: string
 }
 
-const InviteesList = ({ project, guestsList, onDelete, containerId }:IInviteesList ) => {
+const InviteesList = ({ project, guestsList, onDelete }:IInviteesList ) => {
 
 	const {user} = useAuthContext()
 	const handleDelete = async ({ guestId, projectId }:{guestId:string,projectId:string}) => {
-		const res = await deleteGuest({ userId:user._id, guestId: guestId, projectId: projectId, containerId:containerId })
+		const res = await deleteGuest({ userId:user._id, guestId: guestId, projectId: projectId})
 		if (res) {
 			onDelete(guestId);
 		}

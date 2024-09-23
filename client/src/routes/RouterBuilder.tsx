@@ -33,8 +33,6 @@ const RouterBuilder = () => {
 			path: "/app",
 			element: <Dashboard />
 		},
-	]
-	const profileRoutes: RouteObject[] = [
 		{
 			path: "/user/:userEmail",
 			element: <UserProfile />,
@@ -64,12 +62,8 @@ const RouterBuilder = () => {
     },
 		{
 			element: <PrivateRoutes> <Navbar/> </PrivateRoutes>,
-			children: privateRoutes,
+			children: privateRoutes
 		},
-		{
-			element: <AuthContextProvider><Navbar/></AuthContextProvider>,
-			children: profileRoutes
-		}
   ];
 
   return routes;

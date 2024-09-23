@@ -1,12 +1,13 @@
 import { useNavigate, Outlet, } from 'react-router-dom';
-import React, {useState,useRef, useEffect} from 'react';
-import {IProject} from "../../types/project"
+import React, {useState,useRef} from 'react';
 import { useAuthContext } from "../../context/AuthContext"
-import useGetProjects from '../../hooks/useGetProjects';
+import { useUserProjectsContext } from "../../context/UserProjectsContext.tsx";
 
 // sub-component
+import { IProject } from "../../types/project";
 import SearchField from "./SearchField";
 import ProfileDropdown from "../ProfileDropdown"
+import SelectionModal from "../../components/SelectionModal";
 
 
 const Navbar = () => {
@@ -19,15 +20,7 @@ const Navbar = () => {
 	//utility
 	const {user} = useAuthContext();
 	const navigate = useNavigate();
-
-	const { loading, projects } = useGetProjects(user._id);
-	const [projectsList, setProjectsList] = useState<{ owner: IProject[], guest: IProject[] }>({owner:[],guest:[]})
-
-	useEffect(() => {
-		if (!loading && projects) {
-			setProjectsList(projects);
-    }
-	}, [loading, projects]);
+	const { projectsList, handleCreate } = useUserProjectsContext();
  
 	const handleToggleDropdown = () => {
 		!showProfileDropdown ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'unset';
@@ -62,7 +55,10 @@ const Navbar = () => {
 					{showProfileDropdown && <ProfileDropdown user={user} toggleButtonRef={toggleButtonRef} isShow={showProfileDropdown} onClose={()=>setShowProfileDropdown(false)} />}
 				</div>
 			</header>
-			<Outlet context={[showModal, setShowModal]} />
+			{showModal &&
+				<SelectionModal onSelect={setShowModal} onCreate={(newProject:IProject) => handleCreate(newProject)} />
+			}
+			<Outlet />
 		</>
 	)
 }

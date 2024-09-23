@@ -95,7 +95,7 @@ const EditingNavRightGroup = ({project,user}:IEditingNavRightGroup) => {
 				}
 			</div>
 			
-			{showShareModal && <ShareModal onEditGuest={setGuestsList} guestsList={guestsList} toastContainerId={"EditingToast"} project={project} onClose={() => handleToggleShareModal(false)} />}
+			{showShareModal && <ShareModal onEditGuest={setGuestsList} guestsList={guestsList} project={project} onClose={() => handleToggleShareModal(false)} />}
 		</div>
 	)
 

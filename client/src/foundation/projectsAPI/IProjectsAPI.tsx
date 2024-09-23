@@ -19,7 +19,6 @@ export interface IShareProjectParams {
 	projectId: string,
 	ownerId: string,
 	guestEmail: string,
-	toastContainer: string,
 }
 
 export interface IShareProjectResponse {
@@ -33,7 +32,6 @@ export interface IDeleteGuestParams {
 	userId: string,
 	guestId: string,
 	projectId: string,
-	containerId: string,
 }
 
 export interface IDeleteGuestResponse {

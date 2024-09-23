@@ -1,4 +1,4 @@
-import Project from "./Project";
+import {Project} from "./Project";
 import { IProjectsListProps } from "./IProject";
 import { IProject } from "../../types/project";
 import { useState, useRef, useEffect} from "react";

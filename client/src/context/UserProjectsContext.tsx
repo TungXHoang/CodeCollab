@@ -2,8 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { IProject } from "../types/project";
 import { useAuthContext } from "./AuthContext.tsx";
 import useGetProjects from "../hooks/useGetProjects";
-import { showToast } from "../foundation/utils/ToastMessage.tsx";
-import DashboardSkeleton from "../components/SkeletonComponent/DashboardSkeleton.tsx";
+import AuthContextSkeleton from "../components/SkeletonComponent/AuthContextSkeleton" 
 
 interface IUserProjectsContext {
   projectsList: { owner: IProject[], guest: IProject[] };
@@ -53,8 +52,8 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 	}
 	
 	const handleDelete = (projectIds: string[]) => {
-		const msg = projectIds.length > 1 ? `${projectIds.length} projects have been deleted!` : "Project deleted successfully!"
-		showToast("success", msg, {containerId:"DashboardToast"} )
+		// const msg = projectIds.length > 1 ? `${projectIds.length} projects have been deleted!` : "Project deleted successfully!"
+		// showToast("success", msg, {containerId:"DashboardToast"} )
     setProjectsList((prevProjectsList) => {
 			if (prevProjectsList) {
 				return {
@@ -71,7 +70,7 @@ export const UserProjectsContextProvider = ({ children }: { children: ReactNode 
 	};
 
   if (loading || projectsList === undefined) {
-    return <DashboardSkeleton/>
+    return <AuthContextSkeleton/>
   }
 
   return (

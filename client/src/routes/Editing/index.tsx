@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 //Reacthook
 import { useState } from 'react';
+
 import { editor } from "monaco-editor";
 // Components
 import CodeEditorWindow from "../../components/CodeEditorWindow";
@@ -18,12 +19,12 @@ import { useEditNavbar } from "../../components/EditingNavbar";
 import { Resizable } from 're-resizable';
 
 
+
 export default function Editing(): JSX.Element {
 	const {user} = useAuthContext();
 	const { project } = useProjectContext();
 	const [editorRef, setEditorRef] = useState<editor.IStandaloneCodeEditor | null>(null);
 	const { outputDetails } = useEditNavbar();
-
 
 	return (
 		<>

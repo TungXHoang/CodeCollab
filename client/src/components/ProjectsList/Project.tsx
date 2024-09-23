@@ -1,12 +1,12 @@
 
 import { useAuthContext } from '../../context/AuthContext';
-import { IProjectProps} from "./IProject"
+import { IProjectProps,IProfileProjectProps} from "./IProject"
 import { useNavigate } from "react-router-dom";
 import ProjectPopover from "../ProjectPopover"
 import { useGetGuests } from "../../hooks/useGetGuests"
-// import {ProjectSkeleton} from "../SkeletonComponent/ProjectSkeleton"
 
-const Project = ({ onDelete, project, isChecked, onCheck}: IProjectProps) => {
+
+export const Project = ({ onDelete, project, isChecked, onCheck}: IProjectProps) => {
 	const { guestsList, setGuestsList } = useGetGuests(project._id);
 	const {user} = useAuthContext();
 	const navigate = useNavigate();
@@ -54,11 +54,38 @@ const Project = ({ onDelete, project, isChecked, onCheck}: IProjectProps) => {
 				</span>
 			</td>
 			{project.owner._id === user._id &&
-				<ProjectPopover guestsList={guestsList} onEditGuest={setGuestsList} onDelete={onDelete} project={project}  userId={user._id} />
+				<td className="cell w-[38px] text-right">
+					<ProjectPopover guestsList={guestsList} onEditGuest={setGuestsList} onDelete={onDelete} project={project} />
+				</td>
 			}
 		</tr>
 	)
 }
 
-
-export default Project;
+export const ProfileProject = ({ project,onDelete, isOwner }: IProfileProjectProps) => {
+	const { guestsList,setGuestsList } = useGetGuests(project._id);
+	return (
+		<li className="mb-[12px] relative px-[16px] py-[12px] rounded-[4px] bg-[#1C2333] text-[#C2C8CC] cursor-pointer">
+			<a className="text-[#5CD2F4] hover:text-[#80E4FF]" href={`${import.meta.env.VITE_CLIENT_BASEURL}/edit/${project._id}`}>
+				<h3 className="flex items-center text-[#5CD2F4] font-bold">
+					<span>{project.title}</span>
+				</h3>
+				<div className="my-2 text-[#E4E8F1]">{project.description}</div>
+				<div className="flex items-center text-[hsl(0,0%,80%)] text-[11px]">
+					<div className="flex items-center">
+						<img className="w-[16px]" src={`${import.meta.env.VITE_IMAGEKIT_ENDPOINT}${project.language}.png?tr=w-100,h-100,f-png,lo-true`} />
+						<span className="ml-1 mr-8">{project.language.charAt(0).toUpperCase() + project.language.slice(1)}</span>
+					</div>
+					<svg className="mt-[1.5px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" width="20px" height="20px" >
+						<path fillRule="evenodd" clipRule="evenodd" d="M50,46.5c-7.2,0-13-5.8-13-13s5.8-13,13-13c7.2,0,13,5.8,13,13S57.2,46.5,50,46.5z M50,24.5c-5,0-9,4-9,9s4,9,9,9s9-4,9-9  S55,24.5,50,24.5z"/><path d="M69.2,67.1H31.3c-2,0-2.9-2.2-2.9-3.7v-6.6c0-7.9,9.7-14,22-14c12.3,0,22,6.1,22,14v6.6C72.4,64.6,71.3,67.1,69.2,67.1z   M32.4,63.1h36v-6.3c0-5.4-8.2-10-18-10s-18,4.6-18,10V63.1z"></path>
+					</svg>
+					<span className="ml-[1px] mr-8">{ guestsList && guestsList.length}</span>
+					<span>{project.updatedAt}</span>
+				</div>
+			</a>
+			{isOwner &&	<div className="absolute right-0 top-0">
+				<ProjectPopover project={project} onDelete={onDelete} guestsList = {guestsList} onEditGuest={setGuestsList} />
+			</div> }
+		</li>
+	)
+}

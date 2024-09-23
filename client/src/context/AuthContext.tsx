@@ -7,8 +7,6 @@ import AuthContextSkeleton from "../components/SkeletonComponent/AuthContextSkel
 // Define the interface for the context
 
 export const AuthContext = createContext<{ user: IAuthUser,setUser:React.Dispatch<React.SetStateAction<IAuthUser | undefined>> } | undefined>(undefined);
-
-// export const AuthContext = createContext<{ user: IAuthUser, handleUpdate: (updatedOwner: IUser) => void } | undefined>(undefined);
 export const useAuthContext = () => {
 	const context = useContext(AuthContext);
 	if (context === undefined) {
