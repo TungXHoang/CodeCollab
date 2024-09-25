@@ -4,7 +4,7 @@ import tailwindcss from 'tailwindcss'
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
-	const backendPort = `${env.VITE_BACKEND_PORT ?? 3001}`;
+	const backendPort = `${env.VITE_BACKEND_PORT ?? 3000}`;
 
 	return {
 		plugins: [react()],
